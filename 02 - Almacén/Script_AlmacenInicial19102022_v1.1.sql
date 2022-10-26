@@ -120,7 +120,9 @@ CREATE TABLE public."T056Bodegas" (
 
 ALTER TABLE public."T056Bodegas" OWNER TO postgres;
 
---OJOOOO, FALTA PK DE BODEGAS. @@@@@
+
+
+
 
 ALTER TABLE public."T056Bodegas" ALTER COLUMN "T056IdBodega" ADD GENERATED ALWAYS AS IDENTITY (
     SEQUENCE NAME public."T056Bodegas_T056IdBodega_seq"
@@ -130,8 +132,9 @@ ALTER TABLE public."T056Bodegas" ALTER COLUMN "T056IdBodega" ADD GENERATED ALWAY
     MAXVALUE 1000
     CACHE 1
 );
-
-
+--Solución PK DE BODEGAS. @@@@@
+ALTER TABLE ONLY public."T056Bodegas"
+    ADD CONSTRAINT "T056Bodegas_pkey" PRIMARY KEY ("T056Bodegas");
 
 CREATE TABLE public."T057Articulos" (
     "T057idArticulo" integer NOT NULL,
