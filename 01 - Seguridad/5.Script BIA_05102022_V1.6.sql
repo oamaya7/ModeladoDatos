@@ -1,8 +1,7 @@
 --****************************************************************
--- Script de Creación de Base de Datos - Subsistema Seguridad - Ultima Actualizacion 26/10/2022.
+-- Script de Creación de Base de Datos - Subsistema SEGURIDAD - Ultima Actualizacion 26/10/2022.
 --****************************************************************
 
--- cambiando comentario de oliver.
 
 --****************************************************************
 -- CREACIÓN DE TIPOS DE DATOS PERSONALIZADOS eNUM.
@@ -2066,21 +2065,21 @@ INSERT INTO public."T004Sexo" ("T004CodSexo", "T004nombre") VALUES ('I', 'INTERS
 
 
 -- ESTADO CIVIL
-INSERT INTO public."T005EstadoCivil" ("T005CodEstadoCivil", "T005nombre", "T005registroPrecargado") VALUES ('S', 'Soltero', 'y');
-INSERT INTO public."T005EstadoCivil" ("T005CodEstadoCivil", "T005nombre", "T005registroPrecargado") VALUES ('C', 'Casado', 'y');
-INSERT INTO public."T005EstadoCivil" ("T005CodEstadoCivil", "T005nombre", "T005registroPrecargado") VALUES ('U', 'Unión libre', 'y');
-INSERT INTO public."T005EstadoCivil" ("T005CodEstadoCivil", "T005nombre", "T005registroPrecargado") VALUES ('D', 'Divorciado', 'y');
-INSERT INTO public."T005EstadoCivil" ("T005CodEstadoCivil", "T005nombre", "T005registroPrecargado") VALUES ('V', 'Viudo', 'y');
+INSERT INTO public."T005EstadoCivil" ("T005CodEstadoCivil", "T005nombre", "T005registroPrecargado") VALUES ('S', 'Soltero', true);
+INSERT INTO public."T005EstadoCivil" ("T005CodEstadoCivil", "T005nombre", "T005registroPrecargado") VALUES ('C', 'Casado', true);
+INSERT INTO public."T005EstadoCivil" ("T005CodEstadoCivil", "T005nombre", "T005registroPrecargado") VALUES ('U', 'Unión libre', true);
+INSERT INTO public."T005EstadoCivil" ("T005CodEstadoCivil", "T005nombre", "T005registroPrecargado") VALUES ('D', 'Divorciado', true);
+INSERT INTO public."T005EstadoCivil" ("T005CodEstadoCivil", "T005nombre", "T005registroPrecargado") VALUES ('V', 'Viudo', true);
 
 
 -- TIPOS DE DOCUMENTO DE ID
-INSERT INTO public."T006TiposDocumentoID" ("T006CodTipoDocumentoID", "T006nombre", "T006registroPrecargado") VALUES ('CC', 'Cédula de Ciudadania', 'y');
-INSERT INTO public."T006TiposDocumentoID" ("T006CodTipoDocumentoID", "T006nombre", "T006registroPrecargado") VALUES ('CE', 'Cédula de Extranjeria', 'y');
-INSERT INTO public."T006TiposDocumentoID" ("T006CodTipoDocumentoID", "T006nombre", "T006registroPrecargado") VALUES ('TI', 'Tarjeta de Identidad', 'y');
-INSERT INTO public."T006TiposDocumentoID" ("T006CodTipoDocumentoID", "T006nombre", "T006registroPrecargado") VALUES ('RC', 'Registro Civil', 'y');
-INSERT INTO public."T006TiposDocumentoID" ("T006CodTipoDocumentoID", "T006nombre", "T006registroPrecargado") VALUES ('NU', 'NUIP', 'y');
-INSERT INTO public."T006TiposDocumentoID" ("T006CodTipoDocumentoID", "T006nombre", "T006registroPrecargado") VALUES ('PA', 'Pasaporte', 'y');
-INSERT INTO public."T006TiposDocumentoID" ("T006CodTipoDocumentoID", "T006nombre", "T006registroPrecargado") VALUES ('PE', 'Permiso Especial de Permanencia', 'y');
+INSERT INTO public."T006TiposDocumentoID" ("T006CodTipoDocumentoID", "T006nombre", "T006registroPrecargado") VALUES ('CC', 'Cédula de Ciudadania', true);
+INSERT INTO public."T006TiposDocumentoID" ("T006CodTipoDocumentoID", "T006nombre", "T006registroPrecargado") VALUES ('CE', 'Cédula de Extranjeria', true);
+INSERT INTO public."T006TiposDocumentoID" ("T006CodTipoDocumentoID", "T006nombre", "T006registroPrecargado") VALUES ('TI', 'Tarjeta de Identidad', true);
+INSERT INTO public."T006TiposDocumentoID" ("T006CodTipoDocumentoID", "T006nombre", "T006registroPrecargado") VALUES ('RC', 'Registro Civil', true);
+INSERT INTO public."T006TiposDocumentoID" ("T006CodTipoDocumentoID", "T006nombre", "T006registroPrecargado") VALUES ('NU', 'NUIP', true);
+INSERT INTO public."T006TiposDocumentoID" ("T006CodTipoDocumentoID", "T006nombre", "T006registroPrecargado") VALUES ('PA', 'Pasaporte', true);
+INSERT INTO public."T006TiposDocumentoID" ("T006CodTipoDocumentoID", "T006nombre", "T006registroPrecargado") VALUES ('PE', 'Permiso Especial de Permanencia', true);
 
 
 -- CLASES DE TERCERO
@@ -2184,10 +2183,10 @@ INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "T
 -- ROLES
 INSERT INTO public."TzRoles" ("TzIdRol", "Tznombre", "Tzdescripcion", "TzrolDelSistema")
 OVERRIDING SYSTEM VALUE
-VALUES (1, 'Rol Super Usuario', 'Rol exclusivo para creación y administración de usuarios','y');
+VALUES (1, 'Rol Super Usuario', 'Rol exclusivo para creación y administración de usuarios',true);
 INSERT INTO public."TzRoles" ("TzIdRol", "Tznombre", "Tzdescripcion", "TzrolDelSistema")
 OVERRIDING SYSTEM VALUE
-VALUES (2, 'Rol Usuarios Web', 'Rol exclusivo para usuarios externos creados vía portal de usuarios', 'y');
+VALUES (2, 'Rol Usuarios Web', 'Rol exclusivo para usuarios externos creados vía portal de usuarios', true);
 
 
 -- PERMISOS POR MODULO POR ROL
@@ -2227,7 +2226,7 @@ INSERT INTO public."T010Personas" ("T010IdPersona", "T010Cod_TipoDocumentoID", "
 "T010primerApellido", "T010emailNotificacion", "T010telCelularPersona", "T010Cod_PaisNacimiento", "T010Cod_Sexo", "T010aceptaNotificacionSMS", 
 "T010aceptaNotificacionEMail", "T010aceptaTratamientoDeDatos")
 OVERRIDING SYSTEM VALUE
-VALUES (1, 'CC', '1', 'N', 'SUPERUSUARIO NOMBRE', 'SUPERUSUARIO APELL', 'cambiarEMail@hotmail.com', 'IntroCelReal', 'CO', 'H', 'y', 'y', 'y');
+VALUES (1, 'CC', '1', 'N', 'SUPERUSUARIO NOMBRE', 'SUPERUSUARIO APELL', 'cambiarEMail@hotmail.com', 'IntroCelReal', 'CO', 'H', true, true, true);
 
 
 -- CREANDO EL USUARIO PARA EL SUPERUSUARIO.
