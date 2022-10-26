@@ -2,7 +2,7 @@
 -- Script de Creación de Base de Datos - Subsistema Almacén - Ultima Actualizacion 21/10/2022.
 --****************************************************************
 
-CAMBIO GITHUB LS.
+--CAMBIO GITHUB LS.
 
 --****************************************************************
 -- CREACIÓN DE TABLAS.
@@ -120,7 +120,7 @@ CREATE TABLE public."T056Bodegas" (
 
 ALTER TABLE public."T056Bodegas" OWNER TO postgres;
 
-OJOOOO, FALTA PK DE BODEGAS. @@@@@
+--OJOOOO, FALTA PK DE BODEGAS. @@@@@
 
 ALTER TABLE public."T056Bodegas" ALTER COLUMN "T056IdBodega" ADD GENERATED ALWAYS AS IDENTITY (
     SEQUENCE NAME public."T056Bodegas_T056IdBodega_seq"
@@ -220,7 +220,7 @@ INSERT INTO public."T055UnidadesMedida" ("T055IdUnidadMedida", "T055nombre", "T0
 
 
 
-@@@CREO QUE ESTE BLOQUE NO IRIAAAA.
+--@@@CREO QUE ESTE BLOQUE NO IRIAAAA.
 SELECT pg_catalog.setval('public."T052Marcas_T052IdMarca_seq"', 1, false);
 
 SELECT pg_catalog.setval('public."T053PorcentajesIVA_T053IdPorcentajeIVA_seq"', 1, false);
