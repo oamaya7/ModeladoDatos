@@ -1,2 +1,2 @@
-# ModeladoDatos
+# Modelado de Datos
 Repositorio para almacenar archivos relacionados con el modelamiento de datos de la plataforma BIA.
