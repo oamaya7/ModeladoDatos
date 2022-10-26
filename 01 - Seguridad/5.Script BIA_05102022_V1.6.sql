@@ -2,7 +2,7 @@
 -- Script de Creación de Base de Datos - Subsistema Seguridad - Ultima Actualizacion 26/10/2022.
 --****************************************************************
 
-
+-- PRUEBA OLIVER
 --****************************************************************
 -- CREACIÓN DE TIPOS DE DATOS PERSONALIZADOS eNUM.
 --****************************************************************
