@@ -1,11 +1,6 @@
 --****************************************************************
 -- Script de Creación de Base de Datos - Subsistema Seguridad - Ultima Actualizacion 26/10/2022.
 --****************************************************************
-DROP DATABASE "BIA";
-CREATE DATABASE "BIA";
-ALTER DATABASE "BIA" OWNER TO postgres;
-
-\connect "BIA"
 
 
 --****************************************************************
