@@ -2,7 +2,7 @@
 -- Script de Creación de Base de Datos - Subsistema Almacén - Ultima Actualizacion 21/10/2022.
 --****************************************************************
 
-
+CAMBIO GITHUB LS.
 
 --****************************************************************
 -- CREACIÓN DE TABLAS.
