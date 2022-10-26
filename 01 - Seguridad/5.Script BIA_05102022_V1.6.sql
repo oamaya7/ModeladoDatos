@@ -3,6 +3,11 @@
 --****************************************************************
 
 
+@@TO OLIVER, REVISAR:
+ASK: Porqué hay algunas tablas cuyo IDENTITY tiene increment y otras no?
+GENERATED ALWAYS AS IDENTITY NOT NULL
+smallint  GENERATED ALWAYS AS IDENTITY (START WITH 10 INCREMENT BY 1) NOT NULL
+
 --****************************************************************
 -- CREACIÓN DE TIPOS DE DATOS PERSONALIZADOS eNUM.
 --****************************************************************
@@ -2115,15 +2120,15 @@ INSERT INTO public."TzPermisos" ("TzCodPermiso", "Tznombre") VALUES ('AP', 'Apro
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
 VALUES (1, 'Personas', 'Permite administrar las personas del sistema','TRSV');
--- Este permite administrar los datos completos de los usuarios.
+-- Módulo para administrar los datos completos de los usuarios.
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE 
 VALUES (2, 'Usuarios', 'Permite administrar los usuarios del sistema','SEGU');
--- Este permite que un usuario INTERNO actualice los datos que se permiten "actualizar" por cuenta del mismo usuario, tanto los de usuario como algunos datos Personales (sólo los que se deba permitir actualizar).
+-- Módulo para que un usuario INTERNO actualice los datos que se permiten "actualizar" por cuenta del mismo usuario, tanto los de usuario como algunos datos Personales (sólo los que se deba permitir actualizar).
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
 VALUES (3, 'Administración de Datos Cuenta Usuario Interno', 'Permite administrar a una persona que tiene un usuario interno, los datos de su usuario y datos personales desde el sistema - Sólo para usuarios internos','SEGU');
--- Este permite que un usuario EXTERNO actualice los datos que se permiten "actualizar" por cuenta del mismo usuario, tanto los de usuario como algunos datos Personales (sólo los que se deba permitir actualizar).
+-- Módulo para que un usuario EXTERNO actualice los datos que se permiten "actualizar" por cuenta del mismo usuario, tanto los de usuario como algunos datos Personales (sólo los que se deba permitir actualizar).
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
 VALUES (4, 'Administración de Datos Cuenta Usuario Externo', 'Permite administrar a una persona que tiene un usuario externo, los datos de su usuario y datos personales desde el portal web - Sólo para usuarios externos','SEGU');

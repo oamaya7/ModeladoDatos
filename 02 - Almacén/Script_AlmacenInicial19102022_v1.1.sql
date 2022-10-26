@@ -3,6 +3,10 @@
 --****************************************************************
 
 
+@@TO OLIVER, REVISAR:
+Las lineas con:  SEQUENCE NAME public."T0XX" en este script, vs el de SEGURIDAD.
+Igual revisar las lineas con: pg_catalog.setval
+
 --****************************************************************
 -- CREACIÓN DE TABLAS.
 --****************************************************************
@@ -219,7 +223,7 @@ INSERT INTO public."T055UnidadesMedida" ("T055IdUnidadMedida", "T055nombre", "T0
 
 
 
-@@@CREO QUE ESTE BLOQUE NO IRIAAAA.
+@@@OLIVER:  CREO QUE ESTE BLOQUE NO IRIAAAA.
 SELECT pg_catalog.setval('public."T052Marcas_T052IdMarca_seq"', 1, false);
 
 SELECT pg_catalog.setval('public."T053PorcentajesIVA_T053IdPorcentajeIVA_seq"', 1, false);
@@ -229,3 +233,46 @@ SELECT pg_catalog.setval('public."T054Magnitudes_T054IdMagnitud_seq"', 1, false)
 SELECT pg_catalog.setval('public."T055UnidadesMedida_T055IdUnidadMedida_seq"', 1, false);
 
 SELECT pg_catalog.setval('public."T056Bodegas_T056IdBodega_seq"', 1, false);
+
+
+
+-- MODULOS
+-- Marcas.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (9, 'Marcas', 'Permite administrar la información básica de las Marcas de artículos activos fijos','ALMA');
+-- Bodegas
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (10, 'Bodegas', 'Permite administrar las bodegas del Almacén creadas en el sistema','ALMA');
+-- Porcentajes IVA.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (11, 'Porcentajes de IVA', 'Permite administrar la información básica de los porcentajes de IVA que manejará el sistema','ALMA');
+-- Unidades de Medida.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (12, 'Unidades de Medida', 'Permite administrar la información básica de las unidades de medida que manejará el sistema','ALMA');
+
+
+-- PERMISOS POR MODULO
+-- Módulo MARCAS
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (25, 9, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (26, 9, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (27, 9, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (28, 9, 'BO');
+-- Módulo BODEGAS
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (29, 10, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (30, 10, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (31, 10, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (32, 10, 'BO');
+-- Módulo PORCENTAJES IVA
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (33, 11, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (34, 11, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (35, 11, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (36, 11, 'BO');
+-- Módulo UNIDADES DE MEDIDA
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (37, 12, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (38, 12, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (39, 12, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (40, 12, 'BO');
