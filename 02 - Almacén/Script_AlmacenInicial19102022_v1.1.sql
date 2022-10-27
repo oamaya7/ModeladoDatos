@@ -15,7 +15,7 @@ CREATE TABLE public."T051EstadosArticulo" (
 ALTER TABLE public."T051EstadosArticulo" OWNER TO postgres;
 
 ALTER TABLE ONLY public."T051EstadosArticulo"
-    ADD CONSTRAINT "T051EstadosArticulo_pkey" PRIMARY KEY ("T051Cod_Estado");
+    ADD CONSTRAINT "PK_T051EstadosArticulo" PRIMARY KEY ("T051Cod_Estado");
 
 
 
@@ -27,7 +27,7 @@ CREATE TABLE public."T052Marcas" (
 ALTER TABLE public."T052Marcas" OWNER TO postgres;
 
 ALTER TABLE ONLY public."T052Marcas"
-    ADD CONSTRAINT "T052Marcas_pkey" PRIMARY KEY ("T052IdMarca");
+    ADD CONSTRAINT "PK_T052Marcas" PRIMARY KEY ("T052IdMarca");
 
 
 
@@ -41,7 +41,7 @@ CREATE TABLE public."T053PorcentajesIVA" (
 ALTER TABLE public."T053PorcentajesIVA" OWNER TO postgres;
 
 ALTER TABLE ONLY public."T053PorcentajesIVA"
-    ADD CONSTRAINT "T053PorcentajesIVA_pkey" PRIMARY KEY ("T053IdPorcentajeIVA");
+    ADD CONSTRAINT "PK_T053PorcentajesIVA" PRIMARY KEY ("T053IdPorcentajeIVA");
 
 
 CREATE TABLE public."T054Magnitudes" (
@@ -52,7 +52,7 @@ CREATE TABLE public."T054Magnitudes" (
 ALTER TABLE public."T054Magnitudes" OWNER TO postgres;
 
 ALTER TABLE ONLY public."T054Magnitudes"
-    ADD CONSTRAINT "T054Magnitudes_pkey" PRIMARY KEY ("T054IdMagnitud");
+    ADD CONSTRAINT "PK_T054Magnitudes" PRIMARY KEY ("T054IdMagnitud");
 
 
 
@@ -68,7 +68,7 @@ CREATE TABLE public."T055UnidadesMedida" (
 ALTER TABLE public."T055UnidadesMedida" OWNER TO postgres;
 
 ALTER TABLE ONLY public."T055UnidadesMedida"
-    ADD CONSTRAINT "T055UnidadesMedida_pkey" PRIMARY KEY ("T055IdUnidadMedida");
+    ADD CONSTRAINT "PK_T055UnidadesMedida" PRIMARY KEY ("T055IdUnidadMedida");
 
 
 CREATE TABLE public."T056Bodegas" (
@@ -85,7 +85,7 @@ ALTER TABLE public."T056Bodegas" OWNER TO postgres;
 
 --Solución PK DE BODEGAS. @@@@@
 ALTER TABLE ONLY public."T056Bodegas"
-    ADD CONSTRAINT "T056Bodegas_pkey" PRIMARY KEY ("T056Bodegas");
+    ADD CONSTRAINT "PK_T056Bodegas" PRIMARY KEY ("T056Bodegas");
 
 CREATE TABLE public."T057Articulos" (
     "T057idArticulo" integer NOT NULL,
@@ -120,7 +120,7 @@ ALTER TABLE public."T057Articulos" OWNER TO postgres;
 -- LAS FOREIGN KEYS
 --****************************************************************
 ALTER TABLE ONLY public."T055UnidadesMedida"
-    ADD CONSTRAINT "T055UnidadesMedida_T055Id_Magnitud_fkey" FOREIGN KEY ("T055Id_Magnitud") REFERENCES public."T054Magnitudes"("T054IdMagnitud");
+    ADD CONSTRAINT "FK_T055UnidadesMedida_T055Id_Magnitud" FOREIGN KEY ("T055Id_Magnitud") REFERENCES public."T054Magnitudes"("T054IdMagnitud");
 
 
 
