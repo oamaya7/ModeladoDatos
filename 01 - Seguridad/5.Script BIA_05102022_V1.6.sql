@@ -3,10 +3,7 @@
 --****************************************************************
 
 
-@@TO OLIVER, REVISAR:
-ASK: Porqué hay algunas tablas cuyo IDENTITY tiene increment y otras no?
-GENERATED ALWAYS AS IDENTITY NOT NULL
-smallint  GENERATED ALWAYS AS IDENTITY (START WITH 10 INCREMENT BY 1) NOT NULL
+
 
 --****************************************************************
 -- CREACIÓN DE TIPOS DE DATOS PERSONALIZADOS eNUM.
