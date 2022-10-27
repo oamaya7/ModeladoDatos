@@ -285,7 +285,7 @@ ALTER TABLE ONLY public."T013Apoderados_Persona"
 
 
 CREATE TABLE public."T014HistoricoActivacion" (
-	"T014IdHistorico" integer GENERATED ALWAYS AS IDENTITY (START WITH 10 INCREMENT BY 1) NOT NULL,
+	"T014IdHistorico" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
 	"T014Id_UsuarioAfectado" integer NOT NULL,
     "T014Cod_Operacion" character(1) NOT NULL,
     "T014fechaOperacion" timestamp with time zone NOT NULL,
@@ -303,7 +303,7 @@ ALTER TABLE ONLY public."T014HistoricoActivacion"
 
 CREATE TABLE public."T015HistoricoDirecciones" (
 	"T015IdHistoDireccion" integer NOT NULL,
-	"T015Id_Persona" integer GENERATED ALWAYS AS IDENTITY (START WITH 10 INCREMENT BY 1) NOT NULL,
+	"T015Id_Persona" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
 	"T015direccion" character varying(255) NOT NULL,
     "T015Cod_MunicipioEnCol" character(5),
     "T015Cod_PaisEnElExterior" character(2),
@@ -319,7 +319,7 @@ ALTER TABLE ONLY public."T015HistoricoDirecciones"
 
 
 CREATE TABLE public."T016HistoricoEmails" (
-	"T016IdHistoEmail" integer GENERATED ALWAYS AS IDENTITY (START WITH 10 INCREMENT BY 1) NOT NULL,
+	"T016IdHistoEmail" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
 	"T016Id_Persona" integer NOT NULL,
     "T016emailDeNotificacion" character varying(100) NOT NULL,
     "T016fechaCambio" timestamp with time zone NOT NULL
@@ -346,7 +346,7 @@ ALTER TABLE ONLY public."TzPermisos"
 
 
 CREATE TABLE public."TzModulos" (
-	"TzIdModulo" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
+	"TzIdModulo" smallint GENERATED ALWAYS AS IDENTITY (START WITH 10 INCREMENT BY 1) NOT NULL,
 	"Tznombre" character varying(70) NOT NULL,
     "Tzdescripcion" character varying(255) NOT NULL,
     "Tzsubsistema" public."eSubsistema" NOT NULL
@@ -360,7 +360,7 @@ ALTER TABLE ONLY public."TzModulos"
 
 
 CREATE TABLE public."TzPermisos_Modulo" (
-    "TzIdPermisos_Modulo" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "TzIdPermisos_Modulo" smallint GENERATED ALWAYS AS IDENTITY (START WITH 30 INCREMENT BY 1) NOT NULL,
     "TzId_Modulo" smallint NOT NULL,
 	"TzCod_Permiso" character(2) NOT NULL
 );
@@ -392,7 +392,7 @@ ALTER TABLE ONLY public."TzRoles"
 
 
 CREATE TABLE public."TzPermisos_Modulo_Rol" (
-    "TzIdPermisos_Modulo_Rol" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "TzIdPermisos_Modulo_Rol" smallint GENERATED ALWAYS AS IDENTITY (START WITH 20 INCREMENT BY 1) NOT NULL,
     "TzId_Rol" smallint NOT NULL,
     "TzId_Permisos_Modulo" smallint NOT NULL
 );
@@ -435,7 +435,7 @@ ALTER TABLE ONLY public."TzUsuarios"
 
 
 CREATE TABLE public."TzUsuarios_Rol" (
-    "TzIdUsuarios_Rol" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "TzIdUsuarios_Rol" smallint GENERATED ALWAYS AS IDENTITY (START WITH 10 INCREMENT BY 1) NOT NULL,
     "TzId_Rol" integer NOT NULL,
     "TzId_Usuario" integer NOT NULL
 );
