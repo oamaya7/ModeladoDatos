@@ -9,7 +9,7 @@
 --****************************************************************
 CREATE TABLE public."T051EstadosArticulo" (
     "T051Cod_Estado" character(1) NOT NULL,
-    "T051nombre" character varying(255) NOT NULL
+    "T051nombre" character varying(20) NOT NULL
 );
 
 ALTER TABLE public."T051EstadosArticulo" OWNER TO postgres;
@@ -21,7 +21,7 @@ ALTER TABLE ONLY public."T051EstadosArticulo"
 
 CREATE TABLE public."T052Marcas" (
     "T052IdMarca" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
-    "T052nombre" character varying(75) NOT NULL
+    "T052nombre" character varying(50) NOT NULL
 );
 
 ALTER TABLE public."T052Marcas" OWNER TO postgres;
@@ -58,7 +58,7 @@ ALTER TABLE ONLY public."T054Magnitudes"
 
 CREATE TABLE public."T055UnidadesMedida" (
     "T055IdUnidadMedida" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
-    "T055nombre" character varying(255) NOT NULL,
+    "T055nombre" character varying(50) NOT NULL,
     "T055abreviatura" character(5) NOT NULL,
     "T055Id_Magnitud" smallint NOT NULL,
     "T055registroPrecargado" boolean NOT NULL
@@ -85,7 +85,7 @@ ALTER TABLE public."T056Bodegas" OWNER TO postgres;
 
 --Solución PK DE BODEGAS. @@@@@
 ALTER TABLE ONLY public."T056Bodegas"
-    ADD CONSTRAINT "PK_T056Bodegas" PRIMARY KEY ("T056Bodegas");
+    ADD CONSTRAINT "PK_T056Bodegas" PRIMARY KEY ("T056IdBodega");
 
 
 CREATE TABLE public."T057Articulos" (
