@@ -494,7 +494,7 @@ ALTER TABLE ONLY public."TzUsuarioErroneo"
 
 CREATE TABLE public."TzAuditorias" (
     "TzIdAuditoria" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
-    "TzId_Usuario" integer NOT NULL,
+    "TzId_Usuario" integer,
     "TzId_Modulo" smallint NOT NULL,
 	"Tzsubsistema" public."eSubsistema" NOT NULL,
 	"TzCod_PermisoAccion" character(2) NOT NULL,
@@ -2241,3 +2241,13 @@ VALUES (1, 'SuperUsuario', 1, '***CambiarContrasegna***', 'n', 'n', 'n', '2022-1
 -- USUARIOS POR ROL
 -- Se agrega al usuario nuevo el ROL de "Rol SuperUsuario".
 INSERT INTO public."TzUsuarios_Rol" ("TzIdUsuarios_Rol", "TzId_Rol", "TzId_Usuario") OVERRIDING SYSTEM VALUE VALUES (1, 1, 1);
+
+
+--COMPLEMENTO MÓDULO AUDITORÍA
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (9, 'Creación Persona Vía Portal', 'Permite crear una persona vía Portal','SEGU');
+
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (10, 'Creación Usuario Vía Portal', 'Permite crear un usuario vía Portal','SEGU');
