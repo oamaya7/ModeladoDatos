@@ -85,7 +85,7 @@ ALTER TABLE public."T056Bodegas" OWNER TO postgres;
 
 --Solución PK DE BODEGAS. @@@@@
 ALTER TABLE ONLY public."T056Bodegas"
-    ADD CONSTRAINT "PK_T056Bodegas" PRIMARY KEY ("T056Bodegas");
+    ADD CONSTRAINT "PK_T056Bodegas" PRIMARY KEY ("T056IdBodega");
 
 CREATE TABLE public."T057Articulos" (
     "T057idArticulo" integer NOT NULL,
