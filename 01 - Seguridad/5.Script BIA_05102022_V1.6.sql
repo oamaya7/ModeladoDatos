@@ -1,5 +1,5 @@
 --****************************************************************
--- Script de Creación de Base de Datos - Subsistema SEGURIDAD - Ultima Actualizacion 26/10/2022 - V1.7.
+-- Script de Creación de Base de Datos - Subsistema SEGURIDAD - Ultima Actualizacion 26/10/2022 - V1.6.
 --****************************************************************
 
 
