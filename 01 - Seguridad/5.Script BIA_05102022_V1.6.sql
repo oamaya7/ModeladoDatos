@@ -357,7 +357,7 @@ ALTER TABLE ONLY public."TzModulos"
 
 
 CREATE TABLE public."TzPermisos_Modulo" (
-    "TzIdPermisos_Modulo" smallint GENERATED ALWAYS AS IDENTITY (START WITH 30 INCREMENT BY 1) NOT NULL,
+    "TzIdPermisos_Modulo" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
     "TzId_Modulo" smallint NOT NULL,
 	"TzCod_Permiso" character(2) NOT NULL
 );
