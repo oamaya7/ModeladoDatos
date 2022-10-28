@@ -479,7 +479,7 @@ ALTER TABLE ONLY public."TzLoginErroneo"
 
 
 CREATE TABLE public."TzUsuarioErroneo" (
-    "TzIdLoginError" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "TzIdUsuarioError" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
     "TzcampoUsuario" character varying(30) NOT NULL,
     "TzdirIP" Inet NOT NULL,
     "TzdispositivoConexion" character varying(30) NOT NULL,
@@ -489,7 +489,7 @@ CREATE TABLE public."TzUsuarioErroneo" (
 ALTER TABLE public."TzUsuarioErroneo" OWNER TO postgres;
 
 ALTER TABLE ONLY public."TzUsuarioErroneo"
-    ADD CONSTRAINT "PK_TzUsuarioErroneo" PRIMARY KEY ("TzIdLoginError");
+    ADD CONSTRAINT "PK_TzUsuarioErroneo" PRIMARY KEY ("TzIdUsuarioError");
 
 
 
