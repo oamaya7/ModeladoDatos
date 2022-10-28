@@ -442,6 +442,9 @@ ALTER TABLE public."TzUsuarios_Rol" OWNER TO postgres;
 ALTER TABLE ONLY public."TzUsuarios_Rol"
     ADD CONSTRAINT "PK_TzIdUsuarios_Rol" PRIMARY KEY ("TzIdUsuarios_Rol");
 
+ALTER TABLE ONLY public."TzUsuarios_Rol"
+    ADD CONSTRAINT "TzUsuarios_TzIdRol_TzIdUsuario_UNQ" UNIQUE ("TzId_Rol", "TzId_Usuario")
+        INCLUDE("TzId_Rol", "TzId_Usuario");
 
 
 CREATE TABLE public."TzLogin" (
