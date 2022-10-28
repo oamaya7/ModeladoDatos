@@ -248,19 +248,19 @@ SELECT pg_catalog.setval('public."T056Bodegas_T056IdBodega_seq"', 1, false);
 -- Marcas.
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
-VALUES (9, 'Marcas', 'Permite administrar la información básica de las Marcas de artículos activos fijos','ALMA');
+VALUES (11, 'Marcas', 'Permite administrar la información básica de las Marcas de artículos activos fijos','ALMA');
 -- Bodegas
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
-VALUES (10, 'Bodegas', 'Permite administrar las bodegas del Almacén creadas en el sistema','ALMA');
+VALUES (12, 'Bodegas', 'Permite administrar las bodegas del Almacén creadas en el sistema','ALMA');
 -- Porcentajes IVA.
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
-VALUES (11, 'Porcentajes de IVA', 'Permite administrar la información básica de los porcentajes de IVA que manejará el sistema','ALMA');
+VALUES (13, 'Porcentajes de IVA', 'Permite administrar la información básica de los porcentajes de IVA que manejará el sistema','ALMA');
 -- Unidades de Medida.
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
-VALUES (12, 'Unidades de Medida', 'Permite administrar la información básica de las unidades de medida que manejará el sistema','ALMA');
+VALUES (14, 'Unidades de Medida', 'Permite administrar la información básica de las unidades de medida que manejará el sistema','ALMA');
 
 
 -- PERMISOS POR MODULO
