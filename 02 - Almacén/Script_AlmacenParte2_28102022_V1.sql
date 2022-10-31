@@ -32,3 +32,24 @@ CREATE TABLE public."T057Articulos" (
 );
 
 ALTER TABLE public."T057Articulos" OWNER TO postgres;
+
+
+ALTER TABLE IF EXISTS public."T005EstadoCivil"
+    ADD COLUMN "T005activo" boolean NOT NULL DEFAULT TRUE,
+    ADD COLUMN "T005itemYaUsado" boolean NOT NULL DEFAULT FALSE;
+
+ALTER TABLE IF EXISTS public."T006TiposDocumentoID"
+    ADD COLUMN "T006activo" boolean NOT NULL DEFAULT TRUE,
+    ADD COLUMN "T006itemYaUsado" boolean NOT NULL FALSE;
+
+ALTER TABLE IF EXISTS public."T052Marcas"
+    ADD COLUMN "T052activo" boolean NOT NULL DEFAULT TRUE,
+    ADD COLUMN "T052itemYaUsado" boolean NOT NULL DEFAULT FALSE;
+
+ALTER TABLE IF EXISTS public."T053PorcentajesIVA"
+    ADD COLUMN "T053activo" boolean NOT NULL DEFAULT TRUE,
+    ADD COLUMN "T053itemYaUsado" boolean NOT NULL DEFAULT FALSE;
+
+ALTER TABLE IF EXISTS public."T056Bodegas"
+    ADD COLUMN "T056activo" boolean NOT NULL DEFAULT TRUE,
+    ADD COLUMN "T056itemYaUsado" boolean NOT NULL DEFAULT FALSE;
