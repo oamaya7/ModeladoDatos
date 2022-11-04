@@ -3,6 +3,26 @@
 --****************************************************************
 
 --****************************************************************
+-- CREACIÓN DE TABLAS
+--****************************************************************
+
+CREATE TABLE public."T009Cargos" (
+    "T009IdCargo" smallint NOT NULL,
+    "T009nombre" character varying(50) NOT NULL,
+    "T009activo" boolean NOT NULL,
+    "T009itemYaUsado" boolean NOT NULL
+);
+
+ALTER TABLE public."T009Cargos" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T009Cargos"
+    ADD CONSTRAINT "PK_T009Cargos" PRIMARY KEY ("T009IdCargo");
+
+ALTER TABLE ONLY public."T009Cargos"
+    ADD CONSTRAINT "T009Cargos_T009nombre_UNQ" UNIQUE ("T009nombre")
+        INCLUDE("T009nombre");
+
+--****************************************************************
 -- MODIFICACIÓN DE TABLAS.
 --****************************************************************
 
