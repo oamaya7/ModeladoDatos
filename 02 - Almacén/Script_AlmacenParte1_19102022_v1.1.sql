@@ -34,7 +34,7 @@ ALTER TABLE ONLY public."T052Marcas"
 CREATE TABLE public."T053PorcentajesIVA" (
     "T053IdPorcentajeIVA" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T053porcentaje" numeric(5,2) NOT NULL,
-    "T053observacion " character varying(255),
+    "T053observacion" character varying(255),
     "T053registroPrecargado" boolean NOT NULL
 );
 
