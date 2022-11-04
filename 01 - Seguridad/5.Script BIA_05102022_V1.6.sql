@@ -1,5 +1,5 @@
 --****************************************************************
--- Script de Creación de Base de Datos - Subsistema SEGURIDAD - Ultima Actualizacion 26/10/2022 - V1.6.
+-- Script de Creación de Base de Datos - Subsistema SEGURIDAD - Ultima Actualizacion 04/11/2022 - V1.6.
 --****************************************************************
 
 
@@ -70,6 +70,9 @@ ALTER TABLE public."T001MunicipiosDepartamento" OWNER TO postgres;
 ALTER TABLE ONLY public."T001MunicipiosDepartamento"
     ADD CONSTRAINT "PK_T001MunicipiosDepartamento" PRIMARY KEY ("T001CodMunicipio");
 
+ALTER TABLE ONLY public."T001MunicipiosDepartamento"
+    ADD CONSTRAINT "T001MunicipiosDepartamento_T001nombre_T001Cod_Departamento_UNQ" UNIQUE ("T001nombre", "T001Cod_Departamento")
+        INCLUDE("T001nombre", "T001Cod_Departamento");
 
 
 CREATE TABLE public."T002DepartamentosPais" (
@@ -83,6 +86,9 @@ ALTER TABLE public."T002DepartamentosPais" OWNER TO postgres;
 ALTER TABLE ONLY public."T002DepartamentosPais"
     ADD CONSTRAINT "PK_T002DepartamentosPais" PRIMARY KEY ("T002CodDepartamento");
 
+ALTER TABLE ONLY public."T002DepartamentosPais"
+    ADD CONSTRAINT "T002DepartamentosPais_T002nombre_UNQ" UNIQUE ("T002nombre")
+        INCLUDE("T002nombre");
 
 
 CREATE TABLE public."T003Paises" (
@@ -95,6 +101,9 @@ ALTER TABLE public."T003Paises" OWNER TO postgres;
 ALTER TABLE ONLY public."T003Paises"
     ADD CONSTRAINT "PK_T003Paises" PRIMARY KEY ("T003CodPais");
 
+ALTER TABLE ONLY public."T003Paises"
+    ADD CONSTRAINT "T003Paises_T003nombre_UNQ" UNIQUE ("T003nombre")
+        INCLUDE("T003nombre");
 
 
 CREATE TABLE public."T004Sexo" (
@@ -107,6 +116,9 @@ ALTER TABLE public."T004Sexo" OWNER TO postgres;
 ALTER TABLE ONLY public."T004Sexo"
     ADD CONSTRAINT "PK_T004Sexo" PRIMARY KEY ("T004CodSexo");
 
+ALTER TABLE ONLY public."T004Sexo"
+    ADD CONSTRAINT "T004Sexo_T004nombre_UNQ" UNIQUE ("T004nombre")
+        INCLUDE("T004nombre");
 
 
 CREATE TABLE public."T005EstadoCivil" (
@@ -120,7 +132,9 @@ ALTER TABLE public."T005EstadoCivil" OWNER TO postgres;
 ALTER TABLE ONLY public."T005EstadoCivil"
     ADD CONSTRAINT "PK_T005EstadoCivil" PRIMARY KEY ("T005CodEstadoCivil");
 
-
+ALTER TABLE ONLY public."T005EstadoCivil"
+    ADD CONSTRAINT "T005EstadoCivil_T005nombre_UNQ" UNIQUE ("T005nombre")
+        INCLUDE("T005nombre");
 
 CREATE TABLE public."T006TiposDocumentoID" (
     "T006CodTipoDocumentoID" character(2) NOT NULL,
@@ -133,6 +147,9 @@ ALTER TABLE public."T006TiposDocumentoID" OWNER TO postgres;
 ALTER TABLE ONLY public."T006TiposDocumentoID"
     ADD CONSTRAINT "PK_T006TiposDocumentoID" PRIMARY KEY ("T006CodTipoDocumentoID");
 
+ALTER TABLE ONLY public."T006TiposDocumentoID"
+    ADD CONSTRAINT "T006TiposDocumentoID_T006nombre_UNQ" UNIQUE ("T006nombre")
+        INCLUDE("T006nombre");
 
 
 CREATE TABLE public."T007ClasesTercero" (
@@ -146,6 +163,9 @@ ALTER TABLE public."T007ClasesTercero" OWNER TO postgres;
 ALTER TABLE ONLY public."T007ClasesTercero"
     ADD CONSTRAINT "PK_T007ClasesTercero" PRIMARY KEY ("T007IdClaseTercero");
 
+ALTER TABLE ONLY public."T007ClasesTercero"
+    ADD CONSTRAINT "T007ClasesTercero_T007nombre_UNQ" UNIQUE ("T007nombre")
+        INCLUDE("T007nombre");
 
 
 CREATE TABLE public."T008OperacionesSobreUsuario" (
@@ -158,6 +178,9 @@ ALTER TABLE public."T008OperacionesSobreUsuario" OWNER TO postgres;
 ALTER TABLE ONLY public."T008OperacionesSobreUsuario"
     ADD CONSTRAINT "PK_T008OperacionesSobreUsuario" PRIMARY KEY ("T008CodOperacion");
 
+ALTER TABLE ONLY public."T008OperacionesSobreUsuario"
+    ADD CONSTRAINT "T008OperacionesSobreUsuario_T008nombre_UNQ" UNIQUE ("T008nombre")
+        INCLUDE("T008nombre");
 
 
 CREATE TABLE public."T010Personas" (
@@ -352,6 +375,9 @@ ALTER TABLE public."TzModulos" OWNER TO postgres;
 ALTER TABLE ONLY public."TzModulos"
     ADD CONSTRAINT "PK_TzModulos" PRIMARY KEY ("TzIdModulo");
 
+ALTER TABLE ONLY public."TzModulos"
+    ADD CONSTRAINT "TzModulos_Tznombre_UNQ" UNIQUE ("Tznombre")
+        INCLUDE("Tznombre");
 
 
 CREATE TABLE public."TzPermisos_Modulo" (
@@ -384,7 +410,9 @@ ALTER TABLE public."TzRoles" OWNER TO postgres;
 ALTER TABLE ONLY public."TzRoles"
     ADD CONSTRAINT "PK_TzRoles" PRIMARY KEY ("TzIdRol");
 
-
+ALTER TABLE ONLY public."TzRoles"
+    ADD CONSTRAINT "TzRoles_Tznombre_UNQ" UNIQUE ("Tznombre")
+        INCLUDE("Tznombre");
 
 CREATE TABLE public."TzPermisos_Modulo_Rol" (
     "TzIdPermisos_Modulo_Rol" smallint GENERATED ALWAYS AS IDENTITY (START WITH 20 INCREMENT BY 1) NOT NULL,
@@ -427,7 +455,10 @@ ALTER TABLE ONLY public."TzUsuarios"
     ADD CONSTRAINT "TzUsuarios_TznombreUsuario_UNQ" UNIQUE ("TznombreUsuario")
         INCLUDE("TznombreUsuario");
 
-
+ALTER TABLE ONLY public."TzUsuarios"
+    ADD CONSTRAINT "TzUsuarios_Tznombre_usuario_UNQ" UNIQUE ("Tznombre_usuario")
+        INCLUDE("Tznombre_usuario");
+        
 
 CREATE TABLE public."TzUsuarios_Rol" (
     "TzIdUsuarios_Rol" smallint GENERATED ALWAYS AS IDENTITY (START WITH 10 INCREMENT BY 1) NOT NULL,
