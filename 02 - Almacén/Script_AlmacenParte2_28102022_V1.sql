@@ -1,32 +1,12 @@
---****************************************************************
--- Script de Creación de Base de Datos - Subsistema Almacén Parte 2 - Última Actualizacion 28/10/2022.
---****************************************************************
-
---****************************************************************
--- CREACIÓN DE TABLAS
---****************************************************************
-
-CREATE TABLE public."T009Cargos" (
-    "T009IdCargo" smallint NOT NULL,
-    "T009nombre" character varying(50) NOT NULL,
-    "T009activo" boolean NOT NULL,
-    "T009itemYaUsado" boolean NOT NULL
-);
-
-ALTER TABLE public."T009Cargos" OWNER TO postgres;
-
-ALTER TABLE ONLY public."T009Cargos"
-    ADD CONSTRAINT "PK_T009Cargos" PRIMARY KEY ("T009IdCargo");
-
-ALTER TABLE ONLY public."T009Cargos"
-    ADD CONSTRAINT "T009Cargos_T009nombre_UNQ" UNIQUE ("T009nombre")
-        INCLUDE("T009nombre");
-
---****************************************************************
--- MODIFICACIÓN DE TABLAS.
---****************************************************************
+/****************************************************************
+    Script de Creación de Base de Datos - Subsistema Almacén Parte 2 - Última Actualizacion 30/10/2022.
+****************************************************************/
 
 
+/****************************************************************
+    MODIFICACIÓN DE TABLAS.
+****************************************************************/
+--Tablas de Seguridad existentes.
 ALTER TABLE IF EXISTS public."T005EstadoCivil"
     ADD COLUMN "T005activo" boolean NOT NULL DEFAULT TRUE,
     ADD COLUMN "T005itemYaUsado" boolean NOT NULL DEFAULT FALSE;
@@ -35,6 +15,8 @@ ALTER TABLE IF EXISTS public."T006TiposDocumentoID"
     ADD COLUMN "T006activo" boolean NOT NULL DEFAULT TRUE,
     ADD COLUMN "T006itemYaUsado" boolean NOT NULL DEFAULT FALSE;
 
+
+--Tablas de Almacén existentes.
 ALTER TABLE IF EXISTS public."T052Marcas"
     ADD COLUMN "T052activo" boolean NOT NULL DEFAULT TRUE,
     ADD COLUMN "T052itemYaUsado" boolean NOT NULL DEFAULT FALSE;
@@ -52,6 +34,32 @@ ALTER TABLE IF EXISTS public."T056Bodegas"
     ADD COLUMN "T056itemYaUsado" boolean NOT NULL DEFAULT FALSE;
 
 
+
+/****************************************************************
+    CREACIÓN DE TABLAS
+****************************************************************/
+--Tabla Básica.
+CREATE TABLE public."T009Cargos" (
+    "T009IdCargo" smallint NOT NULL,
+    "T009nombre" character varying(50) NOT NULL,
+    "T009activo" boolean NOT NULL,
+    "T009itemYaUsado" boolean NOT NULL
+);
+
+ALTER TABLE public."T009Cargos" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T009Cargos"
+    ADD CONSTRAINT "PK_T009Cargos" PRIMARY KEY ("T009IdCargo");
+
+ALTER TABLE ONLY public."T009Cargos"
+    ADD CONSTRAINT "T009Cargos_T009nombre_UNQ" UNIQUE ("T009nombre")
+        INCLUDE("T009nombre");
+
+
+
+/****************************************************************
+    INSERCIÓN DE DATOS INICIALES.
+****************************************************************/
 -- MODULOS
 -- Módulo para administrar los ORGANIGRAMAS del sistema, implica organigrama, sus niveles y sus unidades organizacionales.
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
@@ -74,12 +82,13 @@ VALUES (17, 'Cargos', 'Permite administrar los cargos disponibles en el sistema'
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (41, 15, 'CR');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (42, 15, 'AC');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (43, 15, 'CO');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (46, 17, 'CR');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (47, 17, 'AC');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (48, 17, 'CO');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (49, 17, 'BO');
 
 -- Módulo CAMBIO DE ORGANIGRAMA
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (44, 16, 'EJ');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (45, 16, 'CO');
 
+-- Módulo CARGOS
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (46, 17, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (47, 17, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (48, 17, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (49, 17, 'BO');
