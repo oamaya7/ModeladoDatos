@@ -164,6 +164,11 @@ ALTER TABLE ONLY public."T064TiposArticulo"
         INCLUDE("T064nombre");
 
 
+--Tabla UnidadesMedida
+ALTER TABLE ONLY public."T055UnidadesMedida"
+    ADD CONSTRAINT "T055UnidadesMedida_T055Id_Magnitud_T055abreviatura_UNQ" UNIQUE ("T055Id_Magnitud", "T055abreviatura")
+        INCLUDE("T055Id_Magnitud", "T055abreviatura");
+
 
 --****************************************************************
 -- LAS FOREIGN KEYS
