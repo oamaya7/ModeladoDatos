@@ -57,6 +57,8 @@ CREATE TABLE public."T017Organigramas" (
 
 ALTER TABLE public."T017Organigramas" OWNER TO postgres;
 
+ALTER TABLE ONLY public."T017Organigramas"
+    ADD CONSTRAINT "PK_T017Organigramas" PRIMARY KEY ("T017IdOrganigrama");
 
 CREATE TABLE public."T018NivelesOrganigrama" (
     "T018IdNivelOrganigrama" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
@@ -68,6 +70,10 @@ CREATE TABLE public."T018NivelesOrganigrama" (
 
 ALTER TABLE public."T018NivelesOrganigrama" OWNER TO postgres;
 
+ALTER TABLE ONLY public."T018NivelesOrganigrama"
+    ADD CONSTRAINT "PK_T018NivelesOrganigrama" PRIMARY KEY ("T018IdNivelOrganigrama");
+
+    
 
 CREATE TABLE public."T019UnidadesOrganizacionales" (
     "T019IdUnidadOrganizacional" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
@@ -82,6 +88,9 @@ CREATE TABLE public."T019UnidadesOrganizacionales" (
 );
 
 ALTER TABLE public."T019UnidadesOrganizacionales" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T019UnidadesOrganizacionales"
+    ADD CONSTRAINT "PK_T019UnidadesOrganizacionales" PRIMARY KEY ("T019IdUnidadOrganizacional");
 
 
 --****************************************************************
