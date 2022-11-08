@@ -450,12 +450,6 @@ ALTER TABLE ONLY public."TzUsuarios"
     ADD CONSTRAINT "TzUsuarios_TznombreUsuario_UNQ" UNIQUE ("TznombreUsuario")
         INCLUDE("TznombreUsuario");
 
-
-
-@@TO MIGUEL: En esta tabla, el campo TzIdUsuarios_Rol, debe ser integer, ya que si la tabla TzUSUARIOS tiene integer 
-es dado que pueden haber más de 32.768 usuarios (entre internos y externos), por lo cual también habrían en
-dicho caso como mínimo esa cantidad de Usuarios por Rol.  Hacer el cambio en el script y comentarle a BackEnd para que
-hagan el cambio en su ORM por fa.  A FrontEnd no hay necesidad de comentarle, ya que no le afectaría.
 CREATE TABLE public."TzUsuarios_Rol" (
     "TzIdUsuarios_Rol" integer GENERATED ALWAYS AS IDENTITY (START WITH 10 INCREMENT BY 1) NOT NULL,
     "TzId_Rol" integer NOT NULL,
