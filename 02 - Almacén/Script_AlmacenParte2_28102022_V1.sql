@@ -83,3 +83,15 @@ INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "T
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (44, 16, 'EJ');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (45, 16, 'CO');
 
+/****************************************************************
+    INSERCIÓN DE DATOS INICIALES.
+****************************************************************/
+
+-- CLASES DE TERCERO
+INSERT INTO public."T007ClasesTercero" ("T007IdClaseTercero", "T007nombre")
+OVERRIDING SYSTEM VALUE 
+VALUES (4, 'Conductor');
+INSERT INTO public."T007ClasesTercero" ("T007IdClaseTercero", "T007nombre")
+OVERRIDING SYSTEM VALUE 
+VALUES (5, 'Conductor Externo');
+
