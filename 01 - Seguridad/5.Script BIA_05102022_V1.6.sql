@@ -1,11 +1,11 @@
---****************************************************************
--- Script de Creación de Base de Datos - Subsistema SEGURIDAD - Ultima Actualizacion 04/11/2022 - V1.6.
---****************************************************************
+/****************************************************************
+    Script de Creación de Base de Datos - Subsistema SEGURIDAD - Ultima Actualizacion 04/11/2022 - V1.6.
+****************************************************************/
 
 
---****************************************************************
--- CREACIÓN DE TIPOS DE DATOS PERSONALIZADOS eNUM.
---****************************************************************
+/****************************************************************
+    CREACIÓN DE TIPOS DE DATOS PERSONALIZADOS eNUM.
+****************************************************************/
 CREATE TYPE public."eSubsistema" AS ENUM (
     'ALMA',
     'CONS',
@@ -56,9 +56,9 @@ SET default_table_access_method = heap;
 
 
 
---****************************************************************
--- CREACIÓN DE TABLAS.
---****************************************************************
+/****************************************************************
+    CREACIÓN DE TABLAS.
+****************************************************************/
 CREATE TABLE public."T001MunicipiosDepartamento" (
     "T001CodMunicipio" character(5) NOT NULL,
     "T001nombre" character varying(30) NOT NULL,
@@ -136,6 +136,7 @@ ALTER TABLE ONLY public."T005EstadoCivil"
     ADD CONSTRAINT "T005EstadoCivil_T005nombre_UNQ" UNIQUE ("T005nombre")
         INCLUDE("T005nombre");
 
+
 CREATE TABLE public."T006TiposDocumentoID" (
     "T006CodTipoDocumentoID" character(2) NOT NULL,
     "T006nombre" character varying(40) NOT NULL,
@@ -158,7 +159,6 @@ CREATE TABLE public."T007ClasesTercero" (
 );
 
 ALTER TABLE public."T007ClasesTercero" OWNER TO postgres;
-
 
 ALTER TABLE ONLY public."T007ClasesTercero"
     ADD CONSTRAINT "PK_T007ClasesTercero" PRIMARY KEY ("T007IdClaseTercero");
@@ -236,7 +236,6 @@ ALTER TABLE ONLY public."T010Personas"
         INCLUDE("T010emailNotificacion");
 
 
-
 CREATE TABLE public."T011ClasesTercero_Persona" (
     "T011IdClasesTercero_Persona" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
 	"T011Id_Persona" integer NOT NULL,
@@ -251,7 +250,6 @@ ALTER TABLE ONLY public."T011ClasesTercero_Persona"
 ALTER TABLE ONLY public."T011ClasesTercero_Persona"
     ADD CONSTRAINT "T011ClasesTercero_UNQ" UNIQUE ("T011Id_Persona", "T011Id_ClaseTercero")
         INCLUDE("T011Id_Persona", "T011Id_ClaseTercero");
-
 
 
 CREATE TABLE public."T012SucursalesEmpresa" (
@@ -280,7 +278,6 @@ ALTER TABLE ONLY public."T012SucursalesEmpresa"
         INCLUDE("T012Id_PersonaEmpresa", "T012nroSucursal");
 
 
-
 CREATE TABLE public."T013Apoderados_Persona" (
     "T013IdApoderados_Persona" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
 	"T013Id_PersonaPoderdante" integer NOT NULL,
@@ -301,7 +298,6 @@ ALTER TABLE ONLY public."T013Apoderados_Persona"
         INCLUDE("T013Id_PersonaPoderdante", "T013Id_PersonaApoderada", "T013Id_Proceso", "T013consecDelProceso");
 
 
-
 CREATE TABLE public."T014HistoricoActivacion" (
 	"T014IdHistorico" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
 	"T014Id_UsuarioAfectado" integer NOT NULL,
@@ -313,12 +309,11 @@ CREATE TABLE public."T014HistoricoActivacion" (
 
 ALTER TABLE public."T014HistoricoActivacion" OWNER TO postgres;
 
-
 ALTER TABLE ONLY public."T014HistoricoActivacion"
     ADD CONSTRAINT "PK_T014HistoricoActivacion" PRIMARY KEY ("T014IdHistorico");
 
-
-
+@@TO OLIVER:  El ID_Persona no debe llevar ID IDENTITYU Aquí ya que ese viene de la tabla persona,
+el que debe llevar es el IdHistoDirección.
 CREATE TABLE public."T015HistoricoDirecciones" (
 	"T015IdHistoDireccion" integer NOT NULL,
 	"T015Id_Persona" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
@@ -335,7 +330,6 @@ ALTER TABLE ONLY public."T015HistoricoDirecciones"
     ADD CONSTRAINT "PK_T015HistoricoDirecciones" PRIMARY KEY ("T015IdHistoDireccion");
 
 
-
 CREATE TABLE public."T016HistoricoEmails" (
 	"T016IdHistoEmail" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
 	"T016Id_Persona" integer NOT NULL,
@@ -345,10 +339,8 @@ CREATE TABLE public."T016HistoricoEmails" (
 
 ALTER TABLE public."T016HistoricoEmails" OWNER TO postgres;
 
-
 ALTER TABLE ONLY public."T016HistoricoEmails"
     ADD CONSTRAINT "PK_T016HistoricoEmails" PRIMARY KEY ("T016IdHistoEmail");
-
 
 
 CREATE TABLE public."TzPermisos" (
@@ -361,6 +353,9 @@ ALTER TABLE public."TzPermisos" OWNER TO postgres;
 ALTER TABLE ONLY public."TzPermisos"
     ADD CONSTRAINT "PK_TzPermisos" PRIMARY KEY ("TzCodPermiso");
 
+ALTER TABLE ONLY public."TzPermisos"
+    ADD CONSTRAINT "TzPermisos_Tznombre_UNQ" UNIQUE ("Tznombre")
+        INCLUDE("Tznombre");
 
 
 CREATE TABLE public."TzModulos" (
@@ -390,12 +385,10 @@ ALTER TABLE public."TzPermisos_Modulo" OWNER TO postgres;
 
 ALTER TABLE ONLY public."TzPermisos_Modulo"
     ADD CONSTRAINT "PK_TzPermisos_Modulo" PRIMARY KEY ("TzIdPermisos_Modulo");
-    
-
+   
 ALTER TABLE ONLY public."TzPermisos_Modulo"
     ADD CONSTRAINT "TzPermisos_Modulo_TzId_Modulo_TzCod_Permiso_UNQ" UNIQUE ("TzId_Modulo", "TzCod_Permiso")
         INCLUDE("TzId_Modulo", "TzCod_Permiso");
-
 
 
 CREATE TABLE public."TzRoles" (
@@ -414,6 +407,7 @@ ALTER TABLE ONLY public."TzRoles"
     ADD CONSTRAINT "TzRoles_Tznombre_UNQ" UNIQUE ("Tznombre")
         INCLUDE("Tznombre");
 
+
 CREATE TABLE public."TzPermisos_Modulo_Rol" (
     "TzIdPermisos_Modulo_Rol" smallint GENERATED ALWAYS AS IDENTITY (START WITH 20 INCREMENT BY 1) NOT NULL,
     "TzId_Rol" smallint NOT NULL,
@@ -428,7 +422,6 @@ ALTER TABLE ONLY public."TzPermisos_Modulo_Rol"
 ALTER TABLE ONLY public."TzPermisos_Modulo_Rol"
     ADD CONSTRAINT "TzPermisos_Modulo_Rol_TzId_Rol_TzId_Permisos_Modulo_UNQ" UNIQUE ("TzId_Rol", "TzId_Permisos_Modulo")
         INCLUDE("TzId_Rol", "TzId_Permisos_Modulo");
-
 
 
 CREATE TABLE public."TzUsuarios" (
@@ -455,11 +448,12 @@ ALTER TABLE ONLY public."TzUsuarios"
     ADD CONSTRAINT "TzUsuarios_TznombreUsuario_UNQ" UNIQUE ("TznombreUsuario")
         INCLUDE("TznombreUsuario");
 
-ALTER TABLE ONLY public."TzUsuarios"
-    ADD CONSTRAINT "TzUsuarios_Tznombre_usuario_UNQ" UNIQUE ("Tznombre_usuario")
-        INCLUDE("Tznombre_usuario");
-        
 
+
+@@TO MIGUEL: En esta tabla, el campo TzIdUsuarios_Rol, debe ser integer, ya que si la tabla TzUSUARIOS tiene integer 
+es dado que pueden haber más de 32.768 usuarios (entre internos y externos), por lo cual también habrían en
+dicho caso como mínimo esa cantidad de Usuarios por Rol.  Hacer el cambio en el script y comentarle a BackEnd para que
+hagan el cambio en su ORM por fa.  A FrontEnd no hay necesidad de comentarle, ya que no le afectaría.
 CREATE TABLE public."TzUsuarios_Rol" (
     "TzIdUsuarios_Rol" smallint GENERATED ALWAYS AS IDENTITY (START WITH 10 INCREMENT BY 1) NOT NULL,
     "TzId_Rol" integer NOT NULL,
@@ -487,10 +481,8 @@ CREATE TABLE public."TzLogin" (
 
 ALTER TABLE public."TzLogin" OWNER TO postgres;
 
-
 ALTER TABLE ONLY public."TzLogin"
     ADD CONSTRAINT "PK_TzLogin" PRIMARY KEY ("TzIdLogin");
-
 
 
 CREATE TABLE public."TzLoginErroneo" (
@@ -507,6 +499,9 @@ ALTER TABLE public."TzLoginErroneo" OWNER TO postgres;
 ALTER TABLE ONLY public."TzLoginErroneo"
     ADD CONSTRAINT "PK_TzLoginErroneo" PRIMARY KEY ("TzIdLoginError");
 
+ALTER TABLE ONLY public."TzLoginErroneo"
+    ADD CONSTRAINT "TzLoginErroneo_TzId_Usuario_UNQ" UNIQUE ("TzId_Usuario")
+        INCLUDE("TzId_Usuario");
 
 
 CREATE TABLE public."TzUsuarioErroneo" (
@@ -523,7 +518,6 @@ ALTER TABLE ONLY public."TzUsuarioErroneo"
     ADD CONSTRAINT "PK_TzUsuarioErroneo" PRIMARY KEY ("TzIdUsuarioError");
 
 
-
 CREATE TABLE public."TzAuditorias" (
     "TzIdAuditoria" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
     "TzId_Usuario" integer,
@@ -538,15 +532,14 @@ CREATE TABLE public."TzAuditorias" (
 
 ALTER TABLE public."TzAuditorias" OWNER TO postgres;
 
-
 ALTER TABLE ONLY public."TzAuditorias"
     ADD CONSTRAINT "PK_TzAuditorias" PRIMARY KEY ("TzIdAuditoria");
 
 
 
---****************************************************************
--- LAS FOREIGN KEYS
---****************************************************************
+/****************************************************************
+ LAS FOREIGN KEYS
+****************************************************************/
 ALTER TABLE ONLY public."T001MunicipiosDepartamento"
     ADD CONSTRAINT "FK_T001MunicipiosDepartamento_T001Cod_Departamento" FOREIGN KEY ("T001Cod_Departamento") REFERENCES public."T002DepartamentosPais"("T002CodDepartamento");
 
@@ -594,7 +587,7 @@ ALTER TABLE ONLY public."T011ClasesTercero_Persona"
 
 
 ALTER TABLE ONLY public."T012SucursalesEmpresa"
-    ADD CONSTRAINT "FK_T012SucursalesEmpresa_T012Cod_MunicipioNotificacionNal" FOREIGN KEY ("T012Cod_MunicipioNotificacionNal") REFERENCES public."T001MunicipiosDepartamento"("T001CodMunicipio");
+    ADD CONSTRAINT "FK_T012SucursalesEmpresa_T012Id_PersonaEmpresa" FOREIGN KEY ("T012Id_PersonaEmpresa") REFERENCES public."T010Personas"("T010IdPersona");
 
 ALTER TABLE ONLY public."T012SucursalesEmpresa"
     ADD CONSTRAINT "FK_T012SucursalesEmpresa_T012Cod_MunicipioSucursalNal" FOREIGN KEY ("T012Cod_MunicipioSucursalNal") REFERENCES public."T001MunicipiosDepartamento"("T001CodMunicipio");
@@ -603,27 +596,30 @@ ALTER TABLE ONLY public."T012SucursalesEmpresa"
     ADD CONSTRAINT "FK_T012SucursalesEmpresa_T012Cod_PaisSucursalExterior" FOREIGN KEY ("T012Cod_PaisSucursalExterior") REFERENCES public."T003Paises"("T003CodPais");
 
 ALTER TABLE ONLY public."T012SucursalesEmpresa"
-    ADD CONSTRAINT "FK_T012SucursalesEmpresa_T012Id_PersonaEmpresa" FOREIGN KEY ("T012Id_PersonaEmpresa") REFERENCES public."T010Personas"("T010IdPersona");
+    ADD CONSTRAINT "FK_T012SucursalesEmpresa_T012Cod_MunicipioNotificacionNal" FOREIGN KEY ("T012Cod_MunicipioNotificacionNal") REFERENCES public."T001MunicipiosDepartamento"("T001CodMunicipio");
 
-
-ALTER TABLE ONLY public."T013Apoderados_Persona"
-    ADD CONSTRAINT "FK_T013Apoderados_Persona_T013Id_PersonaApoderada" FOREIGN KEY ("T013Id_PersonaApoderada") REFERENCES public."T010Personas"("T010IdPersona");
 
 ALTER TABLE ONLY public."T013Apoderados_Persona"
     ADD CONSTRAINT "FK_T013Apoderados_Persona_T013Id_PersonaPoderdante" FOREIGN KEY ("T013Id_PersonaPoderdante") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T013Apoderados_Persona"
+    ADD CONSTRAINT "FK_T013Apoderados_Persona_T013Id_PersonaApoderada" FOREIGN KEY ("T013Id_PersonaApoderada") REFERENCES public."T010Personas"("T010IdPersona");
 
 --NOTA: Falta la Foreign Key a la tabla de PROCESOS, dado que la tabla aún no está.
 
 
 ALTER TABLE ONLY public."T014HistoricoActivacion"
-    ADD CONSTRAINT "FK_T014HistoricoActivacion_T014Cod_Operacion" FOREIGN KEY ("T014Cod_Operacion") REFERENCES public."T008OperacionesSobreUsuario"("T008CodOperacion");
+    ADD CONSTRAINT "FK_T014HistoricoActivacion_T014Id_UsuarioAfectado" FOREIGN KEY ("T014Id_UsuarioAfectado") REFERENCES public."TzUsuarios"("TzIdUsuario");
 
 ALTER TABLE ONLY public."T014HistoricoActivacion"
-    ADD CONSTRAINT "FK_T014HistoricoActivacion_T014Id_UsuarioAfectado" FOREIGN KEY ("T014Id_UsuarioAfectado") REFERENCES public."TzUsuarios"("TzIdUsuario");
+    ADD CONSTRAINT "FK_T014HistoricoActivacion_T014Cod_Operacion" FOREIGN KEY ("T014Cod_Operacion") REFERENCES public."T008OperacionesSobreUsuario"("T008CodOperacion");
 
 ALTER TABLE ONLY public."T014HistoricoActivacion"
     ADD CONSTRAINT "FK_T014HistoricoActivacion_T014Id_UsuarioOperador" FOREIGN KEY ("T014Id_UsuarioOperador") REFERENCES public."TzUsuarios"("TzIdUsuario");
 
+
+ALTER TABLE ONLY public."T015HistoricoDirecciones"
+    ADD CONSTRAINT "FK_T015HistoricoDirecciones_T015Id_Persona" FOREIGN KEY ("T015Id_Persona") REFERENCES public."T010Personas"("T010IdPersona");
 
 ALTER TABLE ONLY public."T015HistoricoDirecciones"
     ADD CONSTRAINT "FK_T015HistoricoDirecciones_T015Cod_MunicipioEnCol" FOREIGN KEY ("T015Cod_MunicipioEnCol") REFERENCES public."T001MunicipiosDepartamento"("T001CodMunicipio");
@@ -631,22 +627,19 @@ ALTER TABLE ONLY public."T015HistoricoDirecciones"
 ALTER TABLE ONLY public."T015HistoricoDirecciones"
     ADD CONSTRAINT "FK_T015HistoricoDirecciones_T015Cod_PaisEnElExterior" FOREIGN KEY ("T015Cod_PaisEnElExterior") REFERENCES public."T003Paises"("T003CodPais");
 
-ALTER TABLE ONLY public."T015HistoricoDirecciones"
-    ADD CONSTRAINT "FK_T015HistoricoDirecciones_T015Id_Persona" FOREIGN KEY ("T015Id_Persona") REFERENCES public."T010Personas"("T010IdPersona");
-
 
 ALTER TABLE ONLY public."T016HistoricoEmails"
     ADD CONSTRAINT "FK_T016HistoricoEmails_T016Id_Persona" FOREIGN KEY ("T016Id_Persona") REFERENCES public."T010Personas"("T010IdPersona");
 
 
 ALTER TABLE ONLY public."TzAuditorias"
-    ADD CONSTRAINT "FK_TzAuditorias_TzCod_PermisoAccion" FOREIGN KEY ("TzCod_PermisoAccion") REFERENCES public."TzPermisos"("TzCodPermiso");
+    ADD CONSTRAINT "FK_TzAuditorias_TzId_Usuario" FOREIGN KEY ("TzId_Usuario") REFERENCES public."TzUsuarios"("TzIdUsuario");
 
 ALTER TABLE ONLY public."TzAuditorias"
     ADD CONSTRAINT "FK_TzAuditorias_TzId_Modulo" FOREIGN KEY ("TzId_Modulo") REFERENCES public."TzModulos"("TzIdModulo");
 
 ALTER TABLE ONLY public."TzAuditorias"
-    ADD CONSTRAINT "FK_TzAuditorias_TzId_Usuario" FOREIGN KEY ("TzId_Usuario") REFERENCES public."TzUsuarios"("TzIdUsuario");
+    ADD CONSTRAINT "FK_TzAuditorias_TzCod_PermisoAccion" FOREIGN KEY ("TzCod_PermisoAccion") REFERENCES public."TzPermisos"("TzCodPermiso");
 
 
 ALTER TABLE ONLY public."TzLogin"
@@ -657,21 +650,18 @@ ALTER TABLE ONLY public."TzLoginErroneo"
     ADD CONSTRAINT "FK_TzLoginErroneo_TzId_Usuario" FOREIGN KEY ("TzId_Usuario") REFERENCES public."TzUsuarios"("TzIdUsuario");
 
 
+ALTER TABLE ONLY public."TzPermisos_Modulo"
+    ADD CONSTRAINT "FK_TzPermisos_Modulo_TzId_Modulo" FOREIGN KEY ("TzId_Modulo") REFERENCES public."TzModulos"("TzIdModulo");
 
 ALTER TABLE ONLY public."TzPermisos_Modulo"
     ADD CONSTRAINT "FK_TzPermisos_Modulo_TzCod_Permiso" FOREIGN KEY ("TzCod_Permiso") REFERENCES public."TzPermisos"("TzCodPermiso");
 
-ALTER TABLE ONLY public."TzPermisos_Modulo"
-    ADD CONSTRAINT "FK_TzPermisos_Modulo_TzId_Modulo" FOREIGN KEY ("TzId_Modulo") REFERENCES public."TzModulos"("TzIdModulo");
-
-
-
-ALTER TABLE ONLY public."TzPermisos_Modulo_Rol"
-    ADD CONSTRAINT "FK_TzPermisos_Modulo_Rol_TzId_Permisos_Modulo" FOREIGN KEY ("TzId_Permisos_Modulo") REFERENCES public."TzPermisos_Modulo"("TzIdPermisos_Modulo");
 
 ALTER TABLE ONLY public."TzPermisos_Modulo_Rol"
     ADD CONSTRAINT "FK_TzPermisos_Modulo_Rol_TzId_Rol" FOREIGN KEY ("TzId_Rol") REFERENCES public."TzRoles"("TzIdRol");
 
+ALTER TABLE ONLY public."TzPermisos_Modulo_Rol"
+    ADD CONSTRAINT "FK_TzPermisos_Modulo_Rol_TzId_Permisos_Modulo" FOREIGN KEY ("TzId_Permisos_Modulo") REFERENCES public."TzPermisos_Modulo"("TzIdPermisos_Modulo");
 
 
 ALTER TABLE ONLY public."TzUsuarios"
@@ -688,9 +678,10 @@ ALTER TABLE ONLY public."TzUsuarios_Rol"
     ADD CONSTRAINT "FK_TzUsuarios_Rol_TzId_Usuario" FOREIGN KEY ("TzId_Usuario") REFERENCES public."TzUsuarios"("TzIdUsuario");
 
 
---****************************************************************
--- INSERCIÓN DE DATOS INICIALES.
---****************************************************************
+
+/****************************************************************
+    INSERCIÓN DE DATOS INICIALES.
+****************************************************************/
 -- PAÍSES.
 INSERT INTO public."T003Paises" ("T003CodPais", "T003nombre") VALUES ('AD', 'Andorra');
 INSERT INTO public."T003Paises" ("T003CodPais", "T003nombre") VALUES ('AE', 'Emiratos Árabes Unidos');
@@ -2275,7 +2266,8 @@ VALUES (1, 'SuperUsuario', 1, '***CambiarContrasegna***', 'n', 'n', 'n', '2022-1
 INSERT INTO public."TzUsuarios_Rol" ("TzIdUsuarios_Rol", "TzId_Rol", "TzId_Usuario") OVERRIDING SYSTEM VALUE VALUES (1, 1, 1);
 
 
---COMPLEMENTO MÓDULO AUDITORÍA
+--COMPLEMENTO MÓDULO AUDITORÍA. -- Con este registro se va a poder consultar el nombre del módulo
+--al que un usuario externo está modificando para efectos de que quede una auditoría de la acción.
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
 VALUES (9, 'Creación Persona Vía Portal', 'Permite crear una persona vía Portal','SEGU');
