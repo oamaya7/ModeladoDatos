@@ -83,6 +83,73 @@ INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "T
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (44, 16, 'EJ');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (45, 16, 'CO');
 
+
+--****************************************************************
+-- AGREGAR CONSTRAINTS A LAS TABLAS.
+--****************************************************************
+-- Agregar  CONSTRAINTS UNIQUE
+
+-- Tabla Estados articulos
+ALTER TABLE ONLY public."T051EstadosArticulo"
+    ADD CONSTRAINT "T051EstadosArticulo_T051nombre_UNQ" UNIQUE ("T051nombre")
+        INCLUDE("T051nombre");
+
+-- Tabla Marcas
+ALTER TABLE ONLY public."T052Marcas"
+    ADD CONSTRAINT "T052Marcas_T052nombre_UNQ" UNIQUE ("T052nombre")
+        INCLUDE("T052nombre");
+
+-- Tabla Porcentajes IVA
+ALTER TABLE ONLY public."T053PorcentajesIVA"
+    ADD CONSTRAINT "T053PorcentajesIVA_T053porcentaje_UNQ" UNIQUE ("T053porcentaje")
+        INCLUDE("T053porcentaje");
+
+-- Tabla Magnitudes
+ALTER TABLE ONLY public."T054Magnitudes"
+    ADD CONSTRAINT "T054Magnitudes_T054nombre_UNQ" UNIQUE ("T054nombre")
+        INCLUDE("T054nombre");
+
+-- Tabla Unidades de medida
+ALTER TABLE ONLY public."T055UnidadesMedida"
+    ADD CONSTRAINT "T055UnidadesMedida_T055nombre_UNQ" UNIQUE ("T055nombre")
+        INCLUDE("T055nombre");
+
+-- Tabla Bodegas
+ALTER TABLE ONLY public."T056Bodegas"
+    ADD CONSTRAINT "T056Bodegas_T056nombre_UNQ" UNIQUE ("T056nombre")
+        INCLUDE("T056nombre");
+
+-- Tabla Articulos
+ALTER TABLE ONLY public."T057Artículos"
+    ADD CONSTRAINT "T057Artículos_T057docIdentidad_UNQ" UNIQUE ("T057docIdentidad")
+        INCLUDE("T057docIdentidad");
+
+-- Tabla Tipos entrada
+ALTER TABLE ONLY public."T060TiposEntrada"
+    ADD CONSTRAINT "T060TiposEntrada_T060nombre_UNQ" UNIQUE ("T060nombre")
+        INCLUDE("T060nombre");
+
+-- Tabla Metodos valoracion activos
+ALTER TABLE ONLY public."T061MetodosValoracionActivos"
+    ADD CONSTRAINT "T061MetodosValoracionActivos_T061nombre_UNQ" UNIQUE ("T061nombre")
+        INCLUDE("T061nombre");
+
+-- Tabla Tipos depreciacion
+ALTER TABLE ONLY public."T062TiposDepreciacion"
+    ADD CONSTRAINT "T062TiposDepreciacion_T062nombre_UNQ" UNIQUE ("T062nombre")
+        INCLUDE("T062nombre");
+
+-- Tabla Hojas de vida
+ALTER TABLE ONLY public."T063TiposHojasDeVida"
+    ADD CONSTRAINT "T063TiposHojasDeVida_T063nombre_UNQ" UNIQUE ("T063nombre")
+        INCLUDE("T063nombre");
+
+-- Tabla Tipos articulos
+ALTER TABLE ONLY public."T064TiposArticulo"
+    ADD CONSTRAINT "T064TiposArticulo_T064nombre_UNQ" UNIQUE ("T064nombre")
+        INCLUDE("T064nombre");
+
+
 /****************************************************************
     INSERCIÓN DE DATOS INICIALES.
 ****************************************************************/
@@ -94,136 +161,3 @@ VALUES (4, 'Conductor');
 INSERT INTO public."T007ClasesTercero" ("T007IdClaseTercero", "T007nombre")
 OVERRIDING SYSTEM VALUE 
 VALUES (5, 'Conductor Externo');
-
-
-
---****************************************************************
--- AGREGAR CONSTRAINTS A LAS TABLAS.
---****************************************************************
--- Agregar  CONSTRAINTS UNIQUE
-
--- Tabla Estados articulos
-ALTER TABLE ONLY public."T051EstadosArticulo"
-    ADD CONSTRAINT "T051EstadosArticulo_T051nombre_UNQ" UNIQUE ("T051nombre")
-        INCLUDE("T051nombre");
-
--- Tabla Marcas
-ALTER TABLE ONLY public."T052Marcas"
-    ADD CONSTRAINT "T052Marcas_T052nombre_UNQ" UNIQUE ("T052nombre")
-        INCLUDE("T052nombre");
-
--- Tabla Porcentajes IVA
-ALTER TABLE ONLY public."T053PorcentajesIVA"
-    ADD CONSTRAINT "T053PorcentajesIVA_T053porcentaje_UNQ" UNIQUE ("T053porcentaje")
-        INCLUDE("T053porcentaje");
-
--- Tabla Magnitudes
-ALTER TABLE ONLY public."T054Magnitudes"
-    ADD CONSTRAINT "T054Magnitudes_T054nombre_UNQ" UNIQUE ("T054nombre")
-        INCLUDE("T054nombre");
-
--- Tabla Unidades de medida
-ALTER TABLE ONLY public."T055UnidadesMedida"
-    ADD CONSTRAINT "T055UnidadesMedida_T055nombre_UNQ" UNIQUE ("T055nombre")
-        INCLUDE("T055nombre");
-
--- Tabla Bodegas
-ALTER TABLE ONLY public."T056Bodegas"
-    ADD CONSTRAINT "T056Bodegas_T056nombre_UNQ" UNIQUE ("T056nombre")
-        INCLUDE("T056nombre");
-
--- Tabla Articulos
-ALTER TABLE ONLY public."T057Artículos"
-    ADD CONSTRAINT "T057Artículos_T057docIdentidad_UNQ" UNIQUE ("T057docIdentidad")
-        INCLUDE("T057docIdentidad");
-
--- Tabla Tipos entrada
-ALTER TABLE ONLY public."T060TiposEntrada"
-    ADD CONSTRAINT "T060TiposEntrada_T060nombre_UNQ" UNIQUE ("T060nombre")
-        INCLUDE("T060nombre");
-
--- Tabla Metodos valoracion activos
-ALTER TABLE ONLY public."T061MetodosValoracionActivos"
-    ADD CONSTRAINT "T061MetodosValoracionActivos_T061nombre_UNQ" UNIQUE ("T061nombre")
-        INCLUDE("T061nombre");
-
--- Tabla Tipos depreciacion
-ALTER TABLE ONLY public."T062TiposDepreciacion"
-    ADD CONSTRAINT "T062TiposDepreciacion_T062nombre_UNQ" UNIQUE ("T062nombre")
-        INCLUDE("T062nombre");
-
--- Tabla Hojas de vida
-ALTER TABLE ONLY public."T063TiposHojasDeVida"
-    ADD CONSTRAINT "T063TiposHojasDeVida_T063nombre_UNQ" UNIQUE ("T063nombre")
-        INCLUDE("T063nombre");
-
--- Tabla Tipos articulos
-ALTER TABLE ONLY public."T064TiposArticulo"
-    ADD CONSTRAINT "T064TiposArticulo_T064nombre_UNQ" UNIQUE ("T064nombre")
-        INCLUDE("T064nombre");
-
-
---****************************************************************
--- AGREGAR CONSTRAINTS A LAS TABLAS.
---****************************************************************
--- Agregar  CONSTRAINTS UNIQUE
-
--- Tabla Estados articulos
-ALTER TABLE ONLY public."T051EstadosArticulo"
-    ADD CONSTRAINT "T051EstadosArticulo_T051nombre_UNQ" UNIQUE ("T051nombre")
-        INCLUDE("T051nombre");
-
--- Tabla Marcas
-ALTER TABLE ONLY public."T052Marcas"
-    ADD CONSTRAINT "T052Marcas_T052nombre_UNQ" UNIQUE ("T052nombre")
-        INCLUDE("T052nombre");
-
--- Tabla Porcentajes IVA
-ALTER TABLE ONLY public."T053PorcentajesIVA"
-    ADD CONSTRAINT "T053PorcentajesIVA_T053porcentaje_UNQ" UNIQUE ("T053porcentaje")
-        INCLUDE("T053porcentaje");
-
--- Tabla Magnitudes
-ALTER TABLE ONLY public."T054Magnitudes"
-    ADD CONSTRAINT "T054Magnitudes_T054nombre_UNQ" UNIQUE ("T054nombre")
-        INCLUDE("T054nombre");
-
--- Tabla Unidades de medida
-ALTER TABLE ONLY public."T055UnidadesMedida"
-    ADD CONSTRAINT "T055UnidadesMedida_T055nombre_UNQ" UNIQUE ("T055nombre")
-        INCLUDE("T055nombre");
-
--- Tabla Bodegas
-ALTER TABLE ONLY public."T056Bodegas"
-    ADD CONSTRAINT "T056Bodegas_T056nombre_UNQ" UNIQUE ("T056nombre")
-        INCLUDE("T056nombre");
-
--- Tabla Articulos
-ALTER TABLE ONLY public."T057Artículos"
-    ADD CONSTRAINT "T057Artículos_T057docIdentidad_UNQ" UNIQUE ("T057docIdentidad")
-        INCLUDE("T057docIdentidad");
-
--- Tabla Tipos entrada
-ALTER TABLE ONLY public."T060TiposEntrada"
-    ADD CONSTRAINT "T060TiposEntrada_T060nombre_UNQ" UNIQUE ("T060nombre")
-        INCLUDE("T060nombre");
-
--- Tabla Metodos valoracion activos
-ALTER TABLE ONLY public."T061MetodosValoracionActivos"
-    ADD CONSTRAINT "T061MetodosValoracionActivos_T061nombre_UNQ" UNIQUE ("T061nombre")
-        INCLUDE("T061nombre");
-
--- Tabla Tipos depreciacion
-ALTER TABLE ONLY public."T062TiposDepreciacion"
-    ADD CONSTRAINT "T062TiposDepreciacion_T062nombre_UNQ" UNIQUE ("T062nombre")
-        INCLUDE("T062nombre");
-
--- Tabla Hojas de vida
-ALTER TABLE ONLY public."T063TiposHojasDeVida"
-    ADD CONSTRAINT "T063TiposHojasDeVida_T063nombre_UNQ" UNIQUE ("T063nombre")
-        INCLUDE("T063nombre");
-
--- Tabla Tipos articulos
-ALTER TABLE ONLY public."T064TiposArticulo"
-    ADD CONSTRAINT "T064TiposArticulo_T064nombre_UNQ" UNIQUE ("T064nombre")
-        INCLUDE("T064nombre");
