@@ -312,11 +312,10 @@ ALTER TABLE public."T014HistoricoActivacion" OWNER TO postgres;
 ALTER TABLE ONLY public."T014HistoricoActivacion"
     ADD CONSTRAINT "PK_T014HistoricoActivacion" PRIMARY KEY ("T014IdHistorico");
 
-@@TO OLIVER:  El ID_Persona no debe llevar ID IDENTITYU Aquí ya que ese viene de la tabla persona,
-el que debe llevar es el IdHistoDirección.
+
 CREATE TABLE public."T015HistoricoDirecciones" (
-	"T015IdHistoDireccion" integer NOT NULL,
-	"T015Id_Persona" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+	"T015IdHistoDireccion" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+	"T015Id_Persona" integer NOT NULL,
 	"T015direccion" character varying(255) NOT NULL,
     "T015Cod_MunicipioEnCol" character(5),
     "T015Cod_PaisEnElExterior" character(2),
