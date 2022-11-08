@@ -17,10 +17,16 @@ ALTER TABLE public."T051EstadosArticulo" OWNER TO postgres;
 ALTER TABLE ONLY public."T051EstadosArticulo"
     ADD CONSTRAINT "PK_T051EstadosArticulo" PRIMARY KEY ("T051Cod_Estado");
 
+ALTER TABLE ONLY public."T051EstadosArticulo"
+    ADD CONSTRAINT "T051EstadosArticulo_T051nombre_UNQ" UNIQUE ("T051nombre")
+        INCLUDE("T051nombre");
+
 
 CREATE TABLE public."T052Marcas" (
     "T052IdMarca" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
-    "T052nombre" character varying(50) NOT NULL
+    "T052nombre" character varying(50) NOT NULL,
+    "T052activo" boolean NOT NULL DEFAULT TRUE,
+    "T052itemYaUsado" boolean NOT NULL DEFAULT FALSE  
 );
 
 ALTER TABLE public."T052Marcas" OWNER TO postgres;
@@ -28,18 +34,27 @@ ALTER TABLE public."T052Marcas" OWNER TO postgres;
 ALTER TABLE ONLY public."T052Marcas"
     ADD CONSTRAINT "PK_T052Marcas" PRIMARY KEY ("T052IdMarca");
 
+ALTER TABLE ONLY public."T052Marcas"
+    ADD CONSTRAINT "T052Marcas_T052nombre_UNQ" UNIQUE ("T052nombre")
+        INCLUDE("T052nombre");
 
 CREATE TABLE public."T053PorcentajesIVA" (
     "T053IdPorcentajeIVA" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T053porcentaje" numeric(5,2) NOT NULL,
     "T053observacion" character varying(255),
-    "T053registroPrecargado" boolean NOT NULL
+    "T053registroPrecargado" boolean NOT NULL,
+    "T053activo" boolean NOT NULL DEFAULT TRUE,
+    "T053itemYaUsado" boolean NOT NULL DEFAULT FALSE    
 );
 
 ALTER TABLE public."T053PorcentajesIVA" OWNER TO postgres;
 
 ALTER TABLE ONLY public."T053PorcentajesIVA"
     ADD CONSTRAINT "PK_T053PorcentajesIVA" PRIMARY KEY ("T053IdPorcentajeIVA");
+
+ALTER TABLE ONLY public."T053PorcentajesIVA"
+    ADD CONSTRAINT "T053PorcentajesIVA_T053porcentaje_UNQ" UNIQUE ("T053porcentaje")
+        INCLUDE("T053porcentaje");
 
 
 CREATE TABLE public."T054Magnitudes" (
@@ -52,19 +67,28 @@ ALTER TABLE public."T054Magnitudes" OWNER TO postgres;
 ALTER TABLE ONLY public."T054Magnitudes"
     ADD CONSTRAINT "PK_T054Magnitudes" PRIMARY KEY ("T054IdMagnitud");
 
+ALTER TABLE ONLY public."T054Magnitudes"
+    ADD CONSTRAINT "T054Magnitudes_T054nombre_UNQ" UNIQUE ("T054nombre")
+        INCLUDE("T054nombre");
 
 CREATE TABLE public."T055UnidadesMedida" (
     "T055IdUnidadMedida" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T055nombre" character varying(50) NOT NULL,
     "T055abreviatura" character(5) NOT NULL,
     "T055Id_Magnitud" smallint NOT NULL,
-    "T055registroPrecargado" boolean NOT NULL
+    "T055registroPrecargado" boolean NOT NULL,
+    "T055activo" boolean NOT NULL DEFAULT TRUE,
+    "T055itemYaUsado" boolean NOT NULL DEFAULT FALSE    
 );
 
 ALTER TABLE public."T055UnidadesMedida" OWNER TO postgres;
 
 ALTER TABLE ONLY public."T055UnidadesMedida"
     ADD CONSTRAINT "PK_T055UnidadesMedida" PRIMARY KEY ("T055IdUnidadMedida");
+
+ALTER TABLE ONLY public."T055UnidadesMedida"
+    ADD CONSTRAINT "T055UnidadesMedida_T055nombre_UNQ" UNIQUE ("T055nombre")
+        INCLUDE("T055nombre");
 
 
 CREATE TABLE public."T056Bodegas" (
@@ -73,7 +97,9 @@ CREATE TABLE public."T056Bodegas" (
     "T056Cod_Municipio" character(5) NOT NULL,
     "T056direccion" character varying(255) NOT NULL,
     "T056Id_Responsable" integer NOT NULL,
-    "T056esPrincipal" boolean NOT NULL
+    "T056esPrincipal" boolean NOT NULL,
+    "T056activo" boolean NOT NULL DEFAULT TRUE,
+    "T056itemYaUsado" boolean NOT NULL DEFAULT FALSE    
 );
 
 ALTER TABLE public."T056Bodegas" OWNER TO postgres;
@@ -81,6 +107,13 @@ ALTER TABLE public."T056Bodegas" OWNER TO postgres;
 ALTER TABLE ONLY public."T056Bodegas"
     ADD CONSTRAINT "PK_T056Bodegas" PRIMARY KEY ("T056IdBodega");
 
+ALTER TABLE ONLY public."T056Bodegas"
+    ADD CONSTRAINT "T056Bodegas_T056nombre_UNQ" UNIQUE ("T056nombre")
+        INCLUDE("T056nombre");
+
+ALTER TABLE ONLY public."T055UnidadesMedida"
+    ADD CONSTRAINT "T055UnidadesMedida_T055Id_Magnitud_T055abreviatura_UNQ" UNIQUE ("T055Id_Magnitud", "T055abreviatura")
+        INCLUDE("T055Id_Magnitud", "T055abreviatura");
 
 --****************************************************************
 -- LAS FOREIGN KEYS

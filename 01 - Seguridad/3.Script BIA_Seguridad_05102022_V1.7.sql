@@ -127,7 +127,9 @@ ALTER TABLE ONLY public."T004Sexo"
 CREATE TABLE public."T005EstadoCivil" (
     "T005CodEstadoCivil" character(1) NOT NULL,
     "T005nombre" character varying(20) NOT NULL,
-    "T005registroPrecargado" boolean NOT NULL
+    "T005registroPrecargado" boolean NOT NULL,
+    "T005activo" boolean NOT NULL DEFAULT TRUE,
+    "T005itemYaUsado" boolean NOT NULL DEFAULT FALSE
 );
 
 ALTER TABLE public."T005EstadoCivil" OWNER TO postgres;
@@ -143,7 +145,9 @@ ALTER TABLE ONLY public."T005EstadoCivil"
 CREATE TABLE public."T006TiposDocumentoID" (
     "T006CodTipoDocumentoID" character(2) NOT NULL,
     "T006nombre" character varying(40) NOT NULL,
-    "T006registroPrecargado" boolean NOT NULL
+    "T006registroPrecargado" boolean NOT NULL,
+    "T006activo" boolean NOT NULL DEFAULT TRUE,
+    "T006itemYaUsado" boolean NOT NULL DEFAULT FALSE
 );
 
 ALTER TABLE public."T006TiposDocumentoID" OWNER TO postgres;
