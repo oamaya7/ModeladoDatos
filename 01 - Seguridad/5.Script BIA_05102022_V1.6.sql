@@ -50,6 +50,9 @@ ALTER TYPE public."eTipoUsuario" OWNER TO postgres;
 
 
 
+
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -454,7 +457,7 @@ es dado que pueden haber más de 32.768 usuarios (entre internos y externos), po
 dicho caso como mínimo esa cantidad de Usuarios por Rol.  Hacer el cambio en el script y comentarle a BackEnd para que
 hagan el cambio en su ORM por fa.  A FrontEnd no hay necesidad de comentarle, ya que no le afectaría.
 CREATE TABLE public."TzUsuarios_Rol" (
-    "TzIdUsuarios_Rol" smallint GENERATED ALWAYS AS IDENTITY (START WITH 10 INCREMENT BY 1) NOT NULL,
+    "TzIdUsuarios_Rol" integer GENERATED ALWAYS AS IDENTITY (START WITH 10 INCREMENT BY 1) NOT NULL,
     "TzId_Rol" integer NOT NULL,
     "TzId_Usuario" integer NOT NULL
 );
