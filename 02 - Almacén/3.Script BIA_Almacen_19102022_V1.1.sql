@@ -167,6 +167,49 @@ ALTER TABLE public."T065HojaDeVidaComputadores" OWNER TO postgres;
 ALTER TABLE ONLY public."T065HojaDeVidaComputadores"
     ADD CONSTRAINT "PK_T065HojaDeVidaComputadores" PRIMARY KEY ("T065IdHojaDeVida");
 
+CREATE TABLE public."T066HojaDeVidaVehiculo" (
+    "T066IdHojaDeVida" integer NOT NULL,
+    "T066Id_Articulo" integer NOT NULL,
+	"T066codTipoVehiculo" public."eTipoVehiculo",
+	"T066capacidadPasajeros" smallint,
+	"T066color" character varying(20),
+	"T066linea" character varying(20),
+	"T066tipoCombustible" public."eTipoCombustible",
+	"T066esArrendado" boolean,
+	"T066fechaAdquisicion" date,
+	"T066fechaVigenciaGarantia" date,
+	"T066numeroMotor" character varying(40),
+	"T066numeroChasis" character varying(40),
+	"T066cilindraje" smallint,
+	"T066transmision" character varying(20),
+	"T066dimensionLlantas" smallint,
+	"T066Id_Proveedor" integer,
+	"T066capacidadExtintor" smallint,
+	"T066tarjetaOperacion" character varying(20),
+	"T066observacionesAdicionales" character varying(255),
+	"T066rutaImagenFoto" character varying(255)
+);
+
+ALTER TABLE public."T066HojaDeVidaVehiculo" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T066HojaDeVidaVehiculo"
+    ADD CONSTRAINT "PK_T066HojaDeVidaVehiculo" PRIMARY KEY ("T066IdHojaDeVida");
+	
+
+CREATE TABLE public."T067HojaDeVidaOtrosActivos" (
+    "T067IdHojaDeVida" integer NOT NULL,
+    "T067Id_Articulo" integer NOT NULL,
+	"T067caracteristicas" text,
+	"T067especificacionesTecnicas" text,
+	"T067observacionesAdicionales" character varying(255),
+	"T067rutaImagenFoto" character varying(255)
+);
+
+ALTER TABLE public."T067HojaDeVidaOtrosActivos" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T067HojaDeVidaOtrosActivos"
+    ADD CONSTRAINT "PK_T067HojaDeVidaOtrosActivos" PRIMARY KEY ("T067IdHojaDeVida");
+
 --****************************************************************
 -- LAS FOREIGN KEYS
 --****************************************************************
@@ -227,9 +270,14 @@ INSERT INTO public."T055UnidadesMedida" ("T055IdUnidadMedida", "T055nombre", "T0
 INSERT INTO public."T055UnidadesMedida" ("T055IdUnidadMedida", "T055nombre", "T055abreviatura", "T055Id_Magnitud", "T055registroPrecargado") OVERRIDING SYSTEM VALUE VALUES (17, 'docena', 'doc', 3, true);
 INSERT INTO public."T055UnidadesMedida" ("T055IdUnidadMedida", "T055nombre", "T055abreviatura", "T055Id_Magnitud", "T055registroPrecargado") OVERRIDING SYSTEM VALUE VALUES (18, 'millar', 'mill', 3, true);
 
+-- CLASES DE TERCERO
+INSERT INTO public."T007ClasesTercero" ("T007IdClaseTercero", "T007nombre")
+OVERRIDING SYSTEM VALUE 
+VALUES (4, 'Aseguradora');
+
 
 -- PERMISOS
-INSERT INTO public."TzPermisos" ("TzCodPermiso", "Tznombre") VALUES ('CA', 'Cancelar');
+INSERT INTO public."TzPermisos" ("TzCodPermiso", "Tznombre") VALUES ('AN', 'Anular');
 
 -- MÓDULOS
 -- Marcas.
@@ -325,19 +373,19 @@ INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "T
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (51, 18, 'AC');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (52, 18, 'BO');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (53, 18, 'CR');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (54, 18, 'CA');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (54, 18, 'AN');
 -- Módulo de Programación de Mantenimiento de Vehículos
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (55, 19, 'CO');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (56, 19, 'AC');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (57, 19, 'BO');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (58, 19, 'CR');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (59, 19, 'CA');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (59, 19, 'AN');
 -- Módulo de Programación de Mantenimiento de Otros activos
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (60, 20, 'CO');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (61, 20, 'AC');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (62, 20, 'BO');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (63, 20, 'CR');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (64, 20, 'CA');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (64, 20, 'AN');
 -- Módulo de Ejecución de Mantenimiento de Computadores
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (65, 21, 'CR');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (66, 21, 'AC');
