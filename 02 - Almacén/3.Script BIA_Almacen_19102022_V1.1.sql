@@ -285,6 +285,27 @@ ALTER TABLE ONLY public."T056Bodegas"
 ALTER TABLE ONLY public."T056Bodegas"
     ADD CONSTRAINT "FK_T056Bodegas_T056Id_Responsable" FOREIGN KEY ("T056Id_Responsable") REFERENCES public."T010Personas"("T010IdPersona");
 
+ALTER TABLE ONLY public."T066HojaDeVidaVehiculos"
+    ADD CONSTRAINT "FK_T066HojaDeVidaVehiculos_T066Id_Proveedor" FOREIGN KEY ("T066Id_Proveedor") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T068DocumentosVehiculo"
+    ADD CONSTRAINT "FK_T068DocumentosVehiculo_T068Id_EmpresaProveedora" FOREIGN KEY ("T068Id_EmpresaProveedora") REFERENCES public."T010Personas"("T010IdPersona");
+	
+ALTER TABLE ONLY public."T069ProgramacionMantenimiento"
+    ADD CONSTRAINT "FK_T069ProgramacionMantenimiento_T069Id_PersonaSolicita" FOREIGN KEY ("T069Id_PersonaSolicita") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T069ProgramacionMantenimiento"
+    ADD CONSTRAINT "FK_T069ProgramacionMantenimiento_T069Id_PersonaAnula" FOREIGN KEY ("T069Id_PersonaAnula") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T070RegistroMantenimiento"
+    ADD CONSTRAINT "FK_T070RegistroMantenimiento_T070Id_ProgramacionMtto" FOREIGN KEY ("T070Id_ProgramacionMtto") REFERENCES public."T069ProgramacionMantenimiento"("T069IdProgramacionMtto");
+
+ALTER TABLE ONLY public."T070RegistroMantenimiento"
+    ADD CONSTRAINT "FK_T070RegistroMantenimiento_T070Id_PersonaRealiza" FOREIGN KEY ("T070Id_PersonaRealiza") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T070RegistroMantenimiento"
+    ADD CONSTRAINT "FK_T070RegistroMantenimiento_T070Id_PersonaDiligencia" FOREIGN KEY ("T070Id_PersonaDiligencia") REFERENCES public."T010Personas"("T010IdPersona");
+
 
 
 --****************************************************************
