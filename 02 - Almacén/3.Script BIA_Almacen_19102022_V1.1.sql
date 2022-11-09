@@ -210,6 +210,21 @@ ALTER TABLE public."T067HojaDeVidaOtrosActivos" OWNER TO postgres;
 ALTER TABLE ONLY public."T067HojaDeVidaOtrosActivos"
     ADD CONSTRAINT "PK_T067HojaDeVidaOtrosActivos" PRIMARY KEY ("T067IdHojaDeVida");
 
+CREATE TABLE public."T068DocumentosVehiculo" (
+    "T068IdDocumentosVehiculo" integer NOT NULL,
+    "T068Id_Articulo" integer NOT NULL,
+	"T068Id_TipoDocumento" smallint NOT NULL, 
+	"T068nroDocumento" character varying(50),
+	"T068fechaExpedicion" date,
+	"T068fechaExpiracion" date,
+	"T068Id_EmpresaProveedora" smallint
+);
+
+ALTER TABLE public."T068DocumentosVehiculo" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T068DocumentosVehiculo"
+    ADD CONSTRAINT "PK_T068DocumentosVehiculo" PRIMARY KEY ("T068IdDocumentosVehiculo");
+
 --****************************************************************
 -- LAS FOREIGN KEYS
 --****************************************************************
