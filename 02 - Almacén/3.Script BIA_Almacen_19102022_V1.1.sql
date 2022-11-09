@@ -14,6 +14,7 @@ CREATE TYPE public."eTipoVehiculo" AS ENUM (
 
 ALTER TYPE public."eTipoVehiculo" OWNER TO postgres;
 
+
 CREATE TYPE public."eTipoCombustible" AS ENUM (
     'GAS',
     'DIE',
@@ -22,6 +23,14 @@ CREATE TYPE public."eTipoCombustible" AS ENUM (
 );
 
 ALTER TYPE public."eTipoCombustible" OWNER TO postgres;
+
+
+CREATE TYPE public."eTipoMantenimiento" AS ENUM (
+    'P',
+    'C'
+);
+
+ALTER TYPE public."eTipoMantenimiento" OWNER TO postgres;
 
 
 --****************************************************************
@@ -167,7 +176,7 @@ ALTER TABLE public."T065HojaDeVidaComputadores" OWNER TO postgres;
 ALTER TABLE ONLY public."T065HojaDeVidaComputadores"
     ADD CONSTRAINT "PK_T065HojaDeVidaComputadores" PRIMARY KEY ("T065IdHojaDeVida");
 
-CREATE TABLE public."T066HojaDeVidaVehiculo" (
+CREATE TABLE public."T066HojaDeVidaVehiculos" (
     "T066IdHojaDeVida" integer NOT NULL,
     "T066Id_Articulo" integer NOT NULL,
 	"T066codTipoVehiculo" public."eTipoVehiculo",
@@ -190,10 +199,10 @@ CREATE TABLE public."T066HojaDeVidaVehiculo" (
 	"T066rutaImagenFoto" character varying(255)
 );
 
-ALTER TABLE public."T066HojaDeVidaVehiculo" OWNER TO postgres;
+ALTER TABLE public."T066HojaDeVidaVehiculos" OWNER TO postgres;
 
-ALTER TABLE ONLY public."T066HojaDeVidaVehiculo"
-    ADD CONSTRAINT "PK_T066HojaDeVidaVehiculo" PRIMARY KEY ("T066IdHojaDeVida");
+ALTER TABLE ONLY public."T066HojaDeVidaVehiculos"
+    ADD CONSTRAINT "PK_T066HojaDeVidaVehiculos" PRIMARY KEY ("T066IdHojaDeVida");
 	
 
 CREATE TABLE public."T067HojaDeVidaOtrosActivos" (
@@ -224,6 +233,45 @@ ALTER TABLE public."T068DocumentosVehiculo" OWNER TO postgres;
 
 ALTER TABLE ONLY public."T068DocumentosVehiculo"
     ADD CONSTRAINT "PK_T068DocumentosVehiculo" PRIMARY KEY ("T068IdDocumentosVehiculo");
+
+CREATE TABLE public."T069ProgramacionMantenimiento" (
+    "T069IdProgramacionMtto" integer NOT NULL,
+    "T069codTipoMantenimiento" public."eTipoMantenimiento" NOT NULL,
+	"T069fechaGenerada" date NOT NULL, 
+	"T069fechaProgramada" date NOT NULL,
+	"T069mantenimientoARealizar" text NOT NULL,
+	"T069observaciones" character varying(255) NOT NULL,
+	"T069Id_PersonaSolicita" integer,
+	"T069fechaSolicitud" date,
+	"T069fechaAnulacion" timestamp with time zone,
+	"T069justificacionAnulacion" character varying(255),
+	"T069Id_PersonaAnula" integer
+);
+
+ALTER TABLE public."T069ProgramacionMantenimiento" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T069ProgramacionMantenimiento"
+    ADD CONSTRAINT "PK_T069ProgramacionMantenimiento" PRIMARY KEY ("T069IdProgramacionMtto");
+
+CREATE TABLE public."T070RegistroMantenimiento" (
+    "T070IdRegistroMtto" integer NOT NULL,
+    "T070Id_Articulo" public."eTipoMantenimiento" NOT NULL,
+	"T070codTipoMantenimiento" public."eTipoMantenimiento" NOT NULL, 
+	"T070accionesRealizadas" text NOT NULL,
+	"T070diasEmpleados" smallint,
+	"T070observaciones" character varying(255),
+	"T070Cod_EstadoFinal" character(1),
+	"T070Id_ProgramacionMtto" integer,
+	"T070Id_PersonaRealiza" integer NOT NULL,
+	"T070Id_PersonaDiligencia" integer NOT NULL,
+	"T070valorMantenimiento" integer,
+	"T070contratoMantenimiento" character varying(20)
+);
+
+ALTER TABLE public."T070RegistroMantenimiento" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T070RegistroMantenimiento"
+    ADD CONSTRAINT "PK_T070RegistroMantenimiento" PRIMARY KEY ("T070IdRegistroMtto");
 
 --****************************************************************
 -- LAS FOREIGN KEYS
