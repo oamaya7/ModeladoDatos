@@ -508,3 +508,81 @@ ALTER TABLE ONLY public."T070RegistroMantenimiento"
 /************************************************************************************
 FINNNNNNNNNNNNNNNNNN    SECCIÓN OLIVER - HOJAS DE VIDA / MANTENIMIENTOS
 /************************************************************************************
+
+
+
+/************************************************************************************
+    SECCIÓN Miguel Guevara - VEHICULOS_ARRENDADOS / ASIGNACIÓN_VEHICULOCONDUCTOR / 
+*************************************************************************************/
+
+CREATE TABLE public."T071VehiculosArrendados" (
+    "T071IdVehiculoArrendado" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T071nombre" character varying(50) NOT NULL,
+    "T071descripcion" character varying(255) NOT NULL,
+    "T071docIdentidad" character varying(50),
+    "T071id_Marca" smallint NOT NULL,
+    "T071fechaInicio" timestamp with time zone NOT NULL,
+    "T071fechaFin" timestamp with time zone NOT NULL,
+    "T071empresaContratista" character varying(50) NOT NULL,
+    "T071tieneHojaDeVida" boolean NOT NULL
+);
+
+
+ALTER TABLE public."T071VehiculosArrendados" OWNER TO postgres;
+
+
+CREATE TABLE public."T072Conductores_VehiculosAgendables" (
+    "T072IdConductorVehiculo" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T072id_HojaDeVidaVehiculo" integer NOT NULL,
+    "T072id_PersonaConductor" integer NOT NULL,
+    "T072fechaIniciaAsignacion" timestamp with time zone NOT NULL,
+    "T072id_PersonaQueAsigna" integer NOT NULL,
+    "T072fechaFinalizaAsignacion" timestamp with time zone NOT NULL,
+    "T072id_PersonaActualizacionFinal" integer
+);
+
+
+ALTER TABLE public."T072Conductores_VehiculosAgendables" OWNER TO postgres;
+
+/*----------PRIMARY KEYS------------*/
+
+ALTER TABLE ONLY public."T071VehiculosArrendados"
+    ADD CONSTRAINT "PK_T071VehiculosArrendados" PRIMARY KEY ("T071IdVehiculoArrendado");
+
+
+ALTER TABLE ONLY public."T072Conductores_VehiculosAgendables"
+    ADD CONSTRAINT "PK_T072IdConductorVehiculo" PRIMARY KEY ("T072IdConductorVehiculo");
+
+
+/*-----------FOREIGNS KEYS----------*/
+
+
+ALTER TABLE ONLY public."T071VehiculosArrendados"
+    ADD CONSTRAINT "FK_T071VehiculosArrendados_T071id_Marca" FOREIGN KEY ("T071id_Marca") REFERENCES public."T052Marcas"("T052IdMarca") NOT VALID;
+
+
+
+ALTER TABLE ONLY public."T072Conductores_VehiculosAgendables"
+    ADD CONSTRAINT "FK_T072Conductores_VehiculosAgen_T072id_PersonaActualizacionF" FOREIGN KEY ("T072id_PersonaActualizacionFinal") REFERENCES public."T010Personas"("T010IdPersona") NOT VALID;
+
+
+
+ALTER TABLE ONLY public."T072Conductores_VehiculosAgendables"
+    ADD CONSTRAINT "FK_T072Conductores_VehiculosAgendable_T072id_PersonaConductor" FOREIGN KEY ("T072id_PersonaConductor") REFERENCES public."T010Personas"("T010IdPersona") NOT VALID;
+
+
+
+ALTER TABLE ONLY public."T072Conductores_VehiculosAgendables"
+    ADD CONSTRAINT "FK_T072Conductores_VehiculosAgendable_T072id_PersonaQueAsigna" FOREIGN KEY ("T072id_PersonaQueAsigna") REFERENCES public."T010Personas"("T010IdPersona") NOT VALID;
+
+/* --Desmarcar cuando se integre la tabla de Oliver de Hoja de Vida Vehículos--
+
+ALTER TABLE ONLY public."T072Conductores_VehiculosAgendables"
+    ADD CONSTRAINT "FK_T072Conductores_VehiculosAgendable_T072id_HojaDeVidaVehiculo" FOREIGN KEY ("T072id_HojaDeVidaVehiculo") REFERENCES public."T066HojaDeVidaVehiculo"("T066IdHojaDeVida") NOT VALID;
+
+*/
+
+
+/************************************************************************************
+FIN    SECCIÓN Miguel Guevara - VEHICULOS_ARRENDADOS / ASIGNACIÓN_VEHICULOCONDUCTOR / 
+/************************************************************************************
