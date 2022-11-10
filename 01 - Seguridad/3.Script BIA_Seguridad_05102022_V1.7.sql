@@ -2136,38 +2136,81 @@ INSERT INTO public."TzPermisos" ("TzCodPermiso", "Tznombre") VALUES ('AP', 'Apro
 
 
 -- MODULOS
--- Módulo para administrar los registros de Personas del sistema, todos sus atributos completos, siempre que sean modificables.
+-- Módulo "Personas": módulo para administrar los registros de Personas del sistema, todos sus atributos completos, siempre que sean modificables.
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
 VALUES (1, 'Personas', 'Permite administrar las personas del sistema','TRSV');
--- Módulo para administrar los datos completos de los usuarios.
+-- Módulo "Usuarios": módulo para administrar los datos completos de los usuarios.
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE 
 VALUES (2, 'Usuarios', 'Permite administrar los usuarios del sistema','SEGU');
--- Módulo para que un usuario INTERNO actualice los datos que se permiten "actualizar" por cuenta del mismo usuario, tanto los de usuario como algunos datos Personales (sólo los que se deba permitir actualizar).
+-- Módulo "Administración de Datos Cuenta Usuario Interno": módulo para que un usuario INTERNO actualice los datos que se permiten "actualizar" por cuenta del mismo usuario, tanto los de usuario como algunos datos Personales (sólo los que se deba permitir actualizar).
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
 VALUES (3, 'Administración de Datos Cuenta Usuario Interno', 'Permite administrar a una persona que tiene un usuario interno, los datos de su usuario y datos personales desde el sistema - Sólo para usuarios internos','SEGU');
--- Módulo para que un usuario EXTERNO actualice los datos que se permiten "actualizar" por cuenta del mismo usuario, tanto los de usuario como algunos datos Personales (sólo los que se deba permitir actualizar).
+-- Módulo "Administración de Datos Cuenta Usuario Externo": módulo para que un usuario EXTERNO actualice los datos que se permiten "actualizar" por cuenta del mismo usuario, tanto los de usuario como algunos datos Personales (sólo los que se deba permitir actualizar).
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
 VALUES (4, 'Administración de Datos Cuenta Usuario Externo', 'Permite administrar a una persona que tiene un usuario externo, los datos de su usuario y datos personales desde el portal web - Sólo para usuarios externos','SEGU');
--- Roles
+-- Módulo "Roles"
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
 VALUES (5, 'Roles', 'Permite administrar los roles del sistema','SEGU');
--- Estado Civil
+-- Módulo "Estado Civil"
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
 VALUES (6, 'Estado Civil', 'Permite administrar la información básica de los Estados Civiles del sistema','TRSV');
--- Tipos de Documento de ID
+-- Módulo "Tipos de Documento de ID"
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
 VALUES (7, 'Tipos de Documentos de ID', 'Permite administrar los tipos de documentos de identificación','TRSV');
--- Proceso de Delegación de Rol SuperUsuario
+-- Módulo Proceso DE "Delegación del Rol SuperUsuario"
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
 VALUES (8, 'Delegación del Rol de SuperUsuario', 'Proceso que permite a un SuperUsuario delegar dicha función a otra persona','SEGU');
+
+--COMPLEMENTO MÓDULO AUDITORÍA. -- Con este registro se va a poder consultar el nombre del módulo
+--al que un usuario externo está modificando (creándose como persona) para efectos de que quede una auditoría de la acción.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (9, 'Creación Persona Vía Portal', 'Permite crear una persona vía Portal','SEGU');
+--COMPLEMENTO MÓDULO AUDITORÍA. -- Con este registro se va a poder consultar el nombre del módulo
+--al que un usuario externo está modificando (creándose como usuario) para efectos de que quede una auditoría de la acción.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (10, 'Creación Usuario Vía Portal', 'Permite crear un usuario vía Portal','SEGU');
+
+-- Módulo "Marcas".
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (11, 'Marcas', 'Permite administrar la información básica de las Marcas de artículos activos fijos','ALMA');
+-- Módulo "Bodegas".
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (12, 'Bodegas', 'Permite administrar las bodegas del Almacén creadas en el sistema','ALMA');
+-- Módulo "Porcentajes de IVA".
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (13, 'Porcentajes de IVA', 'Permite administrar la información básica de los porcentajes de IVA que manejará el sistema','ALMA');
+-- Módulo "Unidades de Medida".
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (14, 'Unidades de Medida', 'Permite administrar la información básica de las unidades de medida que manejará el sistema','ALMA');
+
+-- Módulo "Organigramas": módulo para administrar los ORGANIGRAMAS del sistema, implica organigrama, sus niveles y sus unidades organizacionales.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (15, 'Organigramas', 'Permite administrar los organigramas del sistema','TRSV');
+-- Módulo "Cambio de Organigrama Actual": módulo para cambiar de ORGANIGRAMA vigente de la entidad en el sistema.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (16, 'Cambio de Organigrama Actual', 'Permite adoptar un nuevo organigrama de la entidad en el sistema','TRSV');
+-- Módulo "Cargos": módulo para administrar los CARGOS del sistema. 
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (17, 'Cargos', 'Permite administrar los cargos disponibles en el sistema','TRSV');
+
+
 
 
 -- PERMISOS POR MODULO
@@ -2203,6 +2246,44 @@ INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "T
 -- Módulo CAMBIO DE ROL DE SUPERUSUARIO
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (23, 8, 'CO');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (24, 8, 'EJ');
+
+-- Módulo MARCAS
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (25, 11, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (26, 11, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (27, 11, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (28, 11, 'BO');
+-- Módulo BODEGAS
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (29, 12, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (30, 12, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (31, 12, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (32, 12, 'BO');
+-- Módulo PORCENTAJES IVA
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (33, 13, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (34, 13, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (35, 13, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (36, 13, 'BO');
+-- Módulo UNIDADES DE MEDIDA
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (37, 14, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (38, 14, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (39, 14, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (40, 14, 'BO');
+
+-- Módulo ORGANIGRAMAS
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (41, 15, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (42, 15, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (43, 15, 'CO');
+-- Módulo CAMBIO DE ORGANIGRAMA
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (44, 16, 'EJ');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (45, 16, 'CO');
+-- Módulo CARGOS
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (46, 17, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (47, 17, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (48, 17, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (49, 17, 'BO');
+
+
+
+
 
 
 -- ROLES
@@ -2264,14 +2345,3 @@ VALUES (1, 'SuperUsuario', 1, '***CambiarContrasegna***', 'n', 'n', 'n', '2022-1
 -- USUARIOS POR ROL
 -- Se agrega al usuario nuevo el ROL de "Rol SuperUsuario".
 INSERT INTO public."TzUsuarios_Rol" ("TzIdUsuarios_Rol", "TzId_Rol", "TzId_Usuario") OVERRIDING SYSTEM VALUE VALUES (1, 1, 1);
-
-
---COMPLEMENTO MÓDULO AUDITORÍA. -- Con este registro se va a poder consultar el nombre del módulo
---al que un usuario externo está modificando para efectos de que quede una auditoría de la acción.
-INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
-OVERRIDING SYSTEM VALUE
-VALUES (9, 'Creación Persona Vía Portal', 'Permite crear una persona vía Portal','SEGU');
-
-INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
-OVERRIDING SYSTEM VALUE
-VALUES (10, 'Creación Usuario Vía Portal', 'Permite crear un usuario vía Portal','SEGU');
