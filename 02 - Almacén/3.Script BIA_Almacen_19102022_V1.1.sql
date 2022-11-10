@@ -517,7 +517,7 @@ CREATE TABLE public."T071VehiculosArrendados" (
     "T071nombre" character varying(50) NOT NULL,
     "T071descripcion" character varying(255) NOT NULL,
     "T071docIdentidad" character varying(50),
-    "T071id_Marca" smallint NOT NULL,
+    "T071Id_Marca" smallint NOT NULL,
     "T071fechaInicio" timestamp with time zone NOT NULL,
     "T071fechaFin" timestamp with time zone NOT NULL,
     "T071empresaContratista" character varying(50) NOT NULL,
@@ -530,12 +530,12 @@ ALTER TABLE public."T071VehiculosArrendados" OWNER TO postgres;
 
 CREATE TABLE public."T072Conductores_VehiculosAgendables" (
     "T072IdConductorVehiculo" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
-    "T072id_HojaDeVidaVehiculo" integer NOT NULL,
-    "T072id_PersonaConductor" integer NOT NULL,
+    "T072Id_HojaDeVidaVehiculo" integer NOT NULL,
+    "T072Id_PersonaConductor" integer NOT NULL,
     "T072fechaIniciaAsignacion" timestamp with time zone NOT NULL,
-    "T072id_PersonaQueAsigna" integer NOT NULL,
+    "T072Id_PersonaQueAsigna" integer NOT NULL,
     "T072fechaFinalizaAsignacion" timestamp with time zone NOT NULL,
-    "T072id_PersonaActualizacionFinal" integer
+    "T072Id_PersonaActualizacionFinal" integer
 );
 
 
@@ -555,29 +555,26 @@ ALTER TABLE ONLY public."T072Conductores_VehiculosAgendables"
 
 
 ALTER TABLE ONLY public."T071VehiculosArrendados"
-    ADD CONSTRAINT "FK_T071VehiculosArrendados_T071id_Marca" FOREIGN KEY ("T071id_Marca") REFERENCES public."T052Marcas"("T052IdMarca") NOT VALID;
+    ADD CONSTRAINT "FK_T071VehiculosArrendados_T071Id_Marca" FOREIGN KEY ("T071Id_Marca") REFERENCES public."T052Marcas"("T052IdMarca") NOT VALID;
 
 
 
 ALTER TABLE ONLY public."T072Conductores_VehiculosAgendables"
-    ADD CONSTRAINT "FK_T072Conductores_VehiculosAgen_T072id_PersonaActualizacionF" FOREIGN KEY ("T072id_PersonaActualizacionFinal") REFERENCES public."T010Personas"("T010IdPersona") NOT VALID;
+    ADD CONSTRAINT "FK_T072Conductores_VehiculosAgen_T072Id_PersonaActualizacionF" FOREIGN KEY ("T072Id_PersonaActualizacionFinal") REFERENCES public."T010Personas"("T010IdPersona") NOT VALID;
 
 
 
 ALTER TABLE ONLY public."T072Conductores_VehiculosAgendables"
-    ADD CONSTRAINT "FK_T072Conductores_VehiculosAgendable_T072id_PersonaConductor" FOREIGN KEY ("T072id_PersonaConductor") REFERENCES public."T010Personas"("T010IdPersona") NOT VALID;
+    ADD CONSTRAINT "FK_T072Conductores_VehiculosAgendable_T072Id_PersonaConductor" FOREIGN KEY ("T072Id_PersonaConductor") REFERENCES public."T010Personas"("T010IdPersona") NOT VALID;
 
 
 
 ALTER TABLE ONLY public."T072Conductores_VehiculosAgendables"
-    ADD CONSTRAINT "FK_T072Conductores_VehiculosAgendable_T072id_PersonaQueAsigna" FOREIGN KEY ("T072id_PersonaQueAsigna") REFERENCES public."T010Personas"("T010IdPersona") NOT VALID;
+    ADD CONSTRAINT "FK_T072Conductores_VehiculosAgendable_T072Id_PersonaQueAsigna" FOREIGN KEY ("T072Id_PersonaQueAsigna") REFERENCES public."T010Personas"("T010IdPersona") NOT VALID;
 
-/* --Desmarcar cuando se integre la tabla de Oliver de Hoja de Vida Vehículos--
 
 ALTER TABLE ONLY public."T072Conductores_VehiculosAgendables"
-    ADD CONSTRAINT "FK_T072Conductores_VehiculosAgendable_T072id_HojaDeVidaVehiculo" FOREIGN KEY ("T072id_HojaDeVidaVehiculo") REFERENCES public."T066HojaDeVidaVehiculo"("T066IdHojaDeVida") NOT VALID;
-
-*/
+    ADD CONSTRAINT "FK_T072Conductores_VehiculosAgendable_T072Id_HojaDeVidaVehiculo" FOREIGN KEY ("T072Id_HojaDeVidaVehiculo") REFERENCES public."T066HojaDeVidaVehiculo"("T066IdHojaDeVida") NOT VALID;
 
 
 /************************************************************************************
