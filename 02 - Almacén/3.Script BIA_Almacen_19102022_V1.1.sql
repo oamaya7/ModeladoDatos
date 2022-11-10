@@ -179,6 +179,7 @@ ALTER TABLE ONLY public."T065HojaDeVidaComputadores"
 CREATE TABLE public."T066HojaDeVidaVehiculos" (
     "T066IdHojaDeVida" integer NOT NULL,
     "T066Id_Articulo" integer NOT NULL,
+    "T066Id_VehiculoArrendado" smallint,
 	"T066codTipoVehiculo" public."eTipoVehiculo",
 	"T066capacidadPasajeros" smallint,
 	"T066color" character varying(20),
@@ -196,7 +197,10 @@ CREATE TABLE public."T066HojaDeVidaVehiculos" (
 	"T066capacidadExtintor" smallint,
 	"T066tarjetaOperacion" character varying(20),
 	"T066observacionesAdicionales" character varying(255),
-	"T066rutaImagenFoto" character varying(255)
+	"T066rutaImagenFoto" character varying(255),
+	"T066esAgendable" boolean,
+	"T066enCirculacion" boolean,
+	"T066fechaCirculacion" date
 );
 
 ALTER TABLE public."T066HojaDeVidaVehiculos" OWNER TO postgres;
