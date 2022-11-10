@@ -475,6 +475,9 @@ ALTER TABLE ONLY public."T070RegistroMantenimiento"
 ALTER TABLE ONLY public."T070RegistroMantenimiento"
     ADD CONSTRAINT "FK_T070RegistroMantenimiento_T070Id_PersonaDiligencia" FOREIGN KEY ("T070Id_PersonaDiligencia") REFERENCES public."T010Personas"("T010IdPersona");
 
+ALTER TABLE ONLY public."T066HojaDeVidaVehiculos"
+    ADD CONSTRAINT "FK_T066HojaDeVidaVehiculos_T066Id_VehiculoArrendado" FOREIGN KEY ("T066Id_VehiculoArrendado") REFERENCES public."T071VehiculosArrendados"("T071IdVehiculoArrendado");
+
 
 --****************************************************************
 -- FOREIGN KEYS QUE NO SE INCLUYEN AÚN PORQUE NO SE HAN CREADO LAS TABLAS DE LAS CUALES SE HACE REFERENCIA
@@ -483,10 +486,7 @@ ALTER TABLE ONLY public."T070RegistroMantenimiento"
 --     ADD CONSTRAINT "FK_T065HojaDeVidaComputadores_T065Id_Articulo" FOREIGN KEY ("T065Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");
 
 -- ALTER TABLE ONLY public."T066HojaDeVidaVehiculos"
---     ADD CONSTRAINT "FK_T066HojaDeVidaVehiculos_T066Id_Articulo" FOREIGN KEY ("T066Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");
-
--- ALTER TABLE ONLY public."T066HojaDeVidaVehiculos"
---     ADD CONSTRAINT "FK_T066HojaDeVidaVehiculos_T066Id_VehiculoArrendado" FOREIGN KEY ("T066Id_VehiculoArrendado") REFERENCES public."T071VehiculosArrendados"("T071IdVehiculoArrendado");	    
+--     ADD CONSTRAINT "FK_T066HojaDeVidaVehiculos_T066Id_Articulo" FOREIGN KEY ("T066Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");	    
 
 -- ALTER TABLE ONLY public."T067HojaDeVidaOtrosActivos"
 --     ADD CONSTRAINT "FK_T067HojaDeVidaOtrosActivos_T067Id_Articulo" FOREIGN KEY ("T067Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");
