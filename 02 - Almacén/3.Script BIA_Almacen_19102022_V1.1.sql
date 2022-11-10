@@ -494,9 +494,6 @@ ALTER TABLE ONLY public."T070RegistroMantenimiento"
 -- ALTER TABLE ONLY public."T068DocumentosVehiculo"
 --     ADD CONSTRAINT "FK_T068DocumentosVehiculo_T068Id_Articulo" FOREIGN KEY ("T068Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");
 
--- ALTER TABLE ONLY public."T068DocumentosVehiculo"
---     ADD CONSTRAINT "FK_T068DocumentosVehiculo_T068Id_TipoDocumento" FOREIGN KEY ("T068Id_TipoDocumento") REFERENCES public."T0XXTiposDocumentoVehicular"("T0XXIdDocumentoVehicular");
-
 -- ALTER TABLE ONLY public."T069ProgramacionMantenimiento"
 --     ADD CONSTRAINT "FK_T069ProgramacionMantenimiento_T069Id_Articulo" FOREIGN KEY ("T069Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");
 
