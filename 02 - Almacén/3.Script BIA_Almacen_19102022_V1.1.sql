@@ -385,7 +385,7 @@ VALUES (19, 'Hoja de Vida Vehículos', 'Permite administrar la información de l
 -- Hoja de vida de vehículos.
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
-VALUES (20, 'Hoja de Vida Vehículos', 'Permite administrar la información de las hojas de vidas de los vehículos','ALMA');
+VALUES (20, 'Hoja de Vida Otros Activos', 'Permite administrar la información de las hojas de vidas de otros activos','ALMA');
 -- Programación de Mantenimiento de Computadores
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
