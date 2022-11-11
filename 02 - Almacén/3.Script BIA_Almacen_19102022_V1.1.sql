@@ -542,7 +542,7 @@ CREATE TABLE public."T057Articulos" (
 	"T057Id_Marca" smallint
 	"T057Id_UnidadMedida" smallint NOT NULL,
 	"T057Id_PorcentajeIVA" smallint NOT NULL,
-	"T057Cod_MetodoValoracion" smallint NOT NULL,
+	"T057Cod_MetodoValoracion" smallint,
 	"T057Cod_TipoDepreciacion" smallint,
 	"T057cantidadVidaUtil" smallint,
 	"T057valorResidual" integer,
