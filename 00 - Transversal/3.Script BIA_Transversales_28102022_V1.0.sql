@@ -26,7 +26,7 @@ ALTER TYPE public."eTipoUnidadOrganizacional" OWNER TO postgres;
 ****************************************************************/
 --Tabla Básica.
 CREATE TABLE public."T009Cargos" (
-    "T009IdCargo" smallint NOT NULL,
+    "T009IdCargo" smallint GENERATED ALWAYS AS IDENTITY NOT NULL
     "T009nombre" character varying(50) NOT NULL,
     "T009activo" boolean NOT NULL,
     "T009itemYaUsado" boolean NOT NULL
@@ -60,10 +60,20 @@ ALTER TABLE public."T017Organigramas" OWNER TO postgres;
 ALTER TABLE ONLY public."T017Organigramas"
     ADD CONSTRAINT "PK_T017Organigramas" PRIMARY KEY ("T017IdOrganigrama");
 
+ALTER TABLE ONLY public."T017Organigramas"
+    ADD CONSTRAINT "T017Organigramas_T017nombre_UNQ" UNIQUE ("T017nombre")
+        INCLUDE("T017nombre");
+
+ALTER TABLE ONLY public."T017Organigramas"
+    ADD CONSTRAINT "T017Organigramas_T017version_UNQ" UNIQUE ("T017version")
+        INCLUDE("T017version");
+
+
+
 CREATE TABLE public."T018NivelesOrganigrama" (
     "T018IdNivelOrganigrama" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T018Id_Organigrama" smallint NOT NULL,
-    "T018ordenDelNivel" "char" NOT NULL,
+    "T018ordenDelNivel" smallint NOT NULL,
     "T018nombre" character varying(50) NOT NULL
 );
 
@@ -73,7 +83,16 @@ ALTER TABLE public."T018NivelesOrganigrama" OWNER TO postgres;
 ALTER TABLE ONLY public."T018NivelesOrganigrama"
     ADD CONSTRAINT "PK_T018NivelesOrganigrama" PRIMARY KEY ("T018IdNivelOrganigrama");
 
-    
+
+ALTER TABLE ONLY public."T018NivelesOrganigrama"
+    ADD CONSTRAINT "T018NivelesOrganigrama_T018Id_Organigrama_T018ordenDelNivel_UNQ" UNIQUE ("T018Id_Organigrama","T018ordenDelNivel")
+        INCLUDE("T018Id_Organigrama","T018ordenDelNivel");
+
+ALTER TABLE ONLY public."T018NivelesOrganigrama"
+    ADD CONSTRAINT "T018NivelesOrganigrama_T018Id_Organigrama_T018nombre_UNQ" UNIQUE ("T018Id_Organigrama","T018nombre")
+        INCLUDE("T018Id_Organigrama","T018nombre");
+
+
 
 CREATE TABLE public."T019UnidadesOrganizacionales" (
     "T019IdUnidadOrganizacional" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
@@ -92,6 +111,15 @@ ALTER TABLE public."T019UnidadesOrganizacionales" OWNER TO postgres;
 ALTER TABLE ONLY public."T019UnidadesOrganizacionales"
     ADD CONSTRAINT "PK_T019UnidadesOrganizacionales" PRIMARY KEY ("T019IdUnidadOrganizacional");
 
+ALTER TABLE ONLY public."T019UnidadesOrganizacionales"
+    ADD CONSTRAINT "T019UnidadesOrganizacionales_T019Id_Organigrama_T019nombre_UNQ" UNIQUE ("T019Id_Organigrama","T019nombre")
+        INCLUDE("T019Id_Organigrama","T019nombre");
+
+ALTER TABLE ONLY public."T019UnidadesOrganizacionales"
+    ADD CONSTRAINT "T019UnidadesOrganizacionales_T019Id_Organigrama_T019codigo_UNQ" UNIQUE ("T019Id_Organigrama","T019codigo")
+        INCLUDE("T019Id_Organigrama","T019codigo");
+
+
 
 --****************************************************************
 -- LAS FOREIGN KEYS
@@ -104,13 +132,8 @@ ALTER TABLE ONLY public."T018NivelesOrganigrama"
     FOREIGN KEY ("T018Id_Organigrama") 
     REFERENCES public."T017Organigramas"("T017IdOrganigrama") NOT VALID;
 
+
 -- Tabla Unidades Organizacionales
-ALTER TABLE ONLY public."T019UnidadesOrganizacionales"
-    ADD CONSTRAINT "FK_T019UnidadesOrganizacionales_T019Id_NivelOrganigrama" 
-    FOREIGN KEY ("T019Id_NivelOrganigrama")
-     REFERENCES public."T018NivelesOrganigrama"("T018IdNivelOrganigrama") NOT VALID;
-
-
 ALTER TABLE ONLY public."T019UnidadesOrganizacionales"
     ADD CONSTRAINT "FK_T019UnidadesOrganizacionales_T019Id_Organigrama" 
     FOREIGN KEY ("T019Id_Organigrama") 
@@ -118,11 +141,15 @@ ALTER TABLE ONLY public."T019UnidadesOrganizacionales"
 
 
 ALTER TABLE ONLY public."T019UnidadesOrganizacionales"
+    ADD CONSTRAINT "FK_T019UnidadesOrganizacionales_T019Id_NivelOrganigrama" 
+    FOREIGN KEY ("T019Id_NivelOrganigrama")
+     REFERENCES public."T018NivelesOrganigrama"("T018IdNivelOrganigrama") NOT VALID;
+
+
+ALTER TABLE ONLY public."T019UnidadesOrganizacionales"
     ADD CONSTRAINT "FK_T019UnidadesOrganizacionales_T019Id_UnidadOrgPadre" 
     FOREIGN KEY ("T019Id_UnidadOrgPadre") 
     REFERENCES public."T019UnidadesOrganizacionales"("T019IdUnidadOrganizacional") NOT VALID;
-
-
 
 /****************************************************************
     INSERCIÓN DE DATOS INICIALES.
