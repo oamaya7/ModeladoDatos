@@ -638,7 +638,7 @@ CREATE TABLE public."T062Inventario" (
     "T062ubicacionPrestado" boolean,
     "T062Id_PersonaResponsable" integer,
     "T062fechaUltimoMov" date,
-    "T062valorAlIngreso" integer,
+    "T062valorAlIngreso" numeric(12,2),
     "T062cantidadEntranteConsumo" integer,
     "T062cantidadSalienteConsumo" integer,
     "T062Cod_EstadoDelActivo" smallint
