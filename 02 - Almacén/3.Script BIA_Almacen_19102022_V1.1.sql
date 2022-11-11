@@ -222,16 +222,6 @@ ALTER TYPE public."eTipoDocVehicular" OWNER TO postgres;
 -- CREACIÓN DE TABLAS.
 --****************************************************************
 
-CREATE TABLE public."T064TiposActivoHV" (
-    "T064CodTipoActivoHV" character(1) NOT NULL,
-    "T064nombre" character varying(50) NOT NULL   
-);
-
-ALTER TABLE public."T064TiposActivoHV" OWNER TO postgres;
-
-ALTER TABLE ONLY public."T064TiposActivoHV"
-    ADD CONSTRAINT "PK_T064TiposActivoHV" PRIMARY KEY ("T064CodTipoActivoHV");
-
 CREATE TABLE public."T065HojaDeVidaComputadores" (
     "T065IdHojaDeVida" integer NOT NULL,
     "T065Id_Articulo" integer NOT NULL,
@@ -252,6 +242,10 @@ ALTER TABLE public."T065HojaDeVidaComputadores" OWNER TO postgres;
 
 ALTER TABLE ONLY public."T065HojaDeVidaComputadores"
     ADD CONSTRAINT "PK_T065HojaDeVidaComputadores" PRIMARY KEY ("T065IdHojaDeVida");
+    
+ALTER TABLE ONLY public."T065HojaDeVidaComputadores"
+    ADD CONSTRAINT "T065HojaDeVidaComputadores_T065IdHojaDeVida_T065Id_Articulo_UNQ" UNIQUE ("T065Id_HojaDeVida", "T065Id_Articulo")
+        INCLUDE("T065Id_HojaDeVida", "T065Id_Articulo"); 
 	
 
 CREATE TABLE public."T066HojaDeVidaVehiculos" (
@@ -285,8 +279,12 @@ ALTER TABLE public."T066HojaDeVidaVehiculos" OWNER TO postgres;
 
 ALTER TABLE ONLY public."T066HojaDeVidaVehiculos"
     ADD CONSTRAINT "PK_T066HojaDeVidaVehiculos" PRIMARY KEY ("T066IdHojaDeVida");
-	
 
+ALTER TABLE ONLY public."T066HojaDeVidaVehiculos"
+    ADD CONSTRAINT "T066HojaDeVidaVehiculos_T066IdHojaDeVida_T066Id_Articulo_UNQ" UNIQUE ("T066Id_HojaDeVida", "T066Id_Articulo")
+        INCLUDE("T066Id_HojaDeVida", "T066Id_Articulo"); 
+	
+	
 CREATE TABLE public."T067HojaDeVidaOtrosActivos" (
     "T067IdHojaDeVida" integer NOT NULL,
     "T067Id_Articulo" integer NOT NULL,
@@ -300,7 +298,12 @@ ALTER TABLE public."T067HojaDeVidaOtrosActivos" OWNER TO postgres;
 
 ALTER TABLE ONLY public."T067HojaDeVidaOtrosActivos"
     ADD CONSTRAINT "PK_T067HojaDeVidaOtrosActivos" PRIMARY KEY ("T067IdHojaDeVida");
-
+    
+ALTER TABLE ONLY public."T067HojaDeVidaOtrosActivos"
+    ADD CONSTRAINT "T067HojaDeVidaOtrosActivos_T067IdHojaDeVida_T067Id_Articulo_UNQ" UNIQUE ("T067Id_HojaDeVida", "T067Id_Articulo")
+        INCLUDE("T067Id_HojaDeVida", "T067Id_Articulo"); 
+        
+        
 CREATE TABLE public."T068DocumentosVehiculo" (
     "T068IdDocumentosVehiculo" integer NOT NULL,
     "T068Id_Articulo" integer NOT NULL,
@@ -315,6 +318,11 @@ ALTER TABLE public."T068DocumentosVehiculo" OWNER TO postgres;
 
 ALTER TABLE ONLY public."T068DocumentosVehiculo"
     ADD CONSTRAINT "PK_T068DocumentosVehiculo" PRIMARY KEY ("T068IdDocumentosVehiculo");
+
+ALTER TABLE ONLY public."T068DocumentosVehiculo"
+    ADD CONSTRAINT "T068DocumentosVehiculo_T068Cod_TipoDocumento_T068nroDocumento_UNQ" UNIQUE ("T068Cod_TipoDocumento", "T068nroDocumento")
+        INCLUDE("T068Cod_TipoDocumento", "T068nroDocumento"); 
+
 
 CREATE TABLE public."T069ProgramacionMantenimiento" (
     "T069IdProgramacionMtto" integer NOT NULL,
@@ -335,6 +343,7 @@ ALTER TABLE public."T069ProgramacionMantenimiento" OWNER TO postgres;
 
 ALTER TABLE ONLY public."T069ProgramacionMantenimiento"
     ADD CONSTRAINT "PK_T069ProgramacionMantenimiento" PRIMARY KEY ("T069IdProgramacionMtto");
+
 
 CREATE TABLE public."T070RegistroMantenimiento" (
     "T070IdRegistroMtto" integer NOT NULL,
@@ -477,33 +486,222 @@ ALTER TABLE ONLY public."T070RegistroMantenimiento"
 ALTER TABLE ONLY public."T066HojaDeVidaVehiculos"
     ADD CONSTRAINT "FK_T066HojaDeVidaVehiculos_T066Id_VehiculoArrendado" FOREIGN KEY ("T066Id_VehiculoArrendado") REFERENCES public."T071VehiculosArrendados"("T071IdVehiculoArrendado");
 
+ALTER TABLE ONLY public."T065HojaDeVidaComputadores"
+    ADD CONSTRAINT "FK_T065HojaDeVidaComputadores_T065Id_Articulo" FOREIGN KEY ("T065Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");
 
---****************************************************************
--- FOREIGN KEYS QUE NO SE INCLUYEN AÚN PORQUE NO SE HAN CREADO LAS TABLAS DE LAS CUALES SE HACE REFERENCIA
+ALTER TABLE ONLY public."T066HojaDeVidaVehiculos"
+    ADD CONSTRAINT "FK_T066HojaDeVidaVehiculos_T066Id_Articulo" FOREIGN KEY ("T066Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");	    
 
--- ALTER TABLE ONLY public."T065HojaDeVidaComputadores"
---     ADD CONSTRAINT "FK_T065HojaDeVidaComputadores_T065Id_Articulo" FOREIGN KEY ("T065Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");
+ALTER TABLE ONLY public."T067HojaDeVidaOtrosActivos"
+    ADD CONSTRAINT "FK_T067HojaDeVidaOtrosActivos_T067Id_Articulo" FOREIGN KEY ("T067Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");
 
--- ALTER TABLE ONLY public."T066HojaDeVidaVehiculos"
---     ADD CONSTRAINT "FK_T066HojaDeVidaVehiculos_T066Id_Articulo" FOREIGN KEY ("T066Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");	    
+ALTER TABLE ONLY public."T068DocumentosVehiculo"
+    ADD CONSTRAINT "FK_T068DocumentosVehiculo_T068Id_Articulo" FOREIGN KEY ("T068Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");
 
--- ALTER TABLE ONLY public."T067HojaDeVidaOtrosActivos"
---     ADD CONSTRAINT "FK_T067HojaDeVidaOtrosActivos_T067Id_Articulo" FOREIGN KEY ("T067Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");
+ALTER TABLE ONLY public."T069ProgramacionMantenimiento"
+    ADD CONSTRAINT "FK_T069ProgramacionMantenimiento_T069Id_Articulo" FOREIGN KEY ("T069Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");
 
--- ALTER TABLE ONLY public."T068DocumentosVehiculo"
---     ADD CONSTRAINT "FK_T068DocumentosVehiculo_T068Id_Articulo" FOREIGN KEY ("T068Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");
-
--- ALTER TABLE ONLY public."T069ProgramacionMantenimiento"
---     ADD CONSTRAINT "FK_T069ProgramacionMantenimiento_T069Id_Articulo" FOREIGN KEY ("T069Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");
-
--- ALTER TABLE ONLY public."T070RegistroMantenimiento"
---     ADD CONSTRAINT "FK_T070RegistroMantenimiento_T070Id_Articulo" FOREIGN KEY ("T070Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");
-
---****************************************************************
+ALTER TABLE ONLY public."T070RegistroMantenimiento"
+    ADD CONSTRAINT "FK_T070RegistroMantenimiento_T070Id_Articulo" FOREIGN KEY ("T070Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");
 
 /************************************************************************************
-FINNNNNNNNNNNNNNNNNN    SECCIÓN OLIVER - HOJAS DE VIDA / MANTENIMIENTOS
-/************************************************************************************
+    SECCIÓN  ARTICULOS
+*************************************************************************************/
+
+/****************************************************************
+    CREACIÓN DE TIPOS DE DATOS PERSONALIZADOS eNUM.
+****************************************************************/
+CREATE TYPE public."eTipoArticulo" AS ENUM (
+    'A',
+    'C'
+);
+
+ALTER TYPE public."eTipoArticulo" OWNER TO postgres;
+
+CREATE TYPE public."eTipoActivo" AS ENUM (
+    'C',
+    'V',
+    'O'
+);
+
+ALTER TYPE public."eTipoActivo" OWNER TO postgres;
+
+--****************************************************************
+-- CREACIÓN DE TABLAS.
+--****************************************************************
+
+CREATE TABLE public."T057Articulos" (
+    "T057IdArticulo" integer NOT NULL,
+    "T057codigo" character varying(15) NOT NULL,
+	"T057consecActivoPorArticulo" smallint, 
+	"T057codTipoArticulo" public."eTipoArticulo" NOT NULL,
+	"T057nombre" character varying(100) NOT NULL,
+	"T057nombreCientifico" character varying(255),
+	"T057Cod_TipoActivo" public."eTipoActivo",
+	"T057docIdentificadorNro" character varying(30),
+	"T057Id_Marca" smallint
+	"T057Id_UnidadMedida" smallint NOT NULL,
+	"T057Id_PorcentajeIVA" smallint NOT NULL,
+	"T057Cod_MetodoValoracion" smallint NOT NULL,
+	"T057Cod_TipoDepreciacion" smallint,
+	"T057cantidadVidaUtil" smallint,
+	"T057valorResidual" integer,
+	"T057stockMinimo" integer,
+	"T057stockMaximo" integer,
+	"T057solicitablePorVivero" boolean NOT NULL,
+	"T057tieneHojaDeVida" boolean,
+	"T057nroNivelJerarquico" smallint NOT NULL,
+	"T057Id_ArticuloPadre" integer,
+	"T057esItemFinal" boolean
+);
+
+ALTER TABLE public."T057Articulos" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T057Articulos"
+    ADD CONSTRAINT "PK_T057Articulos" PRIMARY KEY ("T057IdArticulo");
+
+ALTER TABLE ONLY public."T057Articulos"
+    ADD CONSTRAINT "T057Articulos_T057codigo_T057consecActivoPorArticulo_UNQ" UNIQUE ("T057codigo", "T057consecActivoPorArticulo")
+        INCLUDE("T057codigo", "T057consecActivoPorArticulo"); 
+        
+CREATE TABLE public."T058MetodosValoracionArticulos" (
+    "T058CodMetodoValoracion" smallint NOT NULL,
+    "T058nombre" character varying(50) NOT NULL,
+    "T058descripcion" character varying(255) NOT NULL   
+);
+
+ALTER TABLE public."T058MetodosValoracionArticulos" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T058MetodosValoracionArticulos"
+    ADD CONSTRAINT "PK_T058MetodosValoracionArticulos" PRIMARY KEY ("T058CodMetodoValoracion");
+
+ALTER TABLE ONLY public."T058MetodosValoracionArticulos"
+    ADD CONSTRAINT "T058MetodosValoracionArticulos_T058nombre_UNQ" UNIQUE ("T058nombre")
+        INCLUDE("T58nombre");
+        
+CREATE TABLE public."T059TiposDepreciacionActivos" (
+    "T059CodTipoDepreciacion" smallint NOT NULL,
+    "T059nombre" character varying(50) NOT NULL
+);
+
+ALTER TABLE public."T059TiposDepreciacionActivos" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T059TiposDepreciacionActivos"
+    ADD CONSTRAINT "PK_T059TiposDepreciacionActivos" PRIMARY KEY ("T059CodTipoDepreciacion");
+
+ALTER TABLE ONLY public."T059TiposDepreciacionActivos"
+    ADD CONSTRAINT "T059TiposDepreciacionActivos_T059nombre_UNQ" UNIQUE ("T059nombre")
+        INCLUDE("T59nombre");  
+        
+CREATE TABLE public."T060TiposActivo" (
+    "T060CodTipoActivo" public."eTipoActivo" NOT NULL,
+    "T060nombre" character varying(15) NOT NULL   
+);
+
+ALTER TABLE public."T060TiposActivo" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T060TiposActivo"
+    ADD CONSTRAINT "PK_T060TiposActivo" PRIMARY KEY ("T060CodTipoActivo"); 
+
+ALTER TABLE ONLY public."T060TiposActivo"
+    ADD CONSTRAINT "T060TiposActivo_T060nombre_UNQ" UNIQUE ("T060nombre")
+        INCLUDE("T60nombre");  
+    
+CREATE TABLE public."T061TiposEntrada" (
+    "T061CodTipoEntrada" smallint NOT NULL,
+    "T061nombre" character varying(15) NOT NULL,
+    "T061descripcion" character varying(255),
+    "T061tituloPersonaOrigen" character varying(20) NOT NULL 
+);
+
+ALTER TABLE public."T061TiposEntrada" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T061TiposEntrada"
+    ADD CONSTRAINT "PK_T061TiposEntrada" PRIMARY KEY ("T061CodTipoEntrada");
+
+ALTER TABLE ONLY public."T061TiposEntrada"
+    ADD CONSTRAINT "T061TiposEntrada_T061nombre_UNQ" UNIQUE ("T061nombre")
+        INCLUDE("T61nombre");
+        
+CREATE TABLE public."T062Inventario" (
+    "T062IdInventario" integer NOT NULL,
+    "T062Id_Articulo" integer NOT NULL,
+    "T062Id_Bodega" smallint NOT NULL,
+    "T062Cod_TipoEntrada" smallint,
+    "T062fechaIngreso" date,
+    "T062Id_PersonaOrigen" integer,
+    "T062numeroDocOrigen" character varying(30),
+    "T062destinoBaja" boolean,
+    "T062destinoSalida" boolean,
+    "T062ubicacionEnBodega" boolean,
+    "T062ubicacionAsignado" boolean,
+    "T062ubicacionPrestado" boolean,
+    "T062Id_PersonaResponsable" integer,
+    "T062fechaUltimoMov" date,
+    "T062valorAlIngreso" integer,
+    "T062cantidadEntranteConsumo" integer,
+    "T062cantidadSalienteConsumo" integer,
+    "T062Cod_EstadoDelActivo" smallint
+);
+
+ALTER TABLE public."T062Inventario" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T062Inventario"
+    ADD CONSTRAINT "PK_T062Inventario" PRIMARY KEY ("T062IdInventario"); 
+    
+ALTER TABLE ONLY public."T062Inventario"
+    ADD CONSTRAINT "T062Inventario_T062Id_Articulo_T062Id_Bodega_UNQ" UNIQUE ("T062Id_Articulo", "T062Id_Bodega")
+        INCLUDE("T062Id_Articulo", "T062Id_Bodega"); 
+
+--****************************************************************
+-- FOREIGN KEYS
+--****************************************************************
+
+ALTER TABLE ONLY public."T057Articulos"
+    ADD CONSTRAINT "FK_T057Articulos_T057Cod_TipoActivo" FOREIGN KEY ("T057Cod_TipoActivo") REFERENCES public."T060Articulos"("T060CodTipoActivo");
+    
+ALTER TABLE ONLY public."T057Articulos"
+    ADD CONSTRAINT "FK_T057Articulos_T057Id_Marca" FOREIGN KEY ("T057Id_Marca") REFERENCES public."T052Marcas"("T052IdMarca");
+    
+ALTER TABLE ONLY public."T057Articulos"
+    ADD CONSTRAINT "FK_T057Articulos_T057Id_UnidadMedida" FOREIGN KEY ("T057Id_UnidadMedida") REFERENCES public."T055UnidadesMedida"("T055IdUnidadMedida");
+
+ALTER TABLE ONLY public."T057Articulos"
+    ADD CONSTRAINT "FK_T057Articulos_T057Id_PorcentajeIVA" FOREIGN KEY ("T057Id_PorcentajeIVA") REFERENCES public."T053PorcentajesIVA"("T053IdPorcentajeIVA");
+    
+ALTER TABLE ONLY public."T057Articulos"
+    ADD CONSTRAINT "FK_T057Articulos_T057Cod_MetodoValoracion" FOREIGN KEY ("T057Cod_MetodoValoracion") REFERENCES public."T058MetodosValoracionActivos"("T058CodMetodoValoracion");
+    
+ALTER TABLE ONLY public."T057Articulos"
+    ADD CONSTRAINT "FK_T057Articulos_T057Cod_TipoDepreciacion" FOREIGN KEY ("T057Cod_TipoDepreciacion") REFERENCES public."T059TiposDepreciacionActivos"("T059CodTipoDepreciacion");
+    
+ALTER TABLE ONLY public."T057Articulos"
+    ADD CONSTRAINT "FK_T057Articulos_T057Id_UnidadMedidaVidaUtil" FOREIGN KEY ("T057Id_UnidadMedidaVidaUtil") REFERENCES public."T055UnidadesMedida"("T055IdUnidadMedida");
+
+ALTER TABLE ONLY public."T057Articulos"
+    ADD CONSTRAINT "FK_T057Articulos_T057Id_ArticuloPadre" FOREIGN KEY ("T057Id_ArticuloPadre") REFERENCES public."T057Articulos"("T057IdArticulo");
+
+ALTER TABLE ONLY public."T062Inventario"
+    ADD CONSTRAINT "FK_T062Inventario_T062Id_Articulo" FOREIGN KEY ("T062Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");
+    
+ALTER TABLE ONLY public."T062Inventario"
+    ADD CONSTRAINT "FK_T062Inventario_T062Id_Bodega" FOREIGN KEY ("T062Id_Bodega") REFERENCES public."T056Bodegas"("T057IdBodega");
+    
+ALTER TABLE ONLY public."T062Inventario"
+    ADD CONSTRAINT "FK_T062Inventario_T062Cod_TipoEntrada" FOREIGN KEY ("T062Cod_TipoEntrada") REFERENCES public."T061TiposEntrada"("T061CodTipoEntrada");
+    
+ALTER TABLE ONLY public."T062Inventario"
+    ADD CONSTRAINT "FK_T062Inventario_T062Id_PersonaOrigen" FOREIGN KEY ("T062Id_PersonaOrigen") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T062Inventario"
+    ADD CONSTRAINT "FK_T062Inventario_T062Id_PersonaResponsable" FOREIGN KEY ("T062Id_PersonaResponsable") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T062Inventario"
+    ADD CONSTRAINT "FK_T062Inventario_T062Cod_EstadoDelActivo" FOREIGN KEY ("T062Cod_EstadoDelActivo") REFERENCES public."T051EstadosArticulo"("T051CodEstado");
+
+--************************************************************************************
+--FIN SECCIÓN OLIVER - HOJAS DE VIDA / MANTENIMIENTOS
+--************************************************************************************
 
 
 
