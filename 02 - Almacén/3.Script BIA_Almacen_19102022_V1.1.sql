@@ -379,10 +379,10 @@ VALUES (18, 'Hoja de Vida Computadores', 'Permite administrar la información de
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
 VALUES (19, 'Hoja de Vida Vehículos', 'Permite administrar la información de las hojas de vidas de los vehículos','ALMA');
--- Hoja de vida de vehículos.
+-- Hoja de vida de otros activos.
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
-VALUES (20, 'Hoja de Vida Vehículos', 'Permite administrar la información de las hojas de vidas de los vehículos','ALMA');
+VALUES (20, 'Hoja de Vida Otros Activos', 'Permite administrar la información de las hojas de vidas de otros activos','ALMA');
 -- Programación de Mantenimiento de Computadores
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
@@ -539,7 +539,7 @@ CREATE TABLE public."T057Articulos" (
 	"T057Id_Marca" smallint
 	"T057Id_UnidadMedida" smallint NOT NULL,
 	"T057Id_PorcentajeIVA" smallint NOT NULL,
-	"T057Cod_MetodoValoracion" smallint NOT NULL,
+	"T057Cod_MetodoValoracion" smallint,
 	"T057Cod_TipoDepreciacion" smallint,
 	"T057cantidadVidaUtil" smallint,
 	"T057valorResidual" integer,
@@ -635,7 +635,7 @@ CREATE TABLE public."T062Inventario" (
     "T062ubicacionPrestado" boolean,
     "T062Id_PersonaResponsable" integer,
     "T062fechaUltimoMov" date,
-    "T062valorAlIngreso" integer,
+    "T062valorAlIngreso" numeric(12,2),
     "T062cantidadEntranteConsumo" integer,
     "T062cantidadSalienteConsumo" integer,
     "T062Cod_EstadoDelActivo" smallint
