@@ -190,7 +190,6 @@ INSERT INTO public."T055UnidadesMedida" ("T055IdUnidadMedida", "T055nombre", "T0
 
 CREATE TYPE public."eTipoVehiculo" AS ENUM (
     'C',
-    'A',
 	'M'
 );
 
