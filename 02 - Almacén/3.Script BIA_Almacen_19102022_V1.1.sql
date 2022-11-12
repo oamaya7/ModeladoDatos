@@ -735,7 +735,9 @@ CREATE TABLE public."T072Conductores_VehiculosAgendables" (
 
 ALTER TABLE public."T072Conductores_VehiculosAgendables" OWNER TO postgres;
 
-/*----------PRIMARY KEYS------------*/
+--****************************************************************
+-- PRIMARY KEYS
+--****************************************************************
 
 ALTER TABLE ONLY public."T071VehiculosArrendados"
     ADD CONSTRAINT "PK_T071VehiculosArrendados" PRIMARY KEY ("T071IdVehiculoArrendado");
@@ -744,9 +746,9 @@ ALTER TABLE ONLY public."T071VehiculosArrendados"
 ALTER TABLE ONLY public."T072Conductores_VehiculosAgendables"
     ADD CONSTRAINT "PK_T072IdConductorVehiculo" PRIMARY KEY ("T072IdConductorVehiculo");
 
-
-/*-----------FOREIGNS KEYS----------*/
-
+--****************************************************************
+-- FOREIGN KEYS
+--****************************************************************
 
 ALTER TABLE ONLY public."T071VehiculosArrendados"
     ADD CONSTRAINT "FK_T071VehiculosArrendados_T071Id_Marca" FOREIGN KEY ("T071Id_Marca") REFERENCES public."T052Marcas"("T052IdMarca") NOT VALID;
