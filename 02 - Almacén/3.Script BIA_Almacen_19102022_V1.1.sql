@@ -308,7 +308,7 @@ CREATE TABLE public."T068DocumentosVehiculo" (
     "T068Id_Articulo" integer NOT NULL,
 	"T068codTipoDocumento" public."eTipoDocVehicular" NOT NULL,
 	"T068nroDocumento" character varying(50) NOT NULL,
-	"T068fechaExpedicion" date NOT NULL,
+	"T068fechaInicioVigencia" date NOT NULL,
 	"T068fechaExpiracion" date NOT NULL,
 	"T068Id_EmpresaProveedora" smallint NOT NULL
 );
