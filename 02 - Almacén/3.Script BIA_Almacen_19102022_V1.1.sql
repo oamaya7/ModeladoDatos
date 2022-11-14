@@ -341,6 +341,10 @@ ALTER TABLE public."T069ProgramacionMantenimiento" OWNER TO postgres;
 ALTER TABLE ONLY public."T069ProgramacionMantenimiento"
     ADD CONSTRAINT "PK_T069ProgramacionMantenimiento" PRIMARY KEY ("T069IdProgramacionMtto");
 
+ALTER TABLE ONLY public."T068ProgramacionMantenimiento"
+	ADD CONSTRAINT "T068ProgramacionMtto_T068IdProgramacionMtto_T068Id_Art" UNIQUE ("T068IdProgramacionMtto", "T068Id_Articulo")
+		INCLUDE("T068IdProgramacionMtto", "T068Id_Articulo")
+
 
 CREATE TABLE public."T070RegistroMantenimiento" (
     "T070IdRegistroMtto" integer NOT NULL,
@@ -361,6 +365,10 @@ ALTER TABLE public."T070RegistroMantenimiento" OWNER TO postgres;
 
 ALTER TABLE ONLY public."T070RegistroMantenimiento"
     ADD CONSTRAINT "PK_T070RegistroMantenimiento" PRIMARY KEY ("T070IdRegistroMtto");
+
+ALTER TABLE ONLY public."T070RegistroMantenimiento"
+	ADD CONSTRAINT "T070ProgramacionMtto_IdProgramacionMtto_Id_Art" UNIQUE ("T070IdRegistroMtto", "T070Id_Articulo")
+		INCLUDE("T070IdRegistroMtto", "T070Id_Articulo")
 	
 -- CLASES DE TERCERO
 INSERT INTO public."T007ClasesTercero" ("T007IdClaseTercero", "T007nombre")
@@ -744,7 +752,9 @@ CREATE TABLE public."T072Conductores_VehiculosAgendables" (
 
 ALTER TABLE public."T072Conductores_VehiculosAgendables" OWNER TO postgres;
 
-/*----------PRIMARY KEYS------------*/
+--****************************************************************
+-- PRIMARY KEYS
+--****************************************************************
 
 ALTER TABLE ONLY public."T071VehiculosArrendados"
     ADD CONSTRAINT "PK_T071VehiculosArrendados" PRIMARY KEY ("T071IdVehiculoArrendado");
@@ -753,9 +763,9 @@ ALTER TABLE ONLY public."T071VehiculosArrendados"
 ALTER TABLE ONLY public."T072Conductores_VehiculosAgendables"
     ADD CONSTRAINT "PK_T072IdConductorVehiculo" PRIMARY KEY ("T072IdConductorVehiculo");
 
-
-/*-----------FOREIGNS KEYS----------*/
-
+--****************************************************************
+-- FOREIGN KEYS
+--****************************************************************
 
 ALTER TABLE ONLY public."T071VehiculosArrendados"
     ADD CONSTRAINT "FK_T071VehiculosArrendados_T071Id_Marca" FOREIGN KEY ("T071Id_Marca") REFERENCES public."T052Marcas"("T052IdMarca") NOT VALID;
