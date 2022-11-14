@@ -280,7 +280,7 @@ ALTER TABLE ONLY public."T066HojaDeVidaVehiculos"
     ADD CONSTRAINT "PK_T066HojaDeVidaVehiculos" PRIMARY KEY ("T066IdHojaDeVida");
 
 ALTER TABLE ONLY public."T066HojaDeVidaVehiculos"
-    ADD CONSTRAINT "T066HojaDeVidaVehiculos_IdHojaV_Id_Art_UNQ" UNIQUE ("T066IdHojaDeVida", "T066Id_Articulo")
+    ADD CONSTRAINT "T066HojaDeVidaVehiculos_IdHojaV_Id_Art_UNQ" UNIQUE ("T066Id_Articulo")
         INCLUDE("T066IdHojaDeVida", "T066Id_Articulo"); 
 	
 	
@@ -299,14 +299,14 @@ ALTER TABLE ONLY public."T067HojaDeVidaOtrosActivos"
     ADD CONSTRAINT "PK_T067HojaDeVidaOtrosActivos" PRIMARY KEY ("T067IdHojaDeVida");
     
 ALTER TABLE ONLY public."T067HojaDeVidaOtrosActivos"
-    ADD CONSTRAINT "T067HojaDeVidaOtrosActivos_IdHojaDeV_Id_Art_UNQ" UNIQUE ("T067IdHojaDeVida", "T067Id_Articulo")
+    ADD CONSTRAINT "T067HojaDeVidaOtrosActivos_IdHojaDeV_Id_Art_UNQ" UNIQUE ("T067Id_Articulo")
         INCLUDE("T067IdHojaDeVida", "T067Id_Articulo"); 
         
         
 CREATE TABLE public."T068DocumentosVehiculo" (
     "T068IdDocumentosVehiculo" integer NOT NULL,
     "T068Id_Articulo" integer NOT NULL,
-	"T068Cod_TipoDocumento" public."eTipoDocVehicular" NOT NULL,
+	"T068codTipoDocumento" public."eTipoDocVehicular" NOT NULL,
 	"T068nroDocumento" character varying(50) NOT NULL,
 	"T068fechaExpedicion" date NOT NULL,
 	"T068fechaExpiracion" date NOT NULL,
@@ -319,7 +319,7 @@ ALTER TABLE ONLY public."T068DocumentosVehiculo"
     ADD CONSTRAINT "PK_T068DocumentosVehiculo" PRIMARY KEY ("T068IdDocumentosVehiculo");
 
 ALTER TABLE ONLY public."T068DocumentosVehiculo"
-    ADD CONSTRAINT "T068DocumentosVehiculo_Cod_TipoDoc_nroDoc_UNQ" UNIQUE ("T068Cod_TipoDocumento", "T068nroDocumento")
+    ADD CONSTRAINT "T068DocumentosVehiculo_Cod_TipoDoc_nroDoc_UNQ" UNIQUE ("T068codTipoDocumento", "T068nroDocumento")
         INCLUDE("T068Cod_TipoDocumento", "T068nroDocumento"); 
 
 
