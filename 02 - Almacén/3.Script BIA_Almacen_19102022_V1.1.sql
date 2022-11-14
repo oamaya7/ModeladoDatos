@@ -241,7 +241,7 @@ ALTER TABLE ONLY public."T065HojaDeVidaComputadores"
     ADD CONSTRAINT "PK_T065HojaDeVidaComputadores" PRIMARY KEY ("T065IdHojaDeVida");
     
 ALTER TABLE ONLY public."T065HojaDeVidaComputadores"
-    ADD CONSTRAINT "T065HojaDeVidaComputadores_IdHojaV_Id_Art_UNQ" UNIQUE ("T065IdHojaDeVida", "T065Id_Articulo")
+    ADD CONSTRAINT "T065HojaDeVidaComputadores_Id_Art_UNQ" UNIQUE ("T065Id_Articulo")
         INCLUDE("T065IdHojaDeVida", "T065Id_Articulo"); 
 	
 
@@ -280,8 +280,8 @@ ALTER TABLE ONLY public."T066HojaDeVidaVehiculos"
     ADD CONSTRAINT "PK_T066HojaDeVidaVehiculos" PRIMARY KEY ("T066IdHojaDeVida");
 
 ALTER TABLE ONLY public."T066HojaDeVidaVehiculos"
-    ADD CONSTRAINT "T066HojaDeVidaVehiculos_IdHojaV_Id_Art_UNQ" UNIQUE ("T066Id_Articulo")
-        INCLUDE("T066IdHojaDeVida", "T066Id_Articulo"); 
+    ADD CONSTRAINT "T066HojaDeVidaVehiculos_Id_Art_UNQ" UNIQUE ("T066Id_Articulo")
+        INCLUDE("T066Id_Articulo"); 
 	
 	
 CREATE TABLE public."T067HojaDeVidaOtrosActivos" (
@@ -299,8 +299,8 @@ ALTER TABLE ONLY public."T067HojaDeVidaOtrosActivos"
     ADD CONSTRAINT "PK_T067HojaDeVidaOtrosActivos" PRIMARY KEY ("T067IdHojaDeVida");
     
 ALTER TABLE ONLY public."T067HojaDeVidaOtrosActivos"
-    ADD CONSTRAINT "T067HojaDeVidaOtrosActivos_IdHojaDeV_Id_Art_UNQ" UNIQUE ("T067Id_Articulo")
-        INCLUDE("T067IdHojaDeVida", "T067Id_Articulo"); 
+    ADD CONSTRAINT "T067HojaDeVidaOtrosActivos_Id_Art_UNQ" UNIQUE ("T067Id_Articulo")
+        INCLUDE("T067Id_Articulo"); 
         
         
 CREATE TABLE public."T068DocumentosVehiculo" (
@@ -320,7 +320,7 @@ ALTER TABLE ONLY public."T068DocumentosVehiculo"
 
 ALTER TABLE ONLY public."T068DocumentosVehiculo"
     ADD CONSTRAINT "T068DocumentosVehiculo_Cod_TipoDoc_nroDoc_UNQ" UNIQUE ("T068codTipoDocumento", "T068nroDocumento")
-        INCLUDE("T068Cod_TipoDocumento", "T068nroDocumento"); 
+        INCLUDE("T068codTipoDocumento", "T068nroDocumento"); 
 
 
 CREATE TABLE public."T069ProgramacionMantenimientos" (
