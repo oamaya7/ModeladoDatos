@@ -246,8 +246,8 @@ ALTER TABLE ONLY public."T065HojaDeVidaComputadores"
 	
 
 CREATE TABLE public."T066HojaDeVidaVehiculos" (
-    "T066IdHojaDeVida" integer NOT NULL,
-    "T066Id_Articulo" integer NOT NULL,
+    "T066IdHojaDeVida" smallint NOT NULL,
+    "T066Id_Articulo" integer,
     "T066Id_VehiculoArrendado" smallint,
 	"T066codTipoVehiculo" public."eTipoVehiculo",
 	"T066capacidadPasajeros" smallint,
@@ -255,6 +255,8 @@ CREATE TABLE public."T066HojaDeVidaVehiculos" (
 	"T066linea" character varying(20),
 	"T066tipoCombustible" public."eTipoCombustible",
 	"T066esArrendado" boolean,
+    "T066ultimoKilometraje" integer,
+    "T066fechaUltimoKilometraje" date,
 	"T066fechaAdquisicion" date,
 	"T066fechaVigenciaGarantia" date,
 	"T066numeroMotor" character varying(40),
@@ -266,10 +268,10 @@ CREATE TABLE public."T066HojaDeVidaVehiculos" (
 	"T066capacidadExtintor" smallint,
 	"T066tarjetaOperacion" character varying(20),
 	"T066observacionesAdicionales" character varying(255),
-	"T066rutaImagenFoto" character varying(255),
 	"T066esAgendable" boolean,
 	"T066enCirculacion" boolean,
-	"T066fechaCirculacion" date
+	"T066fechaCirculacion" date,
+    "T066rutaImagenFoto" character varying(255)
 );
 
 ALTER TABLE public."T066HojaDeVidaVehiculos" OWNER TO postgres;
@@ -278,8 +280,8 @@ ALTER TABLE ONLY public."T066HojaDeVidaVehiculos"
     ADD CONSTRAINT "PK_T066HojaDeVidaVehiculos" PRIMARY KEY ("T066IdHojaDeVida");
 
 ALTER TABLE ONLY public."T066HojaDeVidaVehiculos"
-    ADD CONSTRAINT "T066HojaDeVidaVehiculos_T066IdHojaDeVida_T066Id_Articulo_UNQ" UNIQUE ("T066Id_HojaDeVida", "T066Id_Articulo")
-        INCLUDE("T066Id_HojaDeVida", "T066Id_Articulo"); 
+    ADD CONSTRAINT "T066HojaDeVidaVehiculos_Id_Art_Id_VehiculoArren_UNQ" UNIQUE ("T066Id_Articulo", "T066Id_VehiculoArrendado")
+        INCLUDE("T066Id_Articulo", "T066Id_VehiculoArrendado"); 
 	
 	
 CREATE TABLE public."T067HojaDeVidaOtrosActivos" (
@@ -297,18 +299,18 @@ ALTER TABLE ONLY public."T067HojaDeVidaOtrosActivos"
     ADD CONSTRAINT "PK_T067HojaDeVidaOtrosActivos" PRIMARY KEY ("T067IdHojaDeVida");
     
 ALTER TABLE ONLY public."T067HojaDeVidaOtrosActivos"
-    ADD CONSTRAINT "T067HojaDeVidaOtrosActivos_T067IdHojaDeVida_T067Id_Articulo_UNQ" UNIQUE ("T067Id_HojaDeVida", "T067Id_Articulo")
-        INCLUDE("T067Id_HojaDeVida", "T067Id_Articulo"); 
+    ADD CONSTRAINT "T067HojaDeVidaOtrosActivos_Id_Art_UNQ" UNIQUE ("T067Id_Articulo")
+        INCLUDE("T067Id_Articulo"); 
         
         
 CREATE TABLE public."T068DocumentosVehiculo" (
     "T068IdDocumentosVehiculo" integer NOT NULL,
     "T068Id_Articulo" integer NOT NULL,
 	"T068Cod_TipoDocumento" public."eTipoDocVehicular" NOT NULL,
-	"T068nroDocumento" character varying(50),
-	"T068fechaExpedicion" date,
-	"T068fechaExpiracion" date,
-	"T068Id_EmpresaProveedora" smallint
+	"T068nroDocumento" character varying(50) NOT NULL,
+	"T068fechaExpedicion" date NOT NULL,
+	"T068fechaExpiracion" date NOT NULL,
+	"T068Id_EmpresaProveedora" smallint NOT NULL
 );
 
 ALTER TABLE public."T068DocumentosVehiculo" OWNER TO postgres;
@@ -317,18 +319,18 @@ ALTER TABLE ONLY public."T068DocumentosVehiculo"
     ADD CONSTRAINT "PK_T068DocumentosVehiculo" PRIMARY KEY ("T068IdDocumentosVehiculo");
 
 ALTER TABLE ONLY public."T068DocumentosVehiculo"
-    ADD CONSTRAINT "T068DocumentosVehiculo_T068Cod_TipoDocumento_T068nroDocumento_UNQ" UNIQUE ("T068Cod_TipoDocumento", "T068nroDocumento")
-        INCLUDE("T068Cod_TipoDocumento", "T068nroDocumento"); 
+    ADD CONSTRAINT "T068DocumentosVehiculo_Id_Art_codTipoDoc_nroDoc_UNQ" UNIQUE ("T068Id_Articulo", "T068Cod_TipoDocumento", "T068nroDocumento")
+        INCLUDE("T068Id_Articulo","T068Cod_TipoDocumento", "T068nroDocumento"); 
 
 
-CREATE TABLE public."T069ProgramacionMantenimiento" (
+CREATE TABLE public."T069ProgramacionMantenimientos" (
     "T069IdProgramacionMtto" integer NOT NULL,
-	"T069Id_Articulo" integer,
+	"T069Id_Articulo" integer NOT NULL,
     "T069codTipoMantenimiento" public."eTipoMantenimiento" NOT NULL,
 	"T069fechaGenerada" date NOT NULL, 
 	"T069fechaProgramada" date NOT NULL,
-	"T069mantenimientoARealizar" text NOT NULL,
-	"T069observaciones" character varying(255) NOT NULL,
+	"T069motivoMantenimiento" character varying(255) NOT NULL,
+	"T069observaciones" character varying(255),
 	"T069Id_PersonaSolicita" integer,
 	"T069fechaSolicitud" date,
 	"T069fechaAnulacion" timestamp with time zone,
@@ -336,39 +338,49 @@ CREATE TABLE public."T069ProgramacionMantenimiento" (
 	"T069Id_PersonaAnula" integer
 );
 
-ALTER TABLE public."T069ProgramacionMantenimiento" OWNER TO postgres;
+ALTER TABLE public."T069ProgramacionMantenimientos" OWNER TO postgres;
 
-ALTER TABLE ONLY public."T069ProgramacionMantenimiento"
-    ADD CONSTRAINT "PK_T069ProgramacionMantenimiento" PRIMARY KEY ("T069IdProgramacionMtto");
-
-ALTER TABLE ONLY public."T068ProgramacionMantenimiento"
-	ADD CONSTRAINT "T068ProgramacionMtto_T068IdProgramacionMtto_T068Id_Art" UNIQUE ("T068IdProgramacionMtto", "T068Id_Articulo")
-		INCLUDE("T068IdProgramacionMtto", "T068Id_Articulo")
+ALTER TABLE ONLY public."T069ProgramacionMantenimientos"
+    ADD CONSTRAINT "PK_T069ProgramacionMantenimientos" PRIMARY KEY ("T069IdProgramacionMtto");
 
 
-CREATE TABLE public."T070RegistroMantenimiento" (
+CREATE TABLE public."T070RegistroMantenimientos" (
     "T070IdRegistroMtto" integer NOT NULL,
-    "T070Id_Articulo" public."eTipoMantenimiento" NOT NULL,
+    "T070Id_Articulo" integer NOT NULL,
+    "T070fechaRealizado" timestamp with time zone NOT NULL,
 	"T070codTipoMantenimiento" public."eTipoMantenimiento" NOT NULL, 
 	"T070accionesRealizadas" text NOT NULL,
-	"T070diasEmpleados" smallint,
+	"T070diasEmpleados" smallint NOT NULL,
 	"T070observaciones" character varying(255),
-	"T070Cod_EstadoFinal" character(1),
+	"T070Cod_EstadoFinal" character(1) NOT NULL,
 	"T070Id_ProgramacionMtto" integer,
+    "T070valorMantenimiento" integer,
+	"T070contratoMantenimiento" character varying(20),
 	"T070Id_PersonaRealiza" integer NOT NULL,
 	"T070Id_PersonaDiligencia" integer NOT NULL,
-	"T070valorMantenimiento" integer,
-	"T070contratoMantenimiento" character varying(20)
+    "T070rutaDocumentoSoporte" character varying(255)
 );
 
-ALTER TABLE public."T070RegistroMantenimiento" OWNER TO postgres;
+ALTER TABLE public."T070RegistroMantenimientos" OWNER TO postgres;
 
-ALTER TABLE ONLY public."T070RegistroMantenimiento"
-    ADD CONSTRAINT "PK_T070RegistroMantenimiento" PRIMARY KEY ("T070IdRegistroMtto");
+ALTER TABLE ONLY public."T070RegistroMantenimientos"
+    ADD CONSTRAINT "PK_T070RegistroMantenimientos" PRIMARY KEY ("T070IdRegistroMtto");
 
-ALTER TABLE ONLY public."T070RegistroMantenimiento"
-	ADD CONSTRAINT "T070ProgramacionMtto_IdProgramacionMtto_Id_Art" UNIQUE ("T070IdRegistroMtto", "T070Id_Articulo")
-		INCLUDE("T070IdRegistroMtto", "T070Id_Articulo")
+
+CREATE TABLE public."T073KilometrajeVehiculos" (
+    "T073IdKilometraje" smallint,
+    "T073Id_HojaDeVidaVehiculos" smallint,
+    "T073kilometraje" integer
+);
+
+ALTER TABLE public."T073KilometrajeVehiculos" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T073KilometrajeVehiculos"
+    ADD CONSTRAINT "PK_T073KilometrajeVehiculos" PRIMARY KEY ("T073IdKilometraje");
+
+ALTER TABLE ONLY public."T073KilometrajeVehiculos"
+	ADD CONSTRAINT "KilometrajeVehiculos_IdKilometraje_Id_HdV" UNIQUE ("T073IdKilometraje", "T073Id_HojaDeVidaVehiculos")
+		INCLUDE("T073IdKilometraje", "T073Id_HojaDeVidaVehiculos")
 	
 -- CLASES DE TERCERO
 INSERT INTO public."T007ClasesTercero" ("T007IdClaseTercero", "T007nombre")
