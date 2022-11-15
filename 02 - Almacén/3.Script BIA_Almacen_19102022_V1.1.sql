@@ -366,21 +366,6 @@ ALTER TABLE public."T070RegistroMantenimientos" OWNER TO postgres;
 ALTER TABLE ONLY public."T070RegistroMantenimientos"
     ADD CONSTRAINT "PK_T070RegistroMantenimientos" PRIMARY KEY ("T070IdRegistroMtto");
 
-
-CREATE TABLE public."T073KilometrajeVehiculos" (
-    "T073IdKilometraje" smallint,
-    "T073Id_HojaDeVidaVehiculos" smallint,
-    "T073kilometraje" integer
-);
-
-ALTER TABLE public."T073KilometrajeVehiculos" OWNER TO postgres;
-
-ALTER TABLE ONLY public."T073KilometrajeVehiculos"
-    ADD CONSTRAINT "PK_T073KilometrajeVehiculos" PRIMARY KEY ("T073IdKilometraje");
-
-ALTER TABLE ONLY public."T073KilometrajeVehiculos"
-	ADD CONSTRAINT "KilometrajeVehiculos_IdKilometraje_Id_HdV" UNIQUE ("T073IdKilometraje", "T073Id_HojaDeVidaVehiculos")
-		INCLUDE("T073IdKilometraje", "T073Id_HojaDeVidaVehiculos")
 	
 -- CLASES DE TERCERO
 INSERT INTO public."T007ClasesTercero" ("T007IdClaseTercero", "T007nombre")
