@@ -1,5 +1,5 @@
 --****************************************************************
--- Script de Creación de Base de Datos - Subsistema Almacén - Última Actualizacion 18/10/2022.
+-- Script de Creación de Base de Datos - Subsistema Almacén - Última Actualizacion 18/10/2022 - V1.2
 --****************************************************************
 
 /****************************************************************
