@@ -287,7 +287,7 @@ ALTER TABLE ONLY public."T066HojaDeVidaVehiculos"
 CREATE TABLE public."T067HojaDeVidaOtrosActivos" (
     "T067IdHojaDeVida" integer NOT NULL,
     "T067Id_Articulo" integer NOT NULL,
-	"T067caracteristicas" text,
+	"T067caracteristicasFisicas" text,
 	"T067especificacionesTecnicas" text,
 	"T067observacionesAdicionales" character varying(255),
 	"T067rutaImagenFoto" character varying(255)
@@ -370,6 +370,9 @@ ALTER TABLE ONLY public."T070RegistroMantenimientos"
 -- CLASES DE TERCERO
 INSERT INTO public."T007ClasesTercero" ("T007IdClaseTercero", "T007nombre")
 OVERRIDING SYSTEM VALUE 
+VALUES (3, 'Proveedor');
+INSERT INTO public."T007ClasesTercero" ("T007IdClaseTercero", "T007nombre")
+OVERRIDING SYSTEM VALUE 
 VALUES (4, 'Aseguradora');
 
 -- PERMISOS
@@ -429,19 +432,16 @@ INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "T
 -- Módulo de Programación de Mantenimiento de Computadores
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (59, 21, 'CO');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (60, 21, 'AC');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (61, 21, 'BO');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (62, 21, 'CR');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (63, 21, 'AN');
 -- Módulo de Programación de Mantenimiento de Vehículos
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (64, 22, 'CO');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (65, 22, 'AC');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (66, 22, 'BO');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (67, 22, 'CR');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (68, 22, 'AN');
 -- Módulo de Programación de Mantenimiento de Otros activos
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (69, 23, 'CO');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (70, 23, 'AC');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (71, 23, 'BO');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (72, 23, 'CR');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (73, 23, 'AN');
 -- Módulo de Ejecución de Mantenimiento de Computadores
