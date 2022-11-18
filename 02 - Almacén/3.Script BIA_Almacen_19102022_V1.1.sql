@@ -220,7 +220,7 @@ ALTER TYPE public."eTipoDocVehicular" OWNER TO postgres;
 --****************************************************************
 
 CREATE TABLE public."T065HojaDeVidaComputadores" (
-    "T065IdHojaDeVida" integer NOT NULL,
+    "T065IdHojaDeVida" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T065Id_Articulo" integer NOT NULL,
 	"T065sistemaOperativo" character varying(40),
 	"T065suiteOfimatica" character varying(40),
@@ -230,7 +230,7 @@ CREATE TABLE public."T065HojaDeVidaComputadores" (
 	"T065tipoDeEquipo" character varying(20),
 	"T065tipoAlmacenamiento" character varying(30),
 	"T065procesador" character varying(20),
-	"T065memoriaRAM" character varying(20),
+	"T065memoriaRAM" smallint,
 	"T065observacionesAdicionales" character varying(255),
 	"T065rutaImagenFoto" character varying(255)
 );
@@ -242,14 +242,15 @@ ALTER TABLE ONLY public."T065HojaDeVidaComputadores"
     
 ALTER TABLE ONLY public."T065HojaDeVidaComputadores"
     ADD CONSTRAINT "T065HojaDeVidaComputadores_Id_Art_UNQ" UNIQUE ("T065Id_Articulo")
-        INCLUDE("T065IdHojaDeVida", "T065Id_Articulo"); 
+        INCLUDE("T065Id_Articulo"); 
 	
 
 CREATE TABLE public."T066HojaDeVidaVehiculos" (
-    "T066IdHojaDeVida" smallint NOT NULL,
+    "T066IdHojaDeVida" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T066Id_Articulo" integer,
-    "T066Id_VehiculoArrendado" smallint,
+    "T066Id_VehiculoArrendado" integer,
 	"T066codTipoVehiculo" public."eTipoVehiculo",
+    "T066tienePlaton" boolean,
 	"T066capacidadPasajeros" smallint,
 	"T066color" character varying(20),
 	"T066linea" character varying(20),
@@ -280,12 +281,12 @@ ALTER TABLE ONLY public."T066HojaDeVidaVehiculos"
     ADD CONSTRAINT "PK_T066HojaDeVidaVehiculos" PRIMARY KEY ("T066IdHojaDeVida");
 
 ALTER TABLE ONLY public."T066HojaDeVidaVehiculos"
-    ADD CONSTRAINT "T066HojaDeVidaVehiculos_Id_Art_UNQ" UNIQUE ("T066Id_Articulo")
-        INCLUDE("T066Id_Articulo"); 
+    ADD CONSTRAINT "T066HojaDeVidaVehiculos_Id_Art_Id_VehArr_UNQ" UNIQUE ("T066Id_Articulo", "T066Id_VehiculoArrendado")
+        INCLUDE("T066Id_Articulo", "T066Id_VehiculoArrendado"); 
 	
 	
 CREATE TABLE public."T067HojaDeVidaOtrosActivos" (
-    "T067IdHojaDeVida" integer NOT NULL,
+    "T067IdHojaDeVida" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T067Id_Articulo" integer NOT NULL,
 	"T067caracteristicasFisicas" text,
 	"T067especificacionesTecnicas" text,
@@ -304,13 +305,13 @@ ALTER TABLE ONLY public."T067HojaDeVidaOtrosActivos"
         
         
 CREATE TABLE public."T068DocumentosVehiculo" (
-    "T068IdDocumentosVehiculo" integer NOT NULL,
+    "T068IdDocumentosVehiculo" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T068Id_Articulo" integer NOT NULL,
 	"T068codTipoDocumento" public."eTipoDocVehicular" NOT NULL,
-	"T068nroDocumento" character varying(50) NOT NULL,
+	"T068nroDocumento" character varying(20) NOT NULL,
 	"T068fechaInicioVigencia" date NOT NULL,
 	"T068fechaExpiracion" date NOT NULL,
-	"T068Id_EmpresaProveedora" smallint NOT NULL
+	"T068Id_EmpresaProveedora" integer NOT NULL
 );
 
 ALTER TABLE public."T068DocumentosVehiculo" OWNER TO postgres;
@@ -319,12 +320,12 @@ ALTER TABLE ONLY public."T068DocumentosVehiculo"
     ADD CONSTRAINT "PK_T068DocumentosVehiculo" PRIMARY KEY ("T068IdDocumentosVehiculo");
 
 ALTER TABLE ONLY public."T068DocumentosVehiculo"
-    ADD CONSTRAINT "T068DocumentosVehiculo_Cod_TipoDoc_nroDoc_UNQ" UNIQUE ("T068codTipoDocumento", "T068nroDocumento")
-        INCLUDE("T068codTipoDocumento", "T068nroDocumento"); 
+    ADD CONSTRAINT "T068DocumentosVehiculo_Cod_TipoDoc_nroDoc_UNQ" UNIQUE ("T068Id_Articulo", "T068codTipoDocumento", "T068nroDocumento")
+        INCLUDE("T068Id_Articulo", "T068codTipoDocumento", "T068nroDocumento"); 
 
 
 CREATE TABLE public."T069ProgramacionMantenimientos" (
-    "T069IdProgramacionMtto" integer NOT NULL,
+    "T069IdProgramacionMtto" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
 	"T069Id_Articulo" integer NOT NULL,
     "T069codTipoMantenimiento" public."eTipoMantenimiento" NOT NULL,
 	"T069fechaGenerada" date NOT NULL, 
@@ -335,7 +336,8 @@ CREATE TABLE public."T069ProgramacionMantenimientos" (
 	"T069fechaSolicitud" date,
 	"T069fechaAnulacion" timestamp with time zone,
 	"T069justificacionAnulacion" character varying(255),
-	"T069Id_PersonaAnula" integer
+	"T069Id_PersonaAnula" integer,
+    "T069ejecutado" boolean NOT NULL
 );
 
 ALTER TABLE public."T069ProgramacionMantenimientos" OWNER TO postgres;
@@ -345,16 +347,18 @@ ALTER TABLE ONLY public."T069ProgramacionMantenimientos"
 
 
 CREATE TABLE public."T070RegistroMantenimientos" (
-    "T070IdRegistroMtto" integer NOT NULL,
+    "T070IdRegistroMtto" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T070Id_Articulo" integer NOT NULL,
     "T070fechaRealizado" timestamp with time zone NOT NULL,
 	"T070codTipoMantenimiento" public."eTipoMantenimiento" NOT NULL, 
 	"T070accionesRealizadas" text NOT NULL,
 	"T070diasEmpleados" smallint NOT NULL,
 	"T070observaciones" character varying(255),
+    "T070codEstadoAnterior" character(1),
+    "T070fechaEstadoAnterior" timestamp with time zone,
 	"T070Cod_EstadoFinal" character(1) NOT NULL,
 	"T070Id_ProgramacionMtto" integer,
-    "T070valorMantenimiento" integer,
+    "T070valorMantenimiento" numeric(12,2),
 	"T070contratoMantenimiento" character varying(20),
 	"T070Id_PersonaRealiza" integer NOT NULL,
 	"T070Id_PersonaDiligencia" integer NOT NULL,
@@ -370,10 +374,10 @@ ALTER TABLE ONLY public."T070RegistroMantenimientos"
 -- CLASES DE TERCERO
 INSERT INTO public."T007ClasesTercero" ("T007IdClaseTercero", "T007nombre")
 OVERRIDING SYSTEM VALUE 
-VALUES (3, 'Proveedor');
+VALUES (4, 'Proveedor');
 INSERT INTO public."T007ClasesTercero" ("T007IdClaseTercero", "T007nombre")
 OVERRIDING SYSTEM VALUE 
-VALUES (4, 'Aseguradora');
+VALUES (5, 'Aseguradora');
 
 -- PERMISOS
 INSERT INTO public."TzPermisos" ("TzCodPermiso", "Tznombre") VALUES ('AN', 'Anular');
@@ -432,33 +436,33 @@ INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "T
 -- Módulo de Programación de Mantenimiento de Computadores
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (59, 21, 'CO');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (60, 21, 'AC');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (62, 21, 'CR');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (63, 21, 'AN');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (61, 21, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (62, 21, 'AN');
 -- Módulo de Programación de Mantenimiento de Vehículos
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (64, 22, 'CO');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (65, 22, 'AC');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (67, 22, 'CR');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (68, 22, 'AN');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (63, 22, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (64, 22, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (65, 22, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (66, 22, 'AN');
 -- Módulo de Programación de Mantenimiento de Otros activos
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (69, 23, 'CO');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (70, 23, 'AC');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (72, 23, 'CR');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (73, 23, 'AN');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (67, 23, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (68, 23, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (69, 23, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (70, 23, 'AN');
 -- Módulo de Ejecución de Mantenimiento de Computadores
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (74, 24, 'CR');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (75, 24, 'AC');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (76, 24, 'BO');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (77, 24, 'CO');
--- Módulo de Ejecución de Mantenimiento de Vehículos
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (78, 25, 'CR');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (79, 25, 'AC');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (80, 25, 'BO');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (81, 25, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (71, 24, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (72, 24, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (73, 24, 'BO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (74, 24, 'CO');
+-- Módulo de Ejecución de Mantenimiento de Vehículo
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (75, 25, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (76, 25, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (77, 25, 'BO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (78, 25, 'CO');
 -- Módulo de Ejecución de Mantenimiento de Otros activos
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (82, 26, 'CR');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (83, 26, 'AC');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (84, 26, 'BO');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (85, 26, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (79, 26, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (80, 26, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (81, 26, 'BO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (82, 26, 'CO');
 
 
 --****************************************************************
@@ -470,20 +474,23 @@ ALTER TABLE ONLY public."T066HojaDeVidaVehiculos"
 ALTER TABLE ONLY public."T068DocumentosVehiculo"
     ADD CONSTRAINT "FK_T068DocumentosVehiculo_T068Id_EmpresaProveedora" FOREIGN KEY ("T068Id_EmpresaProveedora") REFERENCES public."T010Personas"("T010IdPersona");
 	
-ALTER TABLE ONLY public."T069ProgramacionMantenimiento"
-    ADD CONSTRAINT "FK_T069ProgramacionMantenimiento_T069Id_PersonaSolicita" FOREIGN KEY ("T069Id_PersonaSolicita") REFERENCES public."T010Personas"("T010IdPersona");
+ALTER TABLE ONLY public."T069ProgramacionMantenimientos"
+    ADD CONSTRAINT "FK_T069ProgramacionMantenimientos_T069Id_PersonaSolicita" FOREIGN KEY ("T069Id_PersonaSolicita") REFERENCES public."T010Personas"("T010IdPersona");
 
-ALTER TABLE ONLY public."T069ProgramacionMantenimiento"
-    ADD CONSTRAINT "FK_T069ProgramacionMantenimiento_T069Id_PersonaAnula" FOREIGN KEY ("T069Id_PersonaAnula") REFERENCES public."T010Personas"("T010IdPersona");
+ALTER TABLE ONLY public."T069ProgramacionMantenimientos"
+    ADD CONSTRAINT "FK_T069ProgramacionMantenimientos_T069Id_PersonaAnula" FOREIGN KEY ("T069Id_PersonaAnula") REFERENCES public."T010Personas"("T010IdPersona");
 
-ALTER TABLE ONLY public."T070RegistroMantenimiento"
-    ADD CONSTRAINT "FK_T070RegistroMantenimiento_T070Id_ProgramacionMtto" FOREIGN KEY ("T070Id_ProgramacionMtto") REFERENCES public."T069ProgramacionMantenimiento"("T069IdProgramacionMtto");
+ALTER TABLE ONLY public."T070RegistroMantenimientos"
+    ADD CONSTRAINT "FK_T070RegistroMantenimientos_T070Id_ProgramacionMtto" FOREIGN KEY ("T070Id_ProgramacionMtto") REFERENCES public."T069ProgramacionMantenimientos"("T069IdProgramacionMtto");
 
-ALTER TABLE ONLY public."T070RegistroMantenimiento"
-    ADD CONSTRAINT "FK_T070RegistroMantenimiento_T070Id_PersonaRealiza" FOREIGN KEY ("T070Id_PersonaRealiza") REFERENCES public."T010Personas"("T010IdPersona");
+ALTER TABLE ONLY public."T070RegistroMantenimientos"
+    ADD CONSTRAINT "FK_T070RegistroMantenimientos_T070Id_PersonaRealiza" FOREIGN KEY ("T070Id_PersonaRealiza") REFERENCES public."T010Personas"("T010IdPersona");
 
-ALTER TABLE ONLY public."T070RegistroMantenimiento"
-    ADD CONSTRAINT "FK_T070RegistroMantenimiento_T070Id_PersonaDiligencia" FOREIGN KEY ("T070Id_PersonaDiligencia") REFERENCES public."T010Personas"("T010IdPersona");
+ALTER TABLE ONLY public."T070RegistroMantenimientos"
+    ADD CONSTRAINT "FK_T070RegistroMantenimientos_T070Id_PersonaDiligencia" FOREIGN KEY ("T070Id_PersonaDiligencia") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T070RegistroMantenimientos"
+    ADD CONSTRAINT "FK_T070RegistroMantenimientos_T070Cod_EstadoFinal" FOREIGN KEY ("T070Cod_EstadoFinal") REFERENCES public."T051EstadosArticulo"("T051Cod_Estado");
 
 @@ Esta FK falla debido a que aún no está creada la tabla de Vehículos arrendados.   Una vez esté en firme la tabla, revisar nuevamente esta constraint, por ahora dejarla aquí tal como está.
 ALTER TABLE ONLY public."T066HojaDeVidaVehiculos"
@@ -506,12 +513,12 @@ ALTER TABLE ONLY public."T068DocumentosVehiculo"
     ADD CONSTRAINT "FK_T068DocumentosVehiculo_T068Id_Articulo" FOREIGN KEY ("T068Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");
 
 @@ Revisar esta FK cuando esté en firme la tabla Artículos.
-ALTER TABLE ONLY public."T069ProgramacionMantenimiento"
-    ADD CONSTRAINT "FK_T069ProgramacionMantenimiento_T069Id_Articulo" FOREIGN KEY ("T069Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");
+ALTER TABLE ONLY public."T069ProgramacionMantenimientos"
+    ADD CONSTRAINT "FK_T069ProgramacionMantenimientos_T069Id_Articulo" FOREIGN KEY ("T069Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");
 
 @@ Revisar esta FK cuando esté en firme la tabla Artículos.
-ALTER TABLE ONLY public."T070RegistroMantenimiento"
-    ADD CONSTRAINT "FK_T070RegistroMantenimiento_T070Id_Articulo" FOREIGN KEY ("T070Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");
+ALTER TABLE ONLY public."T070RegistroMantenimientos"
+    ADD CONSTRAINT "FK_T070RegistroMantenimientos_T070Id_Articulo" FOREIGN KEY ("T070Id_Articulo") REFERENCES public."T057Articulos"("T057IdArticulo");
 
 /************************************************************************************
     SECCIÓN  ARTICULOS
