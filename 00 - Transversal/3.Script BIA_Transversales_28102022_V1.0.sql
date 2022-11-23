@@ -26,7 +26,7 @@ ALTER TYPE public."eTipoUnidadOrganizacional" OWNER TO postgres;
 ****************************************************************/
 --Tabla Básica.
 CREATE TABLE public."T009Cargos" (
-    "T009IdCargo" smallint GENERATED ALWAYS AS IDENTITY NOT NULL
+    "T009IdCargo" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T009nombre" character varying(50) NOT NULL,
     "T009activo" boolean NOT NULL,
     "T009itemYaUsado" boolean NOT NULL
