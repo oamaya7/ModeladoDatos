@@ -633,7 +633,7 @@ ALTER TABLE ONLY public."T057CatalogoBienes"
     ADD CONSTRAINT "FK_T057CatalogoBienes_T057Id_UnidadMedidaVidaUtil" FOREIGN KEY ("T057Id_UnidadMedidaVidaUtil") REFERENCES public."T055UnidadesMedida"("T055IdUnidadMedida");
 
 ALTER TABLE ONLY public."T057CatalogoBienes"
-    ADD CONSTRAINT "FK_T057CatalogoBienes_T057Id_ArticuloPadre" FOREIGN KEY ("T057Id_ArticuloPadre") REFERENCES public."T057CatalogoBienes"("T057IdBien");
+    ADD CONSTRAINT "FK_T057CatalogoBienes_T057Id_BienPadre" FOREIGN KEY ("T057Id_BienPadre") REFERENCES public."T057CatalogoBienes"("T057IdBien");
 
 ALTER TABLE ONLY public."T062Inventario"
     ADD CONSTRAINT "FK_T062Inventario_T062Id_Articulo" FOREIGN KEY ("T062Id_Articulo") REFERENCES public."T057CatalogoBienes"("T057IdBien");
