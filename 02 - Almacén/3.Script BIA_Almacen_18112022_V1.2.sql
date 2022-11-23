@@ -736,8 +736,6 @@ INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "T
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (102, 33, 'BO');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (103, 33, 'CO');
 
-
-
 /************************************************************************************
 FINNNNNNNNNNNNN    SECCIÓN LEYBER - ARTICULO / INVENTARIOS
 *************************************************************************************/
