@@ -14,16 +14,6 @@ ALTER TYPE public."eTipoArticulo" OWNER TO postgres;
 
 
 
-CREATE TYPE public."eTipoActivo" AS ENUM (
-    'C',
-    'V',
-    'O'
-);
-
-ALTER TYPE public."eTipoActivo" OWNER TO postgres;
-
-
-
 CREATE TYPE public."eTipoVehiculo" AS ENUM (
     'C',
 	'M'
@@ -60,6 +50,30 @@ CREATE TYPE public."eTipoDocVehicular" AS ENUM (
 );
 
 ALTER TYPE public."eTipoDocVehicular" OWNER TO postgres;
+
+
+
+CREATE TYPE public."eTipoDocUltimoMov" AS ENUM (
+    'E_CPR',        --"ENTRADA_COMPRA"
+    'E_DON',        --"ENTRADA_DONACIÓN"
+    'E_RES',        --"ENTRADA_RESARCIMIENTO" 
+    'E_CPS',        --"ENTRADA_COMPENSACION" 
+    'E_CMD',        --"ENTRADA_COMODATO" 
+    'E_CNV',        --"ENTRADA_CONVENIO" 
+    'E_EMB',        --"ENTRADA_EMBARGO" 
+    'E_INC',        --"ENTRADA_INCAUTACION" 
+    'E_APR',        --"ENTRADA_APROPIACION"
+    'ASIG',         --"ASIGNACIÓN" 
+    'REAS',         --"REASIGNACIÓN" 
+    'DEV_A',        --"DEVOLUCIÓN DE ASIGNADO" 
+    'PRES',         --"PRESTAMO" 
+    'DEV_P',        --"DEVOLUCIÓN DE PRESTADO" 
+    'MANT',         --"MANTENIMIENTO" 
+    'BAJA',         --"BAJA" 
+    'SAL_E'        --"SALIDA ESPECIAL"
+);
+
+ALTER TYPE public."eTipoDocUltimoMov" OWNER TO postgres;
 
 
 
@@ -208,9 +222,10 @@ ALTER TABLE ONLY public."T059TiposDepreciacionActivos"
         INCLUDE("T059nombre");  
         
 
+
 CREATE TABLE public."T060TiposActivo" (
-    "T060CodTipoActivo" public."eTipoActivo" NOT NULL,
-    "T060nombre" character varying(15) NOT NULL   
+    "T060CodTipoActivo" character(3) NOT NULL,
+    "T060nombre" character varying(40) NOT NULL   
 );
 
 ALTER TABLE public."T060TiposActivo" OWNER TO postgres;
@@ -224,8 +239,7 @@ ALTER TABLE ONLY public."T060TiposActivo"
 
 
 
-
-CREATE TABLE public."T065HojaDeVidaComputadores" (
+REATE TABLE public."T065HojaDeVidaComputadores" (
     "T065IdHojaDeVida" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T065Id_Articulo" integer NOT NULL,
 	"T065sistemaOperativo" character varying(40),
@@ -497,9 +511,23 @@ INSERT INTO public."T058MetodosValoracionArticulos" ("T058CodMetodoValoracion", 
 INSERT INTO public."T059TiposDepreciacionActivos" ("T059CodTipoDepreciacion", "T059nombre") VALUES (1, 'Línea Recta');
 
 -- TIPOS DE ACTIVOS FIJOS
-INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('C', 'Computador');
-INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('V', 'Vehículo');
-INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('O', 'Otros Activos');
+INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('Com', 'Computador');
+INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('Veh', 'Vehículo');
+INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('OAc', 'Otros Activos');
+INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('Ter', 'Terrenos');
+INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('CyE', 'Construcciones y Edificaciones');
+INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('Int', 'Intangibles');
+
+-- TIPOS DE ENTRADA DE ARTICULOS
+INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (1, 'Compra', 'Ingreso de artículos por motivo de una compra', 'proveedor');
+INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (2, 'Donación', 'Ingreso de articulos por motivo de una donación', 'Donante');
+INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (3, 'Resarcimiento', 'Ingreso de articulos por motivo de un resarcimiento de una persona o entidad', 'Quien Resarce');
+INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (4, 'Compensación', 'Ingreso de articulos por motivo de una compensación', 'Compensante');
+INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (5, 'Comodato', 'Ingreso de articulos por motivo de un comodato', 'Comodante');
+INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (6, 'Convenio', 'Ingreso de articulos por motivo de un convenio', 'Tercero');
+INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (7, 'Embargo', 'Ingreso de articulos por motivo de un embargo', 'Embargado');
+INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (8, 'Incautación', 'Ingreso de articulos por motivo de una incautación', 'Incautado');
+INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (9, 'Apropiación', 'Ingreso de articulos por motivo de una apropiación que se hace producto de una orden de embargo o incautación definitiva', 'Tercero');
 
 
 
@@ -652,93 +680,6 @@ ALTER TABLE ONLY public."T062Inventario"
 
 ALTER TABLE ONLY public."T062Inventario"
     ADD CONSTRAINT "FK_T062Inventario_T062Cod_EstadoDelActivo" FOREIGN KEY ("T062Cod_EstadoDelActivo") REFERENCES public."T051EstadosArticulo"("T051Cod_Estado");
-
-
-
-
--- TIPOS DE ENTRADA DE ARTICULOS
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (1, 'Compra', 'Ingreso de artículos por motivo de una compra', 'proveedor');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (2, 'Donación', 'Ingreso de articulos por motivo de una donación', 'Donante');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (3, 'Resarcimiento', 'Ingreso de articulos por motivo de un resarcimiento de una persona o entidad', 'Quien Resarce');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (4, 'Compensación', 'Ingreso de articulos por motivo de una compensación', 'Compensante');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (5, 'Comodato', 'Ingreso de articulos por motivo de un comodato', 'Comodante');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (6, 'Convenio', 'Ingreso de articulos por motivo de un convenio', 'Tercero');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (7, 'Embargo', 'Ingreso de articulos por motivo de un embargo', 'Embargado');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (8, 'Incautación', 'Ingreso de articulos por motivo de una incautación', 'Incautado');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (9, 'Apropiación', 'Ingreso de articulos por motivo de una apropiación que se hace producto de una orden de embargo o incautación definitiva', 'Tercero');
-
-
-
-@@TO LEYBER: DE AQUÍ EN ADELANTE, NUEVOS CAMBIOS, DEL 23/NOV/2022.
--- TIPOS DE ACTIVOS FIJOS
-@@LS: Debido a la necesidad de agregar más tipos de activos fijos, se debió borrar los registros que ya habían,
-y se agregaron de nuevo los 3 existentes y otros 3, con los nuevos digitos codigos de 3 dígitos.
-
-@@LS: Se borra el eNum eTipoActivo, ya que no va dado que tenemos tabla para el mismo, la "T060TiposArticulo".
-
-@@LS: Borrar la tabla T060 y crearla nuevamente cambiando el tipo de dadtos del CAMPO T060CodTipoActivo, pues estaba public.."eTipoActivo".
-DROP TABLE public."T060TiposActivo";
-CREATE TABLE public."T060TiposActivo" (
-    "T060CodTipoActivo" character(3) NOT NULL,
-    "T060nombre" character varying(40) NOT NULL   
-);
-
-ALTER TABLE public."T060TiposActivo" OWNER TO postgres;
-
-ALTER TABLE ONLY public."T060TiposActivo"
-    ADD CONSTRAINT "PK_T060TiposActivo" PRIMARY KEY ("T060CodTipoActivo"); 
-
-ALTER TABLE ONLY public."T060TiposActivo"
-    ADD CONSTRAINT "T060TiposActivo_T060nombre_UNQ" UNIQUE ("T060nombre")
-        INCLUDE("T060nombre");  
-
-
-@@LS: Se agregan nuevamente los 3 items ya agregados previamente.
-INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('Com', 'Computador');
-INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('Veh', 'Vehículo');
-INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('OAc', 'Otros Activos');
-@@LS: Se agregaron 3 nuevos item.
-INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('Ter', 'Terrenos');
-INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('CyE', 'Construcciones y Edificaciones');
-INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('Int', 'Intangibles');
-
-
-CREATE TYPE public."eTipoDocUltimoMov" AS ENUM (
-    'E_CPR',        --"ENTRADA_COMPRA"
-    'E_DON',        --"ENTRADA_DONACIÓN"
-    'E_RES',        --"ENTRADA_RESARCIMIENTO" 
-    'E_CPS',        --"ENTRADA_COMPENSACION" 
-    'E_CMD',        --"ENTRADA_COMODATO" 
-    'E_CNV',        --"ENTRADA_CONVENIO" 
-    'E_EMB',        --"ENTRADA_EMBARGO" 
-    'E_INC',        --"ENTRADA_INCAUTACION" 
-    'E_APR',        --"ENTRADA_APROPIACION"
-    'ASIG',         --"ASIGNACIÓN" 
-    'REAS',         --"REASIGNACIÓN" 
-    'DEV_A',        --"DEVOLUCIÓN DE ASIGNADO" 
-    'PRES',         --"PRESTAMO" 
-    'DEV_P',        --"DEVOLUCIÓN DE PRESTADO" 
-    'MANT',         --"MANTENIMIENTO" 
-    'BAJA',         --"BAJA" 
-    'SAL_E'        --"SALIDA ESPECIAL"
-);
-
-ALTER TYPE public."eTipoDocUltimoMov" OWNER TO postgres;
-
-
--- MODULOS
--- Módulo "Catálogo de Bienes": módulo para administrar los Bienes de la entidad a manejar en el subsistema de Almacén.
-INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
-OVERRIDING SYSTEM VALUE
-VALUES (33, 'Catálogo de Bienes', 'Permite administrar el catálogo de los bienes de la entidad a manejar en el subsistema de Almacén','ALMA');
-
--- PERMISOS POR MODULO
--- Módulo CATALOGO DE BIENES.
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (101, 33, 'CR');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (102, 33, 'AC');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (103, 33, 'BO');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (104, 33, 'CO');
-
 /************************************************************************************
 FINNNNNNNNNNNNN    SECCIÓN LEYBER - ARTICULO / INVENTARIOS
 *************************************************************************************/

@@ -2289,6 +2289,10 @@ INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsu
 OVERRIDING SYSTEM VALUE
 VALUES (32, 'Cambio de Tabla de Control de Acceso Actual', 'Permite adoptar una nueva Tabla de Control de Acceso de la entidad en el sistema','GEST');
 
+-- Módulo "Catálogo de Bienes": módulo para administrar los Bienes de la entidad a manejar en el subsistema de Almacén.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (33, 'Catálogo de Bienes', 'Permite administrar el catálogo de los bienes de la entidad a manejar en el subsistema de Almacén','ALMA');
 
 
 
@@ -2432,6 +2436,12 @@ INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "T
 -- Módulo CAMBIO DE TABLA DE CONTROL DE ACCESO.
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (99, 32, 'EJ');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (100, 32, 'CO');
+
+-- Módulo CATALOGO DE BIENES.
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (101, 33, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (102, 33, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (103, 33, 'BO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (104, 33, 'CO');
 
 
 
