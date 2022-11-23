@@ -554,8 +554,8 @@ ALTER TABLE ONLY public."T057CatalogoBienes"
     ADD CONSTRAINT "PK_T057CatalogoBienes" PRIMARY KEY ("T057IdBien");
 
 ALTER TABLE ONLY public."T057CatalogoBienes"
-    ADD CONSTRAINT "T057CatalogoBienes_T057codigo_T057consecActivoPorArticulo_UNQ" UNIQUE ("T057codigo", "T057consecActivoPorArticulo")
-        INCLUDE("T057codigo", "T057consecActivoPorArticulo"); 
+    ADD CONSTRAINT "T057CatalogoBienes_T057codigo_T057consecActivoPorArticulo_UNQ" UNIQUE ("T057codigoBien", "T057nroElementoEnElBien")
+        INCLUDE("T057codigoBien", "T057nroElementoEnElBien"); 
 
 
 
@@ -591,7 +591,7 @@ CREATE TABLE public."T062Inventario" (
     "T062Id_PersonaResponsable" integer,
     "T062Cod_EstadoDelActivo" character(1),
     "T062fechaUltimoMov" date,
-    "T062codTipoDocUltimoMov" character(1), 
+    "T062codTipoDocUltimoMov" public."eTipoDocUltimoMov", 
     "T062fechaIngreso" date,
     "T062cantidadEntranteConsumo" integer,
     "T062cantidadSalienteConsumo" integer
@@ -603,8 +603,8 @@ ALTER TABLE ONLY public."T062Inventario"
     ADD CONSTRAINT "PK_T062Inventario" PRIMARY KEY ("T062IdInventario"); 
     
 ALTER TABLE ONLY public."T062Inventario"
-    ADD CONSTRAINT "T062Inventario_T062Id_Articulo_T062Id_Bodega_UNQ" UNIQUE ("T062Id_Articulo", "T062Id_Bodega")
-        INCLUDE("T062Id_Articulo", "T062Id_Bodega"); 
+    ADD CONSTRAINT "T062Inventario_T062Id_Articulo_T062Id_Bodega_UNQ" UNIQUE ("T062Id_Bien", "T062Id_Bodega")
+        INCLUDE("T062Id_Bien", "T062Id_Bodega"); 
 
 
 
