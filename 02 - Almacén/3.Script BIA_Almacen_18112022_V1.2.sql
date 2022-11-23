@@ -677,9 +677,10 @@ y se agregaron de nuevo los 3 existentes y otros 3, con los nuevos digitos codig
 @@LS: Se borra el eNum eTipoActivo, ya que no va dado que tenemos tabla para el mismo, la "T060TiposArticulo".
 
 @@LS: Borrar la tabla T060 y crearla nuevamente cambiando el tipo de dadtos del CAMPO T060CodTipoActivo, pues estaba public.."eTipoActivo".
+DROP TABLE public."T060TiposActivo";
 CREATE TABLE public."T060TiposActivo" (
     "T060CodTipoActivo" character(3) NOT NULL,
-    "T060nombre" character varying(15) NOT NULL   
+    "T060nombre" character varying(40) NOT NULL   
 );
 
 ALTER TABLE public."T060TiposActivo" OWNER TO postgres;
@@ -735,8 +736,8 @@ VALUES (33, 'Catálogo de Bienes', 'Permite administrar el catálogo de los bien
 -- Módulo CATALOGO DE BIENES.
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (101, 33, 'CR');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (102, 33, 'AC');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (102, 33, 'BO');
-INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (103, 33, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (103, 33, 'BO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (104, 33, 'CO');
 
 /************************************************************************************
 FINNNNNNNNNNNNN    SECCIÓN LEYBER - ARTICULO / INVENTARIOS
