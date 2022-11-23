@@ -666,9 +666,84 @@ INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061
 INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (9, 'Apropiación', 'Ingreso de articulos por motivo de una apropiación que se hace producto de una orden de embargo o incautación definitiva', 'Tercero');
 
 
+
+@@TO LEYBER: DE AQUÍ EN ADELANTE, NUEVOS CAMBIOS, DEL 23/NOV/2022.
+-- TIPOS DE ACTIVOS FIJOS
+@@LS: Debido a la necesidad de agregar más tipos de activos fijos, se debió borrar los registros que ya habían,
+y se agregaron de nuevo los 3 existentes y otros 3, con los nuevos digitos codigos de 3 dígitos.
+
+@@LS: Se borra el eNum eTipoActivo, ya que no va dado que tenemos tabla para el mismo, la "T060TiposArticulo".
+
+@@LS: Borrar la tabla T060 y crearla nuevamente cambiando el tipo de dadtos del CAMPO T060CodTipoActivo, pues estaba public.."eTipoActivo".
+CREATE TABLE public."T060TiposActivo" (
+    "T060CodTipoActivo" character(3) NOT NULL,
+    "T060nombre" character varying(15) NOT NULL   
+);
+
+ALTER TABLE public."T060TiposActivo" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T060TiposActivo"
+    ADD CONSTRAINT "PK_T060TiposActivo" PRIMARY KEY ("T060CodTipoActivo"); 
+
+ALTER TABLE ONLY public."T060TiposActivo"
+    ADD CONSTRAINT "T060TiposActivo_T060nombre_UNQ" UNIQUE ("T060nombre")
+        INCLUDE("T060nombre");  
+
+
+@@LS: Se agregan nuevamente los 3 items ya agregados previamente.
+INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('Com', 'Computador');
+INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('Veh', 'Vehículo');
+INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('OAc', 'Otros Activos');
+@@LS: Se agregaron 3 nuevos item.
+INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('Ter', 'Terrenos');
+INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('CyE', 'Construcciones y Edificaciones');
+INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('Int', 'Intangibles');
+
+
+CREATE TYPE public."eTipoDocUltimoMov" AS ENUM (
+    'E_CPR',        --"ENTRADA_COMPRA"
+    'E_DON',        --"ENTRADA_DONACIÓN"
+    'E_RES',        --"ENTRADA_RESARCIMIENTO" 
+    'E_CPS',        --"ENTRADA_COMPENSACION" 
+    'E_CMD',        --"ENTRADA_COMODATO" 
+    'E_CNV',        --"ENTRADA_CONVENIO" 
+    'E_EMB',        --"ENTRADA_EMBARGO" 
+    'E_INC',        --"ENTRADA_INCAUTACION" 
+    'E_APR',        --"ENTRADA_APROPIACION"
+    'ASIG',         --"ASIGNACIÓN" 
+    'REAS',         --"REASIGNACIÓN" 
+    'DEV_A',        --"DEVOLUCIÓN DE ASIGNADO" 
+    'PRES',         --"PRESTAMO" 
+    'DEV_P',        --"DEVOLUCIÓN DE PRESTADO" 
+    'MANT',         --"MANTENIMIENTO" 
+    'BAJA',         --"BAJA" 
+    'SAL_E'        --"SALIDA ESPECIAL"
+);
+
+ALTER TYPE public."eTipoDocUltimoMov" OWNER TO postgres;
+
+
+-- MODULOS
+-- Módulo "Catálogo de Bienes": módulo para administrar los Bienes de la entidad a manejar en el subsistema de Almacén.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (33, 'Catálogo de Bienes', 'Permite administrar el catálogo de los bienes de la entidad a manejar en el subsistema de Almacén','ALMA');
+
+-- PERMISOS POR MODULO
+-- Módulo CATALOGO DE BIENES.
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (101, 33, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (102, 33, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (102, 33, 'BO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (103, 33, 'CO');
+
+
+
 /************************************************************************************
 FINNNNNNNNNNNNN    SECCIÓN LEYBER - ARTICULO / INVENTARIOS
 *************************************************************************************/
+
+
+
 
 /************************************************************************************
     SECCIÓN Miguel Guevara - VEHICULOS_ARRENDADOS / ASIGNACIÓN_VEHICULOCONDUCTOR / 
@@ -741,5 +816,3 @@ ALTER TABLE ONLY public."T072Conductores_VehiculosAgendables"
 /************************************************************************************
 FIN    SECCIÓN Miguel Guevara - VEHICULOS_ARRENDADOS / ASIGNACIÓN_VEHICULOCONDUCTOR / 
 /************************************************************************************
-
-
