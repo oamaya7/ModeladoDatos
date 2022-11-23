@@ -582,7 +582,7 @@ ALTER TABLE ONLY public."T057CatalogoBienes"
     ADD CONSTRAINT "PK_T057CatalogoBienes" PRIMARY KEY ("T057IdBien");
 
 ALTER TABLE ONLY public."T057CatalogoBienes"
-    ADD CONSTRAINT "T057CatalogoBienes_T057codigo_T057consecActivoPorArticulo_UNQ" UNIQUE ("T057codigoBien", "T057nroElementoEnElBien")
+    ADD CONSTRAINT "T057CatalogoBienes_T057codBien_T057T057nroElementoEnElBien_UNQ" UNIQUE ("T057codigoBien", "T057nroElementoEnElBien")
         INCLUDE("T057codigoBien", "T057nroElementoEnElBien"); 
 
 
