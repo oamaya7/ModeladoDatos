@@ -440,7 +440,7 @@ CREATE TABLE public."T069ProgramacionMantenimientos" (
     "T069IdProgramacionMtto" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
 	"T069Id_Articulo" integer NOT NULL,
     "T069codTipoMantenimiento" public."eTipoMantenimiento" NOT NULL,
-	"T069fechaGenerada" timestamp NOT NULL, 
+	"T069fechaGenerada" timestamp with time zone NOT NULL, 
 	"T069fechaProgramada" date NOT NULL,
 	"T069motivoMantenimiento" character varying(255) NOT NULL,
 	"T069observaciones" character varying(255),
