@@ -165,6 +165,10 @@ ALTER TABLE ONLY public."T055UnidadesMedida"
     ADD CONSTRAINT "T055UnidadesMedida_T055nombre_UNQ" UNIQUE ("T055nombre")
         INCLUDE("T055nombre");
 
+ALTER TABLE ONLY public."T055UnidadesMedida"
+    ADD CONSTRAINT "T055UnidadesMedida_T055Id_Magnitud_T055abreviatura_UNQ" UNIQUE ("T055Id_Magnitud", "T055abreviatura")
+        INCLUDE("T055Id_Magnitud", "T055abreviatura");
+
 
 CREATE TABLE public."T056Bodegas" (
     "T056IdBodega" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
@@ -186,9 +190,45 @@ ALTER TABLE ONLY public."T056Bodegas"
     ADD CONSTRAINT "T056Bodegas_T056nombre_UNQ" UNIQUE ("T056nombre")
         INCLUDE("T056nombre");
 
-ALTER TABLE ONLY public."T055UnidadesMedida"
-    ADD CONSTRAINT "T055UnidadesMedida_T055Id_Magnitud_T055abreviatura_UNQ" UNIQUE ("T055Id_Magnitud", "T055abreviatura")
-        INCLUDE("T055Id_Magnitud", "T055abreviatura");
+
+CREATE TABLE public."T057CatalogoBienes" (
+    "T057IdBien" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T057codigoBien" character varying(12) NOT NULL,
+    "T057nroElementoEnElBien" smallint,
+    "T057nombre" character varying(100) NOT NULL,
+    "T057codTipoBien" character (1) NOT NULL,
+    "T057Cod_TipoActivo" character(3),
+    "T057nivelJerarquico" smallint NOT NULL NOT NULL,
+    "T057nombreCientifico" character varying(255),
+    "T057descripcion" character varying(255),
+    "T057docIdentificadorNro" character varying(30),
+    "T057Id_Marca" smallint,
+    "T057Id_UnidadMedida" smallint NOT NULL,
+	"T057Id_PorcentajeIVA" smallint NOT NULL,
+	"T057Cod_MetodoValoracion" smallint,
+	"T057Cod_TipoDepreciacion" smallint,
+    "T057cantidadVidaUtil" smallint,
+    "T057Id_UnidadMedidaVidaUtil" smallint,
+    "T057valorResidual" numeric(10,0),
+	"T057stockMinimo" smallint,
+	"T057stockMaximo" integer,
+	"T057solicitablePorVivero" boolean NOT NULL,
+    "T057tieneHojaDeVida" boolean,
+    "T057Id_BienPadre" integer,
+    "T057manejaHojaDeVida" boolean NOT NULL,
+    "T057visibleEnSolicitudes" boolean NOT NULL
+);
+
+ALTER TABLE public."T057CatalogoBienes" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T057CatalogoBienes"
+    ADD CONSTRAINT "PK_T057CatalogoBienes" PRIMARY KEY ("T057IdBien");
+
+ALTER TABLE ONLY public."T057CatalogoBienes"
+    ADD CONSTRAINT "T057CatalogoBienes_codBien_nroElementoEnElBien_UNQ" UNIQUE ("T057codigoBien", "T057nroElementoEnElBien")
+        INCLUDE("T057codigoBien", "T057nroElementoEnElBien"); 
+
+
 
 
 CREATE TABLE public."T058MetodosValoracionArticulos" (
@@ -225,7 +265,7 @@ ALTER TABLE ONLY public."T059TiposDepreciacionActivos"
 
 CREATE TABLE public."T060TiposActivo" (
     "T060CodTipoActivo" character(3) NOT NULL,
-    "T060nombre" character varying(40) NOT NULL   
+    "T060nombre" character varying(30) NOT NULL   
 );
 
 ALTER TABLE public."T060TiposActivo" OWNER TO postgres;
@@ -239,7 +279,25 @@ ALTER TABLE ONLY public."T060TiposActivo"
 
 
 
-REATE TABLE public."T065HojaDeVidaComputadores" (
+CREATE TABLE public."T061TiposEntrada" (
+    "T061CodTipoEntrada" smallint NOT NULL,
+    "T061nombre" character varying(15) NOT NULL,
+    "T061descripcion" character varying(255) NOT NULL,
+    "T061tituloPersonaOrigen" character varying(20) NOT NULL 
+);
+
+ALTER TABLE public."T061TiposEntrada" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T061TiposEntrada"
+    ADD CONSTRAINT "PK_T061TiposEntrada" PRIMARY KEY ("T061CodTipoEntrada");
+
+ALTER TABLE ONLY public."T061TiposEntrada"
+    ADD CONSTRAINT "T061TiposEntrada_nombre_UNQ" UNIQUE ("T061nombre")
+        INCLUDE("T061nombre");
+
+
+
+CREATE TABLE public."T065HojaDeVidaComputadores" (
     "T065IdHojaDeVida" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T065Id_Articulo" integer NOT NULL,
 	"T065sistemaOperativo" character varying(40),
@@ -406,6 +464,32 @@ ALTER TABLE ONLY public."T056Bodegas"
 
 
 
+ALTER TABLE ONLY public."T057CatalogoBienes"
+    ADD CONSTRAINT "FK_T057CatalogoBienes_T057Cod_TipoActivo" FOREIGN KEY ("T057Cod_TipoActivo") REFERENCES public."T060TiposActivo"("T060CodTipoActivo");
+    
+ALTER TABLE ONLY public."T057CatalogoBienes"
+    ADD CONSTRAINT "FK_T057CatalogoBienes_T057Id_Marca" FOREIGN KEY ("T057Id_Marca") REFERENCES public."T052Marcas"("T052IdMarca");
+    
+ALTER TABLE ONLY public."T057CatalogoBienes"
+    ADD CONSTRAINT "FK_T057CatalogoBienes_T057Id_UnidadMedida" FOREIGN KEY ("T057Id_UnidadMedida") REFERENCES public."T055UnidadesMedida"("T055IdUnidadMedida");
+
+ALTER TABLE ONLY public."T057CatalogoBienes"
+    ADD CONSTRAINT "FK_T057CatalogoBienes_T057Id_PorcentajeIVA" FOREIGN KEY ("T057Id_PorcentajeIVA") REFERENCES public."T053PorcentajesIVA"("T053IdPorcentajeIVA");
+    
+ALTER TABLE ONLY public."T057CatalogoBienes"
+    ADD CONSTRAINT "FK_T057CatalogoBienes_T057Cod_MetodoValoracion" FOREIGN KEY ("T057Cod_MetodoValoracion") REFERENCES public."T058MetodosValoracionArticulos"("T058CodMetodoValoracion");
+    
+ALTER TABLE ONLY public."T057CatalogoBienes"
+    ADD CONSTRAINT "FK_T057CatalogoBienes_T057Cod_TipoDepreciacion" FOREIGN KEY ("T057Cod_TipoDepreciacion") REFERENCES public."T059TiposDepreciacionActivos"("T059CodTipoDepreciacion");
+    
+ALTER TABLE ONLY public."T057CatalogoBienes"
+    ADD CONSTRAINT "FK_T057CatalogoBienes_T057Id_UnidadMedidaVidaUtil" FOREIGN KEY ("T057Id_UnidadMedidaVidaUtil") REFERENCES public."T055UnidadesMedida"("T055IdUnidadMedida");
+
+ALTER TABLE ONLY public."T057CatalogoBienes"
+    ADD CONSTRAINT "FK_T057CatalogoBienes_T057Id_BienPadre" FOREIGN KEY ("T057Id_BienPadre") REFERENCES public."T057CatalogoBienes"("T057IdBien");
+
+
+
 ALTER TABLE ONLY public."T065HojaDeVidaComputadores"
     ADD CONSTRAINT "FK_T065HojaDeVidaComputadores_T065Id_Articulo" FOREIGN KEY ("T065Id_Articulo") REFERENCES public."T057CatalogoBienes"("T057IdBien");
 
@@ -519,15 +603,15 @@ INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES 
 INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('Int', 'Intangibles');
 
 -- TIPOS DE ENTRADA DE ARTICULOS
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (1, 'Compra', 'Ingreso de artículos por motivo de una compra', 'proveedor');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (2, 'Donación', 'Ingreso de articulos por motivo de una donación', 'Donante');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (3, 'Resarcimiento', 'Ingreso de articulos por motivo de un resarcimiento de una persona o entidad', 'Quien Resarce');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (4, 'Compensación', 'Ingreso de articulos por motivo de una compensación', 'Compensante');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (5, 'Comodato', 'Ingreso de articulos por motivo de un comodato', 'Comodante');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (6, 'Convenio', 'Ingreso de articulos por motivo de un convenio', 'Tercero');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (7, 'Embargo', 'Ingreso de articulos por motivo de un embargo', 'Embargado');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (8, 'Incautación', 'Ingreso de articulos por motivo de una incautación', 'Incautado');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (9, 'Apropiación', 'Ingreso de articulos por motivo de una apropiación que se hace producto de una orden de embargo o incautación definitiva', 'Tercero');
+INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (1, 'Compra', 'Ingreso de bienes por motivo de una compra', 'proveedor');
+INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (2, 'Donación', 'Ingreso de bienes por motivo de una donación', 'Donante');
+INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (3, 'Resarcimiento', 'Ingreso de bienes por motivo de un resarcimiento de una persona o entidad', 'Quien Resarce');
+INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (4, 'Compensación', 'Ingreso de bienes por motivo de una compensación', 'Compensante');
+INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (5, 'Comodato', 'Ingreso de bienes por motivo de un comodato', 'Comodante');
+INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (6, 'Convenio', 'Ingreso de bienes por motivo de un convenio', 'Tercero');
+INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (7, 'Embargo', 'Ingreso de bienes por motivo de un embargo', 'Embargado');
+INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (8, 'Incautación', 'Ingreso de bienes por motivo de una incautación', 'Incautado');
+INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (9, 'Apropiación', 'Ingreso de bienes por motivo de una apropiación que se hace producto de una orden de embargo o incautación definitiva', 'Tercero');
 
 
 
@@ -547,62 +631,7 @@ INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061
 --****************************************************************
 -- CREACIÓN DE TABLAS.
 --****************************************************************
-
-CREATE TABLE public."T057CatalogoBienes" (
-    "T057IdBien" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
-    "T057codigoBien" character varying(15) NOT NULL,
-    "T057nroElementoEnElBien" smallint,
-    "T057nombre" character varying(100) NOT NULL,
-    "T057codTipoBien" character varying(40) NOT NULL,
-    "T057Cod_TipoActivo" character(3),
-    "T057nivelJerarquico" smallint NOT NULL NOT NULL,
-    "T057nombreCientifico" character varying(255),
-    "T057descripcion" character varying(255),
-    "T057docIdentificadorNro" character varying(30),
-    "T057Id_Marca" smallint,
-    "T057Id_UnidadMedida" smallint NOT NULL,
-	"T057Id_PorcentajeIVA" smallint NOT NULL,
-	"T057Cod_MetodoValoracion" smallint,
-	"T057Cod_TipoDepreciacion" smallint,
-    "T057cantidadVidaUtil" smallint,
-    "T057Id_UnidadMedidaVidaUtil" smallint,
-    "T057valorResidual" integer,
-	"T057stockMinimo" integer,
-	"T057stockMaximo" integer,
-	"T057solicitablePorVivero" boolean NOT NULL,
-    "T057tieneHojaDeVida" boolean,
-    "T057Id_BienPadre" integer,
-    "T057manejaHojaDeVida" boolean NOT NULL,
-    "T057visibleEnSolicitudes" boolean NOT NULL
-);
-
-ALTER TABLE public."T057CatalogoBienes" OWNER TO postgres;
-
-ALTER TABLE ONLY public."T057CatalogoBienes"
-    ADD CONSTRAINT "PK_T057CatalogoBienes" PRIMARY KEY ("T057IdBien");
-
-ALTER TABLE ONLY public."T057CatalogoBienes"
-    ADD CONSTRAINT "T057CatalogoBienes_T057codBien_T057T057nroElementoEnElBien_UNQ" UNIQUE ("T057codigoBien", "T057nroElementoEnElBien")
-        INCLUDE("T057codigoBien", "T057nroElementoEnElBien"); 
-
-
-
-CREATE TABLE public."T061TiposEntrada" (
-    "T061CodTipoEntrada" smallint NOT NULL,
-    "T061nombre" character varying(15) NOT NULL,
-    "T061descripcion" character varying(255),
-    "T061tituloPersonaOrigen" character varying(20) NOT NULL 
-);
-
-ALTER TABLE public."T061TiposEntrada" OWNER TO postgres;
-
-ALTER TABLE ONLY public."T061TiposEntrada"
-    ADD CONSTRAINT "PK_T061TiposEntrada" PRIMARY KEY ("T061CodTipoEntrada");
-
-ALTER TABLE ONLY public."T061TiposEntrada"
-    ADD CONSTRAINT "T061TiposEntrada_T061nombre_UNQ" UNIQUE ("T061nombre")
-        INCLUDE("T061nombre");
-        
+      
 CREATE TABLE public."T062Inventario" (
     "T062IdInventario" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T062Id_Bien" integer NOT NULL,
@@ -631,7 +660,7 @@ ALTER TABLE ONLY public."T062Inventario"
     ADD CONSTRAINT "PK_T062Inventario" PRIMARY KEY ("T062IdInventario"); 
     
 ALTER TABLE ONLY public."T062Inventario"
-    ADD CONSTRAINT "T062Inventario_T062Id_Articulo_T062Id_Bodega_UNQ" UNIQUE ("T062Id_Bien", "T062Id_Bodega")
+    ADD CONSTRAINT "T062Inventario_Id_Bien_Id_Bodega_UNQ" UNIQUE ("T062Id_Bien", "T062Id_Bodega")
         INCLUDE("T062Id_Bien", "T062Id_Bodega"); 
 
 
@@ -639,29 +668,6 @@ ALTER TABLE ONLY public."T062Inventario"
 --****************************************************************
 -- FOREIGN KEYS
 --****************************************************************
-ALTER TABLE ONLY public."T057CatalogoBienes"
-    ADD CONSTRAINT "FK_T057CatalogoBienes_T057Cod_TipoActivo" FOREIGN KEY ("T057Cod_TipoActivo") REFERENCES public."T060TiposActivo"("T060CodTipoActivo");
-    
-ALTER TABLE ONLY public."T057CatalogoBienes"
-    ADD CONSTRAINT "FK_T057CatalogoBienes_T057Id_Marca" FOREIGN KEY ("T057Id_Marca") REFERENCES public."T052Marcas"("T052IdMarca");
-    
-ALTER TABLE ONLY public."T057CatalogoBienes"
-    ADD CONSTRAINT "FK_T057CatalogoBienes_T057Id_UnidadMedida" FOREIGN KEY ("T057Id_UnidadMedida") REFERENCES public."T055UnidadesMedida"("T055IdUnidadMedida");
-
-ALTER TABLE ONLY public."T057CatalogoBienes"
-    ADD CONSTRAINT "FK_T057CatalogoBienes_T057Id_PorcentajeIVA" FOREIGN KEY ("T057Id_PorcentajeIVA") REFERENCES public."T053PorcentajesIVA"("T053IdPorcentajeIVA");
-    
-ALTER TABLE ONLY public."T057CatalogoBienes"
-    ADD CONSTRAINT "FK_T057CatalogoBienes_T057Cod_MetodoValoracion" FOREIGN KEY ("T057Cod_MetodoValoracion") REFERENCES public."T058MetodosValoracionArticulos"("T058CodMetodoValoracion");
-    
-ALTER TABLE ONLY public."T057CatalogoBienes"
-    ADD CONSTRAINT "FK_T057CatalogoBienes_T057Cod_TipoDepreciacion" FOREIGN KEY ("T057Cod_TipoDepreciacion") REFERENCES public."T059TiposDepreciacionActivos"("T059CodTipoDepreciacion");
-    
-ALTER TABLE ONLY public."T057CatalogoBienes"
-    ADD CONSTRAINT "FK_T057CatalogoBienes_T057Id_UnidadMedidaVidaUtil" FOREIGN KEY ("T057Id_UnidadMedidaVidaUtil") REFERENCES public."T055UnidadesMedida"("T055IdUnidadMedida");
-
-ALTER TABLE ONLY public."T057CatalogoBienes"
-    ADD CONSTRAINT "FK_T057CatalogoBienes_T057Id_BienPadre" FOREIGN KEY ("T057Id_BienPadre") REFERENCES public."T057CatalogoBienes"("T057IdBien");
 
 ALTER TABLE ONLY public."T062Inventario"
     ADD CONSTRAINT "FK_T062Inventario_T062Id_Bien" FOREIGN KEY ("T062Id_Bien") REFERENCES public."T057CatalogoBienes"("T057IdBien");
