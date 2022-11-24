@@ -5,12 +5,12 @@
 /****************************************************************
     CREACIÓN DE TIPOS DE DATOS PERSONALIZADOS eNUM.
 ****************************************************************/
-CREATE TYPE public."eTipoArticulo" AS ENUM (
+CREATE TYPE public."eTipoBien" AS ENUM (
     'A',
     'C'
 );
 
-ALTER TYPE public."eTipoArticulo" OWNER TO postgres;
+ALTER TYPE public."eTipoBien" OWNER TO postgres;
 
 
 
@@ -196,9 +196,9 @@ CREATE TABLE public."T057CatalogoBienes" (
     "T057codigoBien" character varying(12) NOT NULL,
     "T057nroElementoEnElBien" smallint,
     "T057nombre" character varying(100) NOT NULL,
-    "T057codTipoBien" character (1) NOT NULL,
+    "T057codTipoBien" public."eTipoBien" NOT NULL,
     "T057Cod_TipoActivo" character(3),
-    "T057nivelJerarquico" smallint NOT NULL NOT NULL,
+    "T057nivelJerarquico" smallint NOT NULL,
     "T057nombreCientifico" character varying(255),
     "T057descripcion" character varying(255),
     "T057docIdentificadorNro" character varying(30),
@@ -294,6 +294,40 @@ ALTER TABLE ONLY public."T061TiposEntrada"
 ALTER TABLE ONLY public."T061TiposEntrada"
     ADD CONSTRAINT "T061TiposEntrada_nombre_UNQ" UNIQUE ("T061nombre")
         INCLUDE("T061nombre");
+
+
+
+CREATE TABLE public."T062Inventario" (
+    "T062IdInventario" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T062Id_Bien" integer NOT NULL,
+    "T062Id_Bodega" smallint NOT NULL,
+    "T062Cod_TipoEntrada" smallint,
+    "T062fechaIngreso" date,
+    "T062Id_PersonaOrigen" integer,
+    "T062numeroDocOrigen" character varying(30),
+    "T062valorAlIngreso" numeric(12,2),
+    "T062realizoBaja" boolean,
+    "T062realizoSalida" boolean,
+    "T062ubicacionEnBodega" boolean,
+    "T062ubicacionAsignado" boolean,
+    "T062ubicacionPrestado" boolean,
+    "T062Id_PersonaResponsable" integer,
+    "T062Cod_EstadoDelActivo" character(1),
+   	"T062fechaUltimoMov" timestamp with time zone,
+    "T062tipoDocUltimoMov" public."eTipoDocUltimoMov", 
+    "T062IdRegEnDocUltimoMov" integer,
+    "T062cantidadEntranteConsumo" integer,
+    "T062cantidadSalienteConsumo" integer
+);
+
+ALTER TABLE public."T062Inventario" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T062Inventario"
+    ADD CONSTRAINT "PK_T062Inventario" PRIMARY KEY ("T062IdInventario"); 
+    
+ALTER TABLE ONLY public."T062Inventario"
+    ADD CONSTRAINT "T062Inventario_Id_Bien_Id_Bodega_UNQ" UNIQUE ("T062Id_Bien", "T062Id_Bodega")
+        INCLUDE("T062Id_Bien", "T062Id_Bodega"); 
 
 
 
@@ -489,6 +523,25 @@ ALTER TABLE ONLY public."T057CatalogoBienes"
     ADD CONSTRAINT "FK_T057CatalogoBienes_T057Id_BienPadre" FOREIGN KEY ("T057Id_BienPadre") REFERENCES public."T057CatalogoBienes"("T057IdBien");
 
 
+ALTER TABLE ONLY public."T062Inventario"
+    ADD CONSTRAINT "FK_T062Inventario_T062Id_Bien" FOREIGN KEY ("T062Id_Bien") REFERENCES public."T057CatalogoBienes"("T057IdBien");
+    
+ALTER TABLE ONLY public."T062Inventario"
+    ADD CONSTRAINT "FK_T062Inventario_T062Id_Bodega" FOREIGN KEY ("T062Id_Bodega") REFERENCES public."T056Bodegas"("T056IdBodega");
+    
+ALTER TABLE ONLY public."T062Inventario"
+    ADD CONSTRAINT "FK_T062Inventario_T062Cod_TipoEntrada" FOREIGN KEY ("T062Cod_TipoEntrada") REFERENCES public."T061TiposEntrada"("T061CodTipoEntrada");
+    
+ALTER TABLE ONLY public."T062Inventario"
+    ADD CONSTRAINT "FK_T062Inventario_T062Id_PersonaOrigen" FOREIGN KEY ("T062Id_PersonaOrigen") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T062Inventario"
+    ADD CONSTRAINT "FK_T062Inventario_T062Id_PersonaResponsable" FOREIGN KEY ("T062Id_PersonaResponsable") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T062Inventario"
+    ADD CONSTRAINT "FK_T062Inventario_T062Cod_EstadoDelActivo" FOREIGN KEY ("T062Cod_EstadoDelActivo") REFERENCES public."T051EstadosArticulo"("T051Cod_Estado");
+
+
 
 ALTER TABLE ONLY public."T065HojaDeVidaComputadores"
     ADD CONSTRAINT "FK_T065HojaDeVidaComputadores_T065Id_Articulo" FOREIGN KEY ("T065Id_Articulo") REFERENCES public."T057CatalogoBienes"("T057IdBien");
@@ -620,72 +673,14 @@ INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061
 /************************************************************************************
     SECCIÓN LEYBER - ARTICULO / INVENTARIOS
 *************************************************************************************/
-
-/************************************************************************************
-    SECCIÓN  ARTICULOS
-*************************************************************************************/
-/****************************************************************
-    CREACIÓN DE TIPOS DE DATOS PERSONALIZADOS eNUM.
-****************************************************************/
-
 --****************************************************************
 -- CREACIÓN DE TABLAS.
 --****************************************************************
-      
-CREATE TABLE public."T062Inventario" (
-    "T062IdInventario" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
-    "T062Id_Bien" integer NOT NULL,
-    "T062Id_Bodega" smallint NOT NULL,
-    "T062Cod_TipoEntrada" smallint,
-    "T062Id_PersonaOrigen" integer,
-    "T062numeroDocOrigen" character varying(30),
-    "T062valorAlIngreso" numeric(12,2),
-    "T062realizoBaja" boolean,
-    "T062realizoSalida" boolean,
-    "T062ubicacionEnBodega" boolean,
-    "T062ubicacionAsignado" boolean,
-    "T062ubicacionPrestado" boolean,
-    "T062Id_PersonaResponsable" integer,
-    "T062Cod_EstadoDelActivo" character(1),
-    "T062fechaUltimoMov" date,
-    "T062codTipoDocUltimoMov" public."eTipoDocUltimoMov", 
-    "T062fechaIngreso" date,
-    "T062cantidadEntranteConsumo" integer,
-    "T062cantidadSalienteConsumo" integer
-);
-
-ALTER TABLE public."T062Inventario" OWNER TO postgres;
-
-ALTER TABLE ONLY public."T062Inventario"
-    ADD CONSTRAINT "PK_T062Inventario" PRIMARY KEY ("T062IdInventario"); 
-    
-ALTER TABLE ONLY public."T062Inventario"
-    ADD CONSTRAINT "T062Inventario_Id_Bien_Id_Bodega_UNQ" UNIQUE ("T062Id_Bien", "T062Id_Bodega")
-        INCLUDE("T062Id_Bien", "T062Id_Bodega"); 
-
-
 
 --****************************************************************
 -- FOREIGN KEYS
 --****************************************************************
 
-ALTER TABLE ONLY public."T062Inventario"
-    ADD CONSTRAINT "FK_T062Inventario_T062Id_Bien" FOREIGN KEY ("T062Id_Bien") REFERENCES public."T057CatalogoBienes"("T057IdBien");
-    
-ALTER TABLE ONLY public."T062Inventario"
-    ADD CONSTRAINT "FK_T062Inventario_T062Id_Bodega" FOREIGN KEY ("T062Id_Bodega") REFERENCES public."T056Bodegas"("T056IdBodega");
-    
-ALTER TABLE ONLY public."T062Inventario"
-    ADD CONSTRAINT "FK_T062Inventario_T062Cod_TipoEntrada" FOREIGN KEY ("T062Cod_TipoEntrada") REFERENCES public."T061TiposEntrada"("T061CodTipoEntrada");
-    
-ALTER TABLE ONLY public."T062Inventario"
-    ADD CONSTRAINT "FK_T062Inventario_T062Id_PersonaOrigen" FOREIGN KEY ("T062Id_PersonaOrigen") REFERENCES public."T010Personas"("T010IdPersona");
-
-ALTER TABLE ONLY public."T062Inventario"
-    ADD CONSTRAINT "FK_T062Inventario_T062Id_PersonaResponsable" FOREIGN KEY ("T062Id_PersonaResponsable") REFERENCES public."T010Personas"("T010IdPersona");
-
-ALTER TABLE ONLY public."T062Inventario"
-    ADD CONSTRAINT "FK_T062Inventario_T062Cod_EstadoDelActivo" FOREIGN KEY ("T062Cod_EstadoDelActivo") REFERENCES public."T051EstadosArticulo"("T051Cod_Estado");
 /************************************************************************************
 FINNNNNNNNNNNNN    SECCIÓN LEYBER - ARTICULO / INVENTARIOS
 *************************************************************************************/
