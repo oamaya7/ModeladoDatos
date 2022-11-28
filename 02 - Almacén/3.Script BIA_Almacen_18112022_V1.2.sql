@@ -463,13 +463,12 @@ ALTER TABLE ONLY public."T069ProgramacionMantenimientos"
 CREATE TABLE public."T070RegistroMantenimientos" (
     "T070IdRegistroMtto" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T070Id_Articulo" integer NOT NULL,
-    "T070fechaRealizado" timestamp with time zone NOT NULL,
+    "T070fechaRegistrado" timestamp with time zone NOT NULL,
+    "T070fechaEjecutado" timestamp with time zone NOT NULL,
 	"T070codTipoMantenimiento" public."eTipoMantenimiento" NOT NULL, 
 	"T070accionesRealizadas" text NOT NULL,
 	"T070diasEmpleados" smallint NOT NULL,
 	"T070observaciones" character varying(255),
-    "T070codEstadoAnterior" character(1),
-    "T070fechaEstadoAnterior" timestamp with time zone,
 	"T070Cod_EstadoFinal" character(1) NOT NULL,
 	"T070Id_ProgramacionMtto" integer,
     "T070valorMantenimiento" numeric(12,2),
@@ -477,6 +476,9 @@ CREATE TABLE public."T070RegistroMantenimientos" (
 	"T070Id_PersonaRealiza" integer NOT NULL,
 	"T070Id_PersonaDiligencia" integer NOT NULL,
     "T070rutaDocumentoSoporte" character varying(255)
+    "T070codEstadoAnterior" character(1) NOT NULL,
+    "T070fechaAnteriorMov" timestamp with time zone NOT NULL,
+    
 );
 
 ALTER TABLE public."T070RegistroMantenimientos" OWNER TO postgres;
