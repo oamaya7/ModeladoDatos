@@ -713,9 +713,40 @@ ALTER TABLE ONLY public."T063EntradasAlmacen"
     ADD CONSTRAINT "T063EntradasAlmacen_IdEntAlma_UNQ" UNIQUE ("T063IdEntradaAlmacen")
         INCLUDE("T063IdEntradaAlmacen"); 
 
+
+CREATE TABLE public."T064Items_EntradaAlmacen" (
+    "T064IdItem_EntradaAlmacen" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T064Id_EntradaAlmacen" integer NOT NULL,
+    "T064Id_Bien" integer NOT NULL,
+    "T064cantidad" integer NOT NULL,
+    "T064valorUnitario" numeric(12,2) NOT NULL,
+    "T064Id_PorcentajeIVA" numeric(5,2) NOT NULL,
+    "T064valorIVA" numeric(12,2) NOT NULL,
+    "T064valorTotalItem" numeric(12,2) NOT NULL,
+    "T064Id_Bodega" smallint NOT NULL,
+    "T064Cod_Estado" smallint NOT NULL,
+    "T064docIdentificadorBien" character varying(30) NOT NULL,
+    "T064vidaUtil" smallint NOT NULL,
+    "T064Id_UnidadMedidaVidaUtil" smallint NOT NULL,
+    "T064valorResidual" numeric(12,2) NOT NULL,
+    "T064nroPosicion" smallint NOT NULL
+);
+
+
+ALTER TABLE public."T064Items_EntradaAlmacen" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T064Items_EntradaAlmacen"
+    ADD CONSTRAINT "PK_T64Items_EntradaAlmacen" PRIMARY KEY ("T064IdItem_EntradaAlmacen");
+
+ALTER TABLE ONLY public."T064Items_EntradaAlmacen"
+    ADD CONSTRAINT "T064Items_EntAlma_IdEntAlma_UNQ" UNIQUE ("T064Id_EntradaAlmacen", "T064Id_Bien")
+        INCLUDE("T064Id_EntradaAlmacen", "T064Id_Bien"); 
+
 --****************************************************************
 -- FOREIGN KEYS
 --****************************************************************
+
+-- TABLA T063EntradasAlmacen
 
 ALTER TABLE ONLY public."T063EntradasAlmacen"
     ADD CONSTRAINT "FK_T063EntradasAlmacen_T063Id_Prov" FOREIGN KEY ("T063Id_Proveedor") REFERENCES public."T010Personas"("T010IdPersona");
@@ -737,6 +768,26 @@ ALTER TABLE ONLY public."T063EntradasAlmacen"
 
 ALTER TABLE ONLY public."T063EntradasAlmacen"
     ADD CONSTRAINT "FK_T063EntradasAlmacen_T063Id_PersAnula" FOREIGN KEY ("T063Id_PersonaAnula") REFERENCES public."T010Personas"("T010IdPersona");
+
+-- TABLA T064Items_EntradaAlmacen
+
+ALTER TABLE ONLY public."T064Items_EntradaAlmacen"
+    ADD CONSTRAINT "FK_T064Items_EntradaAlmacen_T064_EntAlma" FOREIGN KEY ("T064Id_EntradaAlmacen") REFERENCES public."T063EntradasAlmacen"("T063IdEntradaAlmacen");
+
+ALTER TABLE ONLY public."T064Items_EntradaAlmacen"
+    ADD CONSTRAINT "FK_T064Items_EntradaAlmacen_T064Id_Bien" FOREIGN KEY ("T064Id_Bien") REFERENCES public."T057CatalogoBienes"("T057IdBien");
+
+ALTER TABLE ONLY public."T064Items_EntradaAlmacen"
+    ADD CONSTRAINT "FK_T064Items_EntradaAlmacen_T064Id_PorcentajeIVA" FOREIGN KEY ("T064Id_PorcentajeIVA") REFERENCES public."T053PorcentajesIVA"("T053IdPorcentajeIVA");
+
+ALTER TABLE ONLY public."T064Items_EntradaAlmacen"
+    ADD CONSTRAINT "FK_T064Items_EntradaAlmacen_T064Id_Bodega" FOREIGN KEY ("T064Id_Bodega") REFERENCES public."T056Bodegas"("T056IdBodega");
+
+ALTER TABLE ONLY public."T064Items_EntradaAlmacen"
+    ADD CONSTRAINT "FK_T064Items_EntradaAlmacen_T064Cod_Estado" FOREIGN KEY ("T064Cod_Estado") REFERENCES public."T051EstadosArticulo"("T051CodEstado");
+
+ALTER TABLE ONLY public."T064Items_EntradaAlmacen"
+    ADD CONSTRAINT "FK_T064Items_EntradaAlmacen_T064Id_UnidadMedidaVidaUtil" FOREIGN KEY ("T064Id_UnidadMedidaVidaUtil") REFERENCES public."T055UnidadesMedida"("T055IdUnidadMedida");
 
 /************************************************************************************
 FINNNNNNNNNNNNN    SECCIÓN LEYBER - ARTICULO / INVENTARIOS
