@@ -76,8 +76,6 @@ CREATE TYPE public."eTipoDocUltimoMov" AS ENUM (
 
 ALTER TYPE public."eTipoDocUltimoMov" OWNER TO postgres;
 
-
-
 --****************************************************************
 -- CREACIÓN DE TABLAS.
 --****************************************************************
@@ -678,6 +676,17 @@ INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061
     SECCIÓN LEYBER - ARTICULO / INVENTARIOS
 *************************************************************************************/
 
+/****************************************************************
+    CREACIÓN DE TIPOS DE DATOS PERSONALIZADOS eNUM.
+****************************************************************/
+
+CREATE TYPE public."eEstadoAprobacionSolicitud" AS ENUM (
+    'A',
+    'R'
+);
+
+ALTER TYPE public."eEstadoAprobacionSolicitud" OWNER TO postgres;
+
 --****************************************************************
 -- CREACIÓN DE TABLAS.
 --****************************************************************
@@ -692,7 +701,7 @@ CREATE TABLE public."T063EntradasAlmacen" (
     "T063Id_Proveedor" integer NOT NULL,
     "T063Cod_TipoEntrada" smallint NOT NULL,
     "T063Id_BodegaGral" smallint NOT NULL,
-    "T063Id_ArchivoSoporte" integer NOT NULL,
+    -- "T063Id_ArchivoSoporte" integer NOT NULL,
     "T063valorTotalEntrada" numeric(12,2) NOT NULL,
     "T063Id_PersonaCrea" integer NOT NULL,
     "T063Id_PersonaUltActualizacionDifCrea" integer,
@@ -710,8 +719,8 @@ ALTER TABLE ONLY public."T063EntradasAlmacen"
     ADD CONSTRAINT "PK_T063EntradasAlmacen" PRIMARY KEY ("T063IdEntradaAlmacen");
 
 ALTER TABLE ONLY public."T063EntradasAlmacen"
-    ADD CONSTRAINT "T063EntradasAlmacen_IdEntAlma_UNQ" UNIQUE ("T063IdEntradaAlmacen")
-        INCLUDE("T063IdEntradaAlmacen"); 
+    ADD CONSTRAINT "T063EntradasAlmacen_nroEntradaAlm_UNQ" UNIQUE ("T063nroEntradaAlmacen")
+        INCLUDE("T063nroEntradaAlmacen"); 
 
 
 CREATE TABLE public."T064Items_EntradaAlmacen" (
@@ -740,7 +749,43 @@ ALTER TABLE ONLY public."T064Items_EntradaAlmacen"
 
 ALTER TABLE ONLY public."T064Items_EntradaAlmacen"
     ADD CONSTRAINT "T064Items_EntAlma_IdEntAlma_UNQ" UNIQUE ("T064Id_EntradaAlmacen", "T064Id_Bien")
-        INCLUDE("T064Id_EntradaAlmacen", "T064Id_Bien"); 
+        INCLUDE("T064Id_EntradaAlmacen", "T064Id_Bien");
+
+
+CREATE TABLE public."T081SolicitudesConsumibles" (
+    "T081IdSolicitudConsumibles" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T081esSolicitudDeConservacion" boolean NOT NULL,
+    "T081nroSolicitudPorTipo" integer NOT NULL,
+    "T081fechaSolicitud" time with time zone NOT NULL,
+    "T081motivo" text NOT NULL,
+    "T081observacion" character varying(255),
+    "T081Id_PersonaSolicita" integer NOT NULL,
+    "T081Id_UnidadOrgDelSolicitante" smallint NOT NULL,
+    "T081solicitudAbierta" boolean NOT NULL,
+    "T081fechaCierreSolicitud" date,
+    "T081revisadaResponsable" boolean NOT NULL,
+    "T081estadoAprobacionResponsable" public."eEstadoAprobacionSolicitud",
+    "T081motivoRechazoResponsable" character varying(255),
+    "T081fechaAprobacionResponsable" timestamp with time zone,
+    "T081gestionadaAlmacen" boolean NOT NULL,
+    -- "T081Id_DespachoConsumo" integer,
+    "T081rechazadaAlmacen" boolean,
+    "T081fechaRechazoAlmacen" timestamp with time zone,
+    "T081motivoRechazoAlmacen" character varying(255),
+    "T081solicitudAnuladaSolicitante" boolean,
+    "T081justificacionAnulacionSolicitante" character varying(255),
+    "T081fechaAnulacionSolicitante" timestamp with time zone,
+);
+
+
+ALTER TABLE public."T081SolicitudesConsumibles" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T081SolicitudesConsumibles"
+    ADD CONSTRAINT "PK_T081SolicitudesConsumibles" PRIMARY KEY ("T081IdSolicitudConsumibles");
+
+ALTER TABLE ONLY public."T081SolicitudesConsumibles"
+    ADD CONSTRAINT "T081IdSolicitudConsumibles_esSolnroSol_UNQ" UNIQUE ("T081esSolicitudDeConservacion", "T081nroSolicitudPorTipo")
+        INCLUDE("T081esSolicitudDeConservacion", "T081nroSolicitudPorTipo"); 
 
 --****************************************************************
 -- FOREIGN KEYS
@@ -788,6 +833,26 @@ ALTER TABLE ONLY public."T064Items_EntradaAlmacen"
 
 ALTER TABLE ONLY public."T064Items_EntradaAlmacen"
     ADD CONSTRAINT "FK_T064Items_EntradaAlmacen_T064Id_UnidadMedidaVidaUtil" FOREIGN KEY ("T064Id_UnidadMedidaVidaUtil") REFERENCES public."T055UnidadesMedida"("T055IdUnidadMedida");
+
+-- TABLA T081SolicitudesConsumibles
+
+ALTER TABLE ONLY public."T081SolicitudesConsumibles"
+    ADD CONSTRAINT "FK_T081SolicitudesConsumibles_T081Id_PersSolic" FOREIGN KEY ("T081Id_PersonaSolicita") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T081SolicitudesConsumibles"
+    ADD CONSTRAINT "FK_T081SolicitudesConsumibles_T081Id_UndOrgSolitante" FOREIGN KEY ("T081Id_UnidadOrgDelSolicitante") REFERENCES public."T019UnidadesOrganizacionales"("T019IdUnidadOrganizacional");
+
+ALTER TABLE ONLY public."T081SolicitudesConsumibles"
+    ADD CONSTRAINT "FK_T081SolicitudesConsumibles_T081Id_UndOrgSolicita" FOREIGN KEY ("T081Id_UnidadParaLaQueSolicita") REFERENCES public."T019UnidadesOrganizacionales"("T019IdUnidadOrganizacional");
+
+ALTER TABLE ONLY public."T081SolicitudesConsumibles"
+    ADD CONSTRAINT "FK_T081SolicitudesConsumibles_T081Id_FuncRespUnd" FOREIGN KEY ("T081Id_FuncionarioResponsableUnidad") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T081SolicitudesConsumibles"
+    ADD CONSTRAINT "FK_T081SolicitudesConsumibles_T081Id_UndOrgResp" FOREIGN KEY ("T081Id_UnidadOrgDelResponsable") REFERENCES public."T019UnidadesOrganizacionales"("T019IdUnidadOrganizacional");
+
+-- ALTER TABLE ONLY public."T081SolicitudesConsumibles"
+--     ADD CONSTRAINT "FK_T081SolicitudesConsumibles_T081Id_DespCons" FOREIGN KEY ("T081Id_DespachoConsumo") REFERENCES public."TXXXDespachosConsumo"("TXXXIdDespachoConsumo");
 
 /************************************************************************************
 FINNNNNNNNNNNNN    SECCIÓN LEYBER - ARTICULO / INVENTARIOS
