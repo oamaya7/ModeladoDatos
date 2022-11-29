@@ -677,13 +677,66 @@ INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061
 /************************************************************************************
     SECCIÓN LEYBER - ARTICULO / INVENTARIOS
 *************************************************************************************/
+
 --****************************************************************
 -- CREACIÓN DE TABLAS.
 --****************************************************************
 
+CREATE TABLE public."T063EntradasAlmacen" (
+    "T063IdEntradaAlmacen" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T063nroEntradaAlmacen" integer NOT NULL,
+    "T063fechaEntrada" date NOT NULL,
+    "T063fechaRealRegistro" timestamp with time zone NOT NULL,
+    "T063motivo" text NOT NULL,
+    "T063observacion" character varying(255),
+    "T063Id_Proveedor" integer NOT NULL,
+    "T063Cod_TipoEntrada" smallint NOT NULL,
+    "T063Id_BodegaGral" smallint NOT NULL,
+    "T063Id_ArchivoSoporte" integer NOT NULL,
+    "T063valorTotalEntrada" numeric(12,2) NOT NULL,
+    "T063Id_PersonaCrea" integer NOT NULL,
+    "T063Id_PersonaUltActualizacionDifCrea" integer,
+    "T063fechaUltimaActualizacion" timestamp,
+    "T063entradaAnulada" boolean,
+    "T063justificacionAnulacion" character varying(255),
+    "T063fechaAnulacion" timestamp with time zone,
+    "T063Id_PersonaAnula" integer
+);
+
+
+ALTER TABLE public."T063EntradasAlmacen" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T063EntradasAlmacen"
+    ADD CONSTRAINT "PK_T063EntradasAlmacen" PRIMARY KEY ("T063IdEntradaAlmacen");
+
+ALTER TABLE ONLY public."T063EntradasAlmacen"
+    ADD CONSTRAINT "T063EntradasAlmacen_IdEntAlma_UNQ" UNIQUE ("T063IdEntradaAlmacen")
+        INCLUDE("T063IdEntradaAlmacen"); 
+
 --****************************************************************
 -- FOREIGN KEYS
 --****************************************************************
+
+ALTER TABLE ONLY public."T063EntradasAlmacen"
+    ADD CONSTRAINT "FK_T063EntradasAlmacen_T063Id_Prov" FOREIGN KEY ("T063Id_Proveedor") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T063EntradasAlmacen"
+    ADD CONSTRAINT "FK_T063EntradasAlmacen_T063Cod_TipoEnt" FOREIGN KEY ("T063Cod_TipoEntrada") REFERENCES public."T061TiposEntrada"("T061CodTipoEntrada");
+
+ALTER TABLE ONLY public."T063EntradasAlmacen"
+    ADD CONSTRAINT "FK_T063EntradasAlmacen_T063Id_BodGral" FOREIGN KEY ("T063Id_BodegaGral") REFERENCES public."T056Bodegas"("T056IdBodega");
+
+-- ALTER TABLE ONLY public."T063EntradasAlmacen"
+--     ADD CONSTRAINT "FK_T063EntradasAlmacen_T063Id_ArchSoporte" FOREIGN KEY ("T063Id_ArchivoSoporte") REFERENCES public."TXXXArchivosSoporte"("TXXXIdArchivoSoporte");
+
+ALTER TABLE ONLY public."T063EntradasAlmacen"
+    ADD CONSTRAINT "FK_T063EntradasAlmacen_T063Id_PersCrea" FOREIGN KEY ("T063Id_PersonaCrea") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T063EntradasAlmacen"
+    ADD CONSTRAINT "FK_T063EntradasAlmacen_T063Id_PersUltActDif" FOREIGN KEY ("T063Id_PersonaUltActualizacionDifCrea") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T063EntradasAlmacen"
+    ADD CONSTRAINT "FK_T063EntradasAlmacen_T063Id_PersAnula" FOREIGN KEY ("T063Id_PersonaAnula") REFERENCES public."T010Personas"("T010IdPersona");
 
 /************************************************************************************
 FINNNNNNNNNNNNN    SECCIÓN LEYBER - ARTICULO / INVENTARIOS
@@ -695,6 +748,7 @@ FINNNNNNNNNNNNN    SECCIÓN LEYBER - ARTICULO / INVENTARIOS
 /************************************************************************************
     SECCIÓN Miguel Guevara - VEHICULOS_ARRENDADOS / ASIGNACIÓN_VEHICULOCONDUCTOR / 
 *************************************************************************************/
+
 CREATE TABLE public."T071VehiculosArrendados" (
     "T071IdVehiculoArrendado" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T071nombre" character varying(50) NOT NULL,
