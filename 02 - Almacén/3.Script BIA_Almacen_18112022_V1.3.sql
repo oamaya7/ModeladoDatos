@@ -787,6 +787,28 @@ ALTER TABLE ONLY public."T081SolicitudesConsumibles"
     ADD CONSTRAINT "T081IdSolicitudConsumibles_esSolnroSol_UNQ" UNIQUE ("T081esSolicitudDeConservacion", "T081nroSolicitudPorTipo")
         INCLUDE("T081esSolicitudDeConservacion", "T081nroSolicitudPorTipo"); 
 
+
+CREATE TABLE public."T082Items_SolicitudConsumible" (
+    "T082IdItem_SolicitudConsumible" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T082Id_SolicitudConsumible" integer NOT NULL,
+    "T082Id_Bien" integer NOT NULL,
+    "T082cantidad" integer NOT NULL,
+    "T082tipoDeUnidadTexto" character varying(20),
+    "T082observaciones" character varying(255) NOT NULL,
+    "T082nroPosicion" smallint NOT NULL
+
+);
+
+
+ALTER TABLE public."T082Items_SolicitudConsumible" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T082Items_SolicitudConsumible"
+    ADD CONSTRAINT "PK_T082Items_SolicitudConsumible" PRIMARY KEY ("T082IdItem_SolicitudConsumible");
+
+ALTER TABLE ONLY public."T082Items_SolicitudConsumible"
+    ADD CONSTRAINT "T082Items_SolicitudConsumible_IdSolConIdBien_UNQ" UNIQUE ("T082Id_SolicitudConsumible", "T082Id_Bien")
+        INCLUDE("T082Id_SolicitudConsumible", "T082Id_Bien");
+
 --****************************************************************
 -- FOREIGN KEYS
 --****************************************************************
