@@ -1,7 +1,6 @@
 /****************************************************************
- Script de Creación de Base de Datos - Subsistema Almacén - Última Actualizacion 18/11/2022 - V1.2.
+ Script de Creación de Base de Datos - Subsistema Almacén - Última Actualizacion 18/11/2022 - V1.3.
 ****************************************************************/
-@@TO LS: Cambiar versión de este script aquí y en el nombre del archivo a V1.3.
 
 
 /****************************************************************
@@ -478,7 +477,8 @@ CREATE TABLE public."T070RegistroMantenimientos" (
     "T070rutaDocumentoSoporte" character varying(255)
     "T070codEstadoAnterior" character(1) NOT NULL,
     "T070fechaAnteriorMov" timestamp with time zone NOT NULL,
-    
+    "T070tipoDocAnteriorMov" public."eTipoDocUltimoMov" NOT NULL,
+    "T070IdRegEnDocAnteriorMov" integer NOT NULL
 );
 
 ALTER TABLE public."T070RegistroMantenimientos" OWNER TO postgres;
