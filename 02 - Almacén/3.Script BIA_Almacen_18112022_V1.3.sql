@@ -813,7 +813,7 @@ ALTER TABLE ONLY public."T082Items_SolicitudConsumible"
 -- FOREIGN KEYS
 --****************************************************************
 
--- TABLA T063EntradasAlmacen
+-- ///// TABLA T063EntradasAlmacen
 
 ALTER TABLE ONLY public."T063EntradasAlmacen"
     ADD CONSTRAINT "FK_T063EntradasAlmacen_T063Id_Prov" FOREIGN KEY ("T063Id_Proveedor") REFERENCES public."T010Personas"("T010IdPersona");
@@ -836,7 +836,7 @@ ALTER TABLE ONLY public."T063EntradasAlmacen"
 ALTER TABLE ONLY public."T063EntradasAlmacen"
     ADD CONSTRAINT "FK_T063EntradasAlmacen_T063Id_PersAnula" FOREIGN KEY ("T063Id_PersonaAnula") REFERENCES public."T010Personas"("T010IdPersona");
 
--- TABLA T064Items_EntradaAlmacen
+-- ///// TABLA T064Items_EntradaAlmacen
 
 ALTER TABLE ONLY public."T064Items_EntradaAlmacen"
     ADD CONSTRAINT "FK_T064Items_EntradaAlmacen_T064_EntAlma" FOREIGN KEY ("T064Id_EntradaAlmacen") REFERENCES public."T063EntradasAlmacen"("T063IdEntradaAlmacen");
@@ -856,7 +856,7 @@ ALTER TABLE ONLY public."T064Items_EntradaAlmacen"
 ALTER TABLE ONLY public."T064Items_EntradaAlmacen"
     ADD CONSTRAINT "FK_T064Items_EntradaAlmacen_T064Id_UnidadMedidaVidaUtil" FOREIGN KEY ("T064Id_UnidadMedidaVidaUtil") REFERENCES public."T055UnidadesMedida"("T055IdUnidadMedida");
 
--- TABLA T081SolicitudesConsumibles
+-- ///// TABLA T081SolicitudesConsumibles
 
 ALTER TABLE ONLY public."T081SolicitudesConsumibles"
     ADD CONSTRAINT "FK_T081SolicitudesConsumibles_T081Id_PersSolic" FOREIGN KEY ("T081Id_PersonaSolicita") REFERENCES public."T010Personas"("T010IdPersona");
@@ -875,6 +875,16 @@ ALTER TABLE ONLY public."T081SolicitudesConsumibles"
 
 -- ALTER TABLE ONLY public."T081SolicitudesConsumibles"
 --     ADD CONSTRAINT "FK_T081SolicitudesConsumibles_T081Id_DespCons" FOREIGN KEY ("T081Id_DespachoConsumo") REFERENCES public."TXXXDespachosConsumo"("TXXXIdDespachoConsumo");
+
+-- ///// TABLA T082Items_SolicitudConsumible
+
+ALTER TABLE ONLY public."T082Items_SolicitudConsumible"
+    ADD CONSTRAINT "FK_T082Items_SolicitudConsumible_T082_SolCons" FOREIGN KEY ("T082Id_SolicitudConsumible") REFERENCES public."T081SolicitudesConsumibles"("T081IdSolicitudConsumibles");
+
+ALTER TABLE ONLY public."T082Items_SolicitudConsumible"
+    ADD CONSTRAINT "FK_T082Items_SolicitudConsumible_T082_IdBien" FOREIGN KEY ("T082Id_Bien") REFERENCES public."T057CatalogoBienes"("T057IdBien");
+
+
 
 /************************************************************************************
 FINNNNNNNNNNNNN    SECCIÓN LEYBER - ARTICULO / INVENTARIOS
