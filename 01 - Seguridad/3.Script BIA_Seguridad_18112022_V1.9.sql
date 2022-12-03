@@ -1,5 +1,5 @@
 /****************************************************************
-    Script de Creación de Base de Datos - Subsistema SEGURIDAD - Ultima Actualizacion 24/11/2022 - V1.9.
+    Script de Creación de Base de Datos - Subsistema SEGURIDAD - Ultima Actualizacion 03/12/2022 - V1.10.
 ****************************************************************/
 
 
@@ -190,6 +190,7 @@ ALTER TABLE ONLY public."T008OperacionesSobreUsuario"
         INCLUDE("T008nombre");
 
 
+
 CREATE TABLE public."T010Personas" (
     "T010IdPersona" integer GENERATED ALWAYS AS IDENTITY (START WITH 10 INCREMENT BY 1) NOT NULL,
     "T010Cod_TipoDocumentoID" character(2) NOT NULL,
@@ -211,7 +212,7 @@ CREATE TABLE public."T010Personas" (
     "T010Cod_MunicipioLaboralNal" character(5),
     "T010dirNotificacionNal" character varying(255),
     "T010Cod_MunicipioNotificacionNal" character(5),
-    "T010emailNotificacion" character varying(100) NOT NULL,
+    "T010emailNotificacion" character varying(100),
     "T010emailEmpresarial" character varying(100),
     "T010telFijoResidencial" character varying(15),
     "T010telCelularPersona" character varying(15),
@@ -224,6 +225,10 @@ CREATE TABLE public."T010Personas" (
     "T010Cod_PaisNacimiento" character(2),
     "T010Cod_Sexo" character(1),
     "T010Cod_EstadoCivil" character(1),
+    "T010Id_Cargo" smallint,
+    "T010Id_UnidadOrganizacionalActual" smallint,
+    "T010fechaAsignacionUnidadOrg" timestamp with time zone,
+    "T010esUnidadDeOrganigramaActual" boolean,
     "T010aceptaNotificacionSMS" boolean NOT NULL,
     "T010aceptaNotificacionEMail" boolean NOT NULL,
     "T010aceptaTratamientoDeDatos" boolean NOT NULL
@@ -237,10 +242,6 @@ ALTER TABLE ONLY public."T010Personas"
 ALTER TABLE ONLY public."T010Personas"
     ADD CONSTRAINT "T010Personas_T010Cod_TipoDocumentoID_T010nroDocumentoID_UNQ" UNIQUE ("T010Cod_TipoDocumentoID", "T010nroDocumentoID")
         INCLUDE("T010Cod_TipoDocumentoID", "T010nroDocumentoID");
-
-ALTER TABLE ONLY public."T010Personas"
-    ADD CONSTRAINT "T010Personas_T010emailNotificacion_UNQ" UNIQUE ("T010emailNotificacion")
-        INCLUDE("T010emailNotificacion");
 
 
 CREATE TABLE public."T011ClasesTercero_Persona" (

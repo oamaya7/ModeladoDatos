@@ -1,5 +1,5 @@
 /****************************************************************
-    Script de Creación de Base de Datos - Subsistema Transversales - Última Actualización 08/11/2022.
+    Script de Creación de Base de Datos - Subsistema TRANSVERSALES - Última Actualización 03/12/2022 - V1.2.
 ****************************************************************/
 
 /****************************************************************
@@ -93,7 +93,6 @@ ALTER TABLE ONLY public."T018NivelesOrganigrama"
         INCLUDE("T018Id_Organigrama","T018nombre");
 
 
-
 CREATE TABLE public."T019UnidadesOrganizacionales" (
     "T019IdUnidadOrganizacional" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T019Id_Organigrama" smallint NOT NULL,
@@ -119,6 +118,20 @@ ALTER TABLE ONLY public."T019UnidadesOrganizacionales"
     ADD CONSTRAINT "T019UnidadesOrganizacionales_T019Id_Organigrama_T019codigo_UNQ" UNIQUE ("T019Id_Organigrama","T019codigo")
         INCLUDE("T019Id_Organigrama","T019codigo");
 
+
+CREATE TABLE public."T020HistoricoUnidadesOrg_Persona" (
+    "T020IdHistoUnidad_Persona" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T020Id_Persona" integer NOT NULL,
+    "T020Id_UnidadOrganizativa" smallint NOT NULL,
+    "T020justificacionDelCambio" character varying(255) NOT NULL,
+    "T020fechaInicio" timestamp with time zone NOT NULL,
+    "T020fechaFinal" timestamp with time zone NOT NULL
+);
+
+ALTER TABLE public."T020HistoricoUnidadesOrg_Persona" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T020HistoricoUnidadesOrg_Persona"
+    ADD CONSTRAINT "PK_T020HistoricoUnidadesOrg_Persona" PRIMARY KEY ("T020IdHistoUnidad_Persona");
 
 
 --****************************************************************
@@ -150,6 +163,29 @@ ALTER TABLE ONLY public."T019UnidadesOrganizacionales"
     ADD CONSTRAINT "FK_T019UnidadesOrganizacionales_T019Id_UnidadOrgPadre" 
     FOREIGN KEY ("T019Id_UnidadOrgPadre") 
     REFERENCES public."T019UnidadesOrganizacionales"("T019IdUnidadOrganizacional") NOT VALID;
+
+
+ALTER TABLE ONLY public."T020HistoricoUnidadesOrg_Persona"
+    ADD CONSTRAINT "FK_T020HistoricoUnidadesOrg_Persona_T020Id_Persona" 
+    FOREIGN KEY ("T020Id_Persona") 
+    REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T020HistoricoUnidadesOrg_Persona"
+    ADD CONSTRAINT "FK_T020HistoricoUnidadesOrg_Persona_T020Id_UnidadOrganizativa" 
+    FOREIGN KEY ("T020Id_UnidadOrganizativa") 
+    REFERENCES public."T019UnidadesOrganizacionales"("T019IdUnidadOrganizacional");
+
+
+ALTER TABLE ONLY public."T010Personas"
+    ADD CONSTRAINT "FK_T010Personas_T010Id_Cargo" 
+    FOREIGN KEY ("T010Id_Cargo") 
+    REFERENCES public."T009Cargos"("T009IdCargo");
+
+ALTER TABLE ONLY public."T010Personas"
+    ADD CONSTRAINT "FK_T010Personas_T010Id_UnidadOrganizacionalActual" 
+    FOREIGN KEY ("T010Id_UnidadOrganizacionalActual") 
+    REFERENCES public."T019UnidadesOrganizacionales"("T019IdUnidadOrganizacional");
+
 
 /****************************************************************
     INSERCIÓN DE DATOS INICIALES.
