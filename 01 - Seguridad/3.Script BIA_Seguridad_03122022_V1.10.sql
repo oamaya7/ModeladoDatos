@@ -1,5 +1,5 @@
 /****************************************************************
-    Script de Creación de Base de Datos - Subsistema SEGURIDAD - Ultima Actualizacion 18/11/2022 - V1.8.
+    Script de Creación de Base de Datos - Subsistema SEGURIDAD - Ultima Actualizacion 03/12/2022 - V1.10.
 ****************************************************************/
 
 
@@ -190,6 +190,7 @@ ALTER TABLE ONLY public."T008OperacionesSobreUsuario"
         INCLUDE("T008nombre");
 
 
+
 CREATE TABLE public."T010Personas" (
     "T010IdPersona" integer GENERATED ALWAYS AS IDENTITY (START WITH 10 INCREMENT BY 1) NOT NULL,
     "T010Cod_TipoDocumentoID" character(2) NOT NULL,
@@ -211,7 +212,7 @@ CREATE TABLE public."T010Personas" (
     "T010Cod_MunicipioLaboralNal" character(5),
     "T010dirNotificacionNal" character varying(255),
     "T010Cod_MunicipioNotificacionNal" character(5),
-    "T010emailNotificacion" character varying(100) NOT NULL,
+    "T010emailNotificacion" character varying(100),
     "T010emailEmpresarial" character varying(100),
     "T010telFijoResidencial" character varying(15),
     "T010telCelularPersona" character varying(15),
@@ -224,6 +225,10 @@ CREATE TABLE public."T010Personas" (
     "T010Cod_PaisNacimiento" character(2),
     "T010Cod_Sexo" character(1),
     "T010Cod_EstadoCivil" character(1),
+    "T010Id_Cargo" smallint,
+    "T010Id_UnidadOrganizacionalActual" smallint,
+    "T010fechaAsignacionUnidadOrg" timestamp with time zone,
+    "T010esUnidadDeOrganigramaActual" boolean,
     "T010aceptaNotificacionSMS" boolean NOT NULL,
     "T010aceptaNotificacionEMail" boolean NOT NULL,
     "T010aceptaTratamientoDeDatos" boolean NOT NULL
@@ -237,10 +242,6 @@ ALTER TABLE ONLY public."T010Personas"
 ALTER TABLE ONLY public."T010Personas"
     ADD CONSTRAINT "T010Personas_T010Cod_TipoDocumentoID_T010nroDocumentoID_UNQ" UNIQUE ("T010Cod_TipoDocumentoID", "T010nroDocumentoID")
         INCLUDE("T010Cod_TipoDocumentoID", "T010nroDocumentoID");
-
-ALTER TABLE ONLY public."T010Personas"
-    ADD CONSTRAINT "T010Personas_T010emailNotificacion_UNQ" UNIQUE ("T010emailNotificacion")
-        INCLUDE("T010emailNotificacion");
 
 
 CREATE TABLE public."T011ClasesTercero_Persona" (
@@ -2295,6 +2296,43 @@ OVERRIDING SYSTEM VALUE
 VALUES (33, 'Catálogo de Bienes', 'Permite administrar el catálogo de los bienes de la entidad a manejar en el subsistema de Almacén','ALMA');
 
 
+-- Módulo "Entrada de Bienes de Almacén": módulo para ingresar bienes al Almacén de la entidad.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (34, 'Entrada de Bienes de Almacén', 'Permite ingresar bienes al Almacén de la entidad para su control','ALMA');
+
+-- Módulo "Solicitud de Bienes de Consumo": módulo para solicitar bienes de consumo por parte de la entidad al almacén de la misma.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (35, 'Solicitud de Bienes de Consumo', 'Permite solicitar bienes de consumo por parte de la entidad al almacén de la misma','ALMA');
+
+-- Módulo "Solicitud de Bienes de Consumo para Vivero": módulo para solicitar bienes de consumo para uso en Viveros por parte del personal de Viveros al Almacén.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (36, 'Solicitud de Bienes de Consumo para Viveros', 'Permite solicitar bienes de consumo para uso en la actividad misional de Viveros por parte del personal de Viveros al Almacén de la entidad','ALMA');
+
+-- Módulo "Aprobación de Solicitudes de Bienes": módulo para aprobar o rechazar solicitudes de bienes de las cuales se le elijió como resopnsable por parte del solicitante.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (37, 'Aprobación de Solicitudes de Bienes', 'Permite aprobar o rechazar solicitudes de bienes de las cuales se le elijió como responsable por parte del solicitante','ALMA');
+
+-- Módulo "Aprobación de Solicitudes de Consumo para Vivero": módulo para aprobar o rechazar solicitudes de bienes de las cuales se le elijió como resopnsable por parte del solicitante.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (38, 'Aprobación de Solicitudes de Consumo para Vivero', 'Permite aprobar o rechazar solicitudes de bienes de Consumo para la actividad misional de Vivero y sobre las cuales se le elijió como responsable por parte del solicitante','ALMA');
+
+-- Módulo "Rechazo de Solicitudes de Bienes desde Almacén": módulo para rechazar por parte de Almacén, solicitudes de bienes de las diferentes áreas de la entidad.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (39, 'Rechazo de Solicitudes de Bienes desde Almacén', 'Permite rechazar por parte de Almacén, solicitudes de bienes realizadas por las diferentes áreas de la entidad','ALMA');
+
+-- Módulo "Listado de Solicitudes de Bienes Pendientes": módulo que lista todas las solicitudes realizadas por la empresa y que no han sido gestionadas por Almacén.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (40, 'Listado de Solicitudes de Bienes Pendientes por Despachar', 'Lista todas las solicitudes realizadas por la empresa y que no han sido gestionadas por Almacén','ALMA');
+
+
+
 
 -- PERMISOS POR MODULO
 -- Módulo PERSONAS
@@ -2411,8 +2449,6 @@ INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "T
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (82, 26, 'CO');
 
 
-
-
 -- Módulo CUADROS DE CLASIFICACIÓN DOCUMENTAL.
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (86, 27, 'CR');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (87, 27, 'AC');
@@ -2442,6 +2478,43 @@ INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "T
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (102, 33, 'AC');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (103, 33, 'BO');
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (104, 33, 'CO');
+
+
+-- Módulo ENTRADA DE BIENES DE ALMACEN
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (105, 34, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (106, 34, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (107, 34, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (108, 34, 'AN');
+
+-- Módulo SOLICITUD DE BIENES DE CONSUMO.
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (109, 35, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (110, 35, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (111, 35, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (112, 35, 'AN');
+
+-- Módulo SOLICITUD DE BIENES DE CONSUMO PARA VIVERO
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (113, 36, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (114, 36, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (115, 36, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (116, 36, 'AN');
+
+-- Módulo APROBACIÓN DE SOLICITUD DE BIENES
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (117, 37, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (118, 37, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (119, 37, 'AC');
+
+-- Módulo APROBACIÓN DE SOLICITUDES DE CONSUMO PARA VIVERO
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (120, 38, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (121, 38, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (122, 38, 'AC');
+
+-- Módulo RECHAZO DE SOLICITUDES DE BIENES DESDE ALMACÉN
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (123, 39, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (124, 39, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (125, 39, 'AC');
+
+-- Módulo LISTADO DE SOLICTUDES DE BIENES PENDIENTES
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (126, 40, 'CO');
 
 
 
