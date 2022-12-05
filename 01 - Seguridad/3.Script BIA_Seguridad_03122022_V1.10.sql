@@ -2329,7 +2329,7 @@ VALUES (39, 'Rechazo de Solicitudes de Bienes desde Almacén', 'Permite rechazar
 -- Módulo "Listado de Solicitudes de Bienes Pendientes": módulo que lista todas las solicitudes realizadas por la empresa y que no han sido gestionadas por Almacén.
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
-VALUES (40, 'Listado de Solicitudes de Bienes Pendientes', 'Lista todas las solicitudes realizadas por la empresa y que no han sido gestionadas por Almacén','ALMA');
+VALUES (40, 'Listado de Solicitudes de Bienes Pendientes por Despachar', 'Lista todas las solicitudes realizadas por la empresa y que no han sido gestionadas por Almacén','ALMA');
 
 
 

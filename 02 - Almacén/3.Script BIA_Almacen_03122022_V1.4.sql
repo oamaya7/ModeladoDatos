@@ -79,8 +79,8 @@ ALTER TYPE public."eTipoDocUltimoMov" OWNER TO postgres;
 
 
 CREATE TYPE public."eEstadoAprobacionSolicitud" AS ENUM (
-    'A',        --"APROBADO"
-    'R'         --"RECHAZADO"
+    'A',        --"Aprobado"
+    'R'         --"Rechazado"
 );
 
 ALTER TYPE public."eEstadoAprobacionSolicitud" OWNER TO postgres;
