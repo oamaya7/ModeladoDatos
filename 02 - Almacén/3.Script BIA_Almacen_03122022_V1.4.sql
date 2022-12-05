@@ -861,7 +861,6 @@ INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061
 INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (6, 'Convenio', 'Ingreso de bienes por motivo de un convenio', 'Tercero');
 INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (7, 'Embargo', 'Ingreso de bienes por motivo de un embargo', 'Embargado');
 INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (8, 'Incautación', 'Ingreso de bienes por motivo de una incautación', 'Incautado');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (9, 'Apropiación', 'Ingreso de bienes por motivo de una apropiación que se hace producto de una orden de embargo o incautación definitiva', 'Tercero');
 
 
 
