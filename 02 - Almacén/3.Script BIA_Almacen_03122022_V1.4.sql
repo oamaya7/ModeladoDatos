@@ -379,7 +379,7 @@ CREATE TABLE public."T064Items_EntradaAlmacen" (
     "T064valorIVA" numeric(11,2) NOT NULL,
     "T064valorTotalItem" numeric(11,2) NOT NULL,
     "T064Id_Bodega" smallint NOT NULL,
-    "T064Cod_Estado" character(1) NOT NULL,
+    "T064Cod_Estado" character(1),
     "T064docIdentificadorBien" character varying(30),
     "T064cantidadVidaUtil" smallint,
     "T064Id_UnidadMedidaVidaUtil" smallint,
