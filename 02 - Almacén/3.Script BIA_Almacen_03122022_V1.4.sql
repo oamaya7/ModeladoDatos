@@ -508,6 +508,7 @@ CREATE TABLE public."T069ProgramacionMantenimientos" (
     "T069codTipoMantenimiento" public."eTipoMantenimiento" NOT NULL,
 	"T069fechaGenerada" timestamp with time zone NOT NULL, 
 	"T069fechaProgramada" date NOT NULL,
+    "T069kilometrajeProgramado" integer,
 	"T069motivoMantenimiento" character varying(255) NOT NULL,
 	"T069observaciones" character varying(255),
 	"T069Id_PersonaSolicita" integer,
