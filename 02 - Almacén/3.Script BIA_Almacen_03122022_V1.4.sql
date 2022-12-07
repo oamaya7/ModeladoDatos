@@ -375,7 +375,7 @@ CREATE TABLE public."T064Items_EntradaAlmacen" (
     "T064Id_Bien" integer NOT NULL,
     "T064cantidad" integer NOT NULL,
     "T064valorUnitario" numeric(11,2) NOT NULL,
-    "T064porcentajeIVA" numeric(5,2) NOT NULL,
+    "T064Id_PorcentajeIVA" numeric(5,2) NOT NULL,
     "T064valorIVA" numeric(11,2) NOT NULL,
     "T064valorTotalItem" numeric(11,2) NOT NULL,
     "T064Id_Bodega" smallint NOT NULL,
@@ -698,6 +698,9 @@ ALTER TABLE ONLY public."T064Items_EntradaAlmacen"
 
 ALTER TABLE ONLY public."T064Items_EntradaAlmacen"
     ADD CONSTRAINT "FK_T064Items_EntradaAlmacen_Id_Bien" FOREIGN KEY ("T064Id_Bien") REFERENCES public."T057CatalogoBienes"("T057IdBien");
+
+ALTER TABLE ONLY public."T064Items_EntradaAlmacen"
+    ADD CONSTRAINT "FK_T064Items_EntradaAlmacen_Id_PorcIVA" FOREIGN KEY ("T064Id_PorcentajeIVA") REFERENCES public."T053PorcentajesIVA"("T053IdPorcentajeIVA");
 
 ALTER TABLE ONLY public."T064Items_EntradaAlmacen"
     ADD CONSTRAINT "FK_T064Items_EntradaAlmacen_Id_Bodega" FOREIGN KEY ("T064Id_Bodega") REFERENCES public."T056Bodegas"("T056IdBodega");
