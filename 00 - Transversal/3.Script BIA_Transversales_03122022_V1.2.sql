@@ -122,7 +122,7 @@ ALTER TABLE ONLY public."T019UnidadesOrganizacionales"
 CREATE TABLE public."T020HistoricoUnidadesOrg_Persona" (
     "T020IdHistoUnidad_Persona" smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T020Id_Persona" integer NOT NULL,
-    "T020Id_UnidadOrganizativa" smallint NOT NULL,
+    "T020Id_UnidadOrganizacional" smallint NOT NULL,
     "T020justificacionDelCambio" character varying(255) NOT NULL,
     "T020fechaInicio" timestamp with time zone NOT NULL,
     "T020fechaFinal" timestamp with time zone NOT NULL
