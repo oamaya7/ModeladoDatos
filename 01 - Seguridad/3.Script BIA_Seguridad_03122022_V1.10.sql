@@ -2106,6 +2106,7 @@ INSERT INTO public."T006TiposDocumentoID" ("T006CodTipoDocumentoID", "T006nombre
 INSERT INTO public."T006TiposDocumentoID" ("T006CodTipoDocumentoID", "T006nombre", "T006registroPrecargado") VALUES ('NU', 'NUIP', true);
 INSERT INTO public."T006TiposDocumentoID" ("T006CodTipoDocumentoID", "T006nombre", "T006registroPrecargado") VALUES ('PA', 'Pasaporte', true);
 INSERT INTO public."T006TiposDocumentoID" ("T006CodTipoDocumentoID", "T006nombre", "T006registroPrecargado") VALUES ('PE', 'Permiso Especial de Permanencia', true);
+INSERT INTO public."T006TiposDocumentoID" ("T006CodTipoDocumentoID", "T006nombre", "T006registroPrecargado") VALUES ('NT', 'NIT', true);
 
 
 -- CLASES DE TERCERO
