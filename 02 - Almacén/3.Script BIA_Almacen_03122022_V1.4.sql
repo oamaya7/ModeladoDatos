@@ -1,5 +1,5 @@
 /****************************************************************
- Script de Creación de Base de Datos - Subsistema Almacén - Última Actualizacion 03/12/2022 - V1.4.
+ Script de Creación de Base de Datos - Subsistema Gestión Documental - Última Actualizacion XX/12/2022 - V1.0.
 ****************************************************************/
 
 
@@ -85,9 +85,10 @@ CREATE TYPE public."eEstadoAprobacionSolicitud" AS ENUM (
 
 ALTER TYPE public."eEstadoAprobacionSolicitud" OWNER TO postgres;
 
---****************************************************************
--- CREACIÓN DE TABLAS.
---****************************************************************
+
+/****************************************************************
+ CREACIÓN DE TABLAS.
+****************************************************************/
 CREATE TABLE public."T051EstadosArticulo" (
     "T051Cod_Estado" character(1) NOT NULL,
     "T051nombre" character varying(20) NOT NULL
@@ -625,7 +626,6 @@ ALTER TABLE ONLY public."T056Bodegas"
     ADD CONSTRAINT "FK_T056Bodegas_T056Id_Responsable" FOREIGN KEY ("T056Id_Responsable") REFERENCES public."T010Personas"("T010IdPersona");
 
 
-
 ALTER TABLE ONLY public."T057CatalogoBienes"
     ADD CONSTRAINT "FK_T057CatalogoBienes_T057Cod_TipoActivo" FOREIGN KEY ("T057Cod_TipoActivo") REFERENCES public."T060TiposActivo"("T060CodTipoActivo");
     
@@ -670,7 +670,6 @@ ALTER TABLE ONLY public."T062Inventario"
     ADD CONSTRAINT "FK_T062Inventario_T062Cod_EstadoDelActivo" FOREIGN KEY ("T062Cod_EstadoDelActivo") REFERENCES public."T051EstadosArticulo"("T051Cod_Estado");
 
 
--- TABLA T063EntradasAlmacen
 ALTER TABLE ONLY public."T063EntradasAlmacen"
     ADD CONSTRAINT "FK_T063EntradasAlmacen_Id_Prov" FOREIGN KEY ("T063Id_Proveedor") REFERENCES public."T010Personas"("T010IdPersona");
 
@@ -796,9 +795,9 @@ ALTER TABLE ONLY public."T082Items_SolicitudConsumible"
     ADD CONSTRAINT "FK_T082Items_SolicitudConsumible_Id_UndMedVidaUtil" FOREIGN KEY ("T082Id_UnidadMedida") REFERENCES public."T055UnidadesMedida"("T055IdUnidadMedida");
 
 
---****************************************************************
--- INSERCIÓN DE DATOS INICIALES.
---****************************************************************
+/****************************************************************
+ INSERCIÓN DE DATOS INICIALES.
+****************************************************************/
 -- ESTADOS.
 INSERT INTO public."T051EstadosArticulo" ("T051Cod_Estado", "T051nombre") VALUES ('O', 'Óptimo');
 INSERT INTO public."T051EstadosArticulo" ("T051Cod_Estado", "T051nombre") VALUES ('D', 'Defectuoso');
