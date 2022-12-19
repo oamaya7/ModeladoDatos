@@ -7,15 +7,15 @@
     CREACIÓN DE TIPOS DE DATOS PERSONALIZADOS eNUM.
 ****************************************************************/
 CREATE TYPE public."eSubsistema" AS ENUM (
-    'ALMA',
-    'CONS',
-    'GEST',
-    'RECU',
-    'TRAM',
-    'PLAN',
-    'RECA',
-    'SEGU',
-    'TRSV'
+    'ALMA',     --ALMACÉN.
+    'CONS',     --CONSERVACIÓN.
+    'GEST',     --GESTOR DOCUMENTAL.
+    'RECU',     --RECURSO HÍDRICO.
+    'TRAM',     --TRAMITES Y SERVICIOS.
+    'PLAN',     --SEGUIMIENTO A PLANES.
+    'RECA',     --RECAUDO.
+    'SEGU',     --SEGURIDAD Y AUDITORÍA.
+    'TRSV'      --TRANSVERSALES.
 );
 
 ALTER TYPE public."eSubsistema" OWNER TO postgres;
