@@ -296,6 +296,7 @@ CREATE TABLE public."T061TiposEntrada" (
     "T061constituyePropiedad" boolean NOT NULL
 );
 
+
 ALTER TABLE public."T061TiposEntrada" OWNER TO postgres;
 
 ALTER TABLE ONLY public."T061TiposEntrada"
@@ -857,33 +858,6 @@ INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES 
 INSERT INTO public."T060TiposActivo" ("T060CodTipoActivo", "T060nombre") VALUES ('Int', 'Intangibles');
 
 -- TIPOS DE ENTRADA DE ARTICULOS
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (1, 'Compra', 'Ingreso de bienes por motivo de una compra', 'proveedor');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (2, 'Donación', 'Ingreso de bienes por motivo de una donación', 'Donante');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (3, 'Resarcimiento', 'Ingreso de bienes por motivo de un resarcimiento de una persona o entidad', 'Quien Resarce');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (4, 'Compensación', 'Ingreso de bienes por motivo de una compensación', 'Compensante');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (5, 'Comodato', 'Ingreso de bienes por motivo de un comodato', 'Comodante');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (6, 'Convenio', 'Ingreso de bienes por motivo de un convenio', 'Tercero');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (7, 'Embargo', 'Ingreso de bienes por motivo de un embargo', 'Embargado');
-INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen") VALUES (8, 'Incautación', 'Ingreso de bienes por motivo de una incautación', 'Incautado');
-
-
-
-
-
-
-/************************************************************************************
-    SECCIÓN LEYBER - ENTRADAS / SOLICITUDES
-*************************************************************************************/
---@@LS: Borrar la tabla T061TiposEntrada y dejar esta con el nuevo campo T061ConstituyePropiedad: 
-CREATE TABLE public."T061TiposEntrada" (
-    "T061CodTipoEntrada" smallint NOT NULL,
-    "T061nombre" character varying(15) NOT NULL,
-    "T061descripcion" character varying(255) NOT NULL,
-    "T061tituloPersonaOrigen" character varying(20) NOT NULL,
-    "T061constituyePropiedad" boolean NOT NULL
-);
-
--- TIPOS DE ENTRADA DE ARTICULOS
 INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen", "T061constituyePropiedad") VALUES (1, 'Compra', 'Ingreso de bienes por motivo de una compra', 'proveedor', true);
 INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen", "T061constituyePropiedad") VALUES (2, 'Donación', 'Ingreso de bienes por motivo de una donación', 'Donante', true);
 INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen", "T061constituyePropiedad") VALUES (3, 'Resarcimiento', 'Ingreso de bienes por motivo de un resarcimiento de una persona o entidad', 'Quien Resarce', true);
@@ -893,6 +867,13 @@ INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061
 INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen", "T061constituyePropiedad") VALUES (7, 'Embargo', 'Ingreso de bienes por motivo de un embargo', 'Embargado', false);
 INSERT INTO public."T061TiposEntrada" ("T061CodTipoEntrada", "T061nombre", "T061descripcion", "T061tituloPersonaOrigen", "T061constituyePropiedad") VALUES (8, 'Incautación', 'Ingreso de bienes por motivo de una incautación', 'Incautado', false);
 
+
+
+
+
+/************************************************************************************
+    SECCIÓN LEYBER - ENTRADAS / SOLICITUDES
+*************************************************************************************/
 
 
 /****************************************************************
