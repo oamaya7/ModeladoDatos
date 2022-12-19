@@ -2136,7 +2136,7 @@ VALUES (6, 'Conductor');
 
 INSERT INTO public."T007ClasesTercero" ("T007IdClaseTercero", "T007nombre")
 OVERRIDING SYSTEM VALUE 
-VALUES (7, 'Conductor externo');
+VALUES (7, 'Conductor Externo');
 
 -- OPERACIONES SOBRE USUARIO
 INSERT INTO public."T008OperacionesSobreUsuario" ("T008CodOperacion", "T008nombre") VALUES ('A', 'Activar');
