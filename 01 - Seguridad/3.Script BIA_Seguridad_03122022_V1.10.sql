@@ -7,15 +7,15 @@
     CREACIÓN DE TIPOS DE DATOS PERSONALIZADOS eNUM.
 ****************************************************************/
 CREATE TYPE public."eSubsistema" AS ENUM (
-    'ALMA',
-    'CONS',
-    'GEST',
-    'RECU',
-    'TRAM',
-    'PLAN',
-    'RECA',
-    'SEGU',
-    'TRSV'
+    'ALMA',     --ALMACÉN.
+    'CONS',     --CONSERVACIÓN.
+    'GEST',     --GESTOR DOCUMENTAL.
+    'RECU',     --RECURSO HÍDRICO.
+    'TRAM',     --TRAMITES Y SERVICIOS.
+    'PLAN',     --SEGUIMIENTO A PLANES.
+    'RECA',     --RECAUDO.
+    'SEGU',     --SEGURIDAD Y AUDITORÍA.
+    'TRSV'      --TRANSVERSALES.
 );
 
 ALTER TYPE public."eSubsistema" OWNER TO postgres;
@@ -2332,6 +2332,20 @@ INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsu
 OVERRIDING SYSTEM VALUE
 VALUES (40, 'Listado de Solicitudes de Bienes Pendientes por Despachar', 'Lista todas las solicitudes realizadas por la empresa y que no han sido gestionadas por Almacén','ALMA');
 
+-- Módulo "Administración de Viveros": módulo para administrar los viveros de la entidad.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (41, 'Administración de Viveros', 'Permite administrar los Viveros de la entidad','CONS');
+
+-- Módulo "Ingresar/Retirar de Cuarentena un Vivero": módulo que permite ingresar o sacar de cuarentena un vivero de la entidad.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (42, 'Ingresar/Retirar de Cuarentena un Vivero', 'módulo que permite ingresar o sacar de cuarentena un vivero de la entidad','CONS');
+
+-- Módulo "Aperturar/Cerrar un Vivero": módulo que permite aperturar o cerrar un vivero de la entidad.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (43, 'Aperturar/Cerrar un Vivero', 'módulo que permite aperturar o cerrar un vivero existente de la entidad','CONS');
 
 
 
@@ -2517,6 +2531,17 @@ INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "T
 -- Módulo LISTADO DE SOLICTUDES DE BIENES PENDIENTES
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (126, 40, 'CO');
 
+-- Módulo ADMINISTRACIÓN DE VIVEROS.
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (127, 41, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (128, 41, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (129, 41, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (130, 41, 'BO');
+
+-- Módulo INGRESAR/RETIRAR DE CUARENTENA UN VIVERO.
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (131, 42, 'CR');
+
+-- Módulo APERTURAR/CERRAR UN VIVERO.
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (132, 43, 'CR');
 
 
 
