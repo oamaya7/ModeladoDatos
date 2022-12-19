@@ -896,15 +896,43 @@ FINNNNNNNNNNNNN    SECCIÓN LEYBER - ARTICULO / INVENTARIOS
 /************************************************************************************
     SECCIÓN Miguel Guevara - VEHICULOS_ARRENDADOS / ASIGNACIÓN_VEHICULOCONDUCTOR / 
 *************************************************************************************/
+CREATE TYPE public."eEstadoAprobacion" AS ENUM (
+    'P',    --Pendiente
+    'A',    --Aprobado
+    'R'     --Rechazado
+);
+
+ALTER TYPE public."eEstadoAprobacion" OWNER TO postgres;
+
+CREATE TYPE public."eEstadoSolicitudViaje" AS ENUM (
+    'Sin Aprobar',
+    'En Espera',
+    'Asignado',
+    'Autorizado',
+    'Finalizado',
+    'Completado'
+);
+
+ALTER TYPE public."eEstadoSolicitudViaje" OWNER TO postgres;
+
+CREATE TYPE public."eTipoCierreViaje" AS ENUM (
+    'V', --'Vencimiento',
+    'I', --'Incumplimiento',
+    'D' --'Disponibilidad(No)',
+    'A' --Aprobación (No)
+);
+
+ALTER TYPE public."eTipoCierreViaje" OWNER TO postgres;
+
 
 CREATE TABLE public."T071VehiculosArrendados" (
     "T071IdVehiculoArrendado" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T071nombre" character varying(50) NOT NULL,
     "T071descripcion" character varying(255) NOT NULL,
-    "T071docIdentidad" character varying(50),
+    "T071placa" character varying(10) NOT NULL,
     "T071Id_Marca" smallint NOT NULL,
-    "T071fechaInicio" timestamp with time zone NOT NULL,
-    "T071fechaFin" timestamp with time zone NOT NULL,
+    "T071fechaInicio" date NOT NULL,
+    "T071fechaFin" date NOT NULL,
     "T071empresaContratista" character varying(50) NOT NULL,
     "T071tieneHojaDeVida" boolean NOT NULL
 );
@@ -913,18 +941,197 @@ CREATE TABLE public."T071VehiculosArrendados" (
 ALTER TABLE public."T071VehiculosArrendados" OWNER TO postgres;
 
 
-CREATE TABLE public."T072Conductores_VehiculosAgendables" (
-    "T072IdConductorVehiculo" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+CREATE TABLE public."T072VehiculosAgendables_Conductor" (
+    "T072IdVehiculoConductor" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T072Id_HojaDeVidaVehiculo" integer NOT NULL,
     "T072Id_PersonaConductor" integer NOT NULL,
-    "T072fechaIniciaAsignacion" timestamp with time zone NOT NULL,
+    "T072fechaIniciaAsignacion" DATE NOT NULL,
+    "T072fechaFinalizaAsignacion" DATE NOT NULL,
     "T072Id_PersonaQueAsigna" integer NOT NULL,
-    "T072fechaFinalizaAsignacion" timestamp with time zone NOT NULL,
-    "T072Id_PersonaActualizacionFinal" integer
+    "T072fechaRegistro" timestamp with time zone NOT NULL,
+    "T072Id_PersonaUltActualizacionDifCrea" integer ,
+    "T072fechaUltActualizacionDifCrea" timestamp with time zone
 );
 
 
-ALTER TABLE public."T072Conductores_VehiculosAgendables" OWNER TO postgres;
+ALTER TABLE public."T072VehiculosAgendables_Conductor" OWNER TO postgres;
+
+
+CREATE TABLE public."T073InspeccionesVehiculoDia" (
+    "T073IdInspeccionVehiculoDia" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T073Id_HojaDeVidaVehiculo" integer NOT NULL,
+    "T073Id_PersonaQueInspecciona" integer NOT NULL,
+    "T073diaInspeccion" date NOT NULL,
+    "T073fechaRegistro" timestamp with time zone NOT NULL,
+    "T073kilometraje" integer NOT NULL,
+    "T073dirDelanterasBuenas" boolean NOT NULL,
+    "T073dirTraserasBuenas" BOOLEAN not null,
+    "T073limpiabrisasDelanterosBuenos" boolean NOT NULL,
+    "T073limpiabrisasTraseroBueno" BOOLEAN not null,
+    "T073nivelAceiteBueno" boolean NOT NULL,
+    "T073nivelFrenosBueno" BOOLEAN not null,
+    "T073nivelRegrigeranteBueno" boolean NOT NULL,
+    "T073apoyaCabezasPilotoBueno" BOOLEAN not null,
+    "T073apoyaCabezasCopilotoBueno" boolean NOT NULL,
+    "T073apoyaCabezasTraserosBuenos" BOOLEAN not null,
+    "T073frenosGeneralesBuenos" boolean NOT NULL,
+    "T073frenoEmergenciaBueno" BOOLEAN not null,
+    "T073llantasDelanterasBuenas" boolean NOT NULL,
+    "T073LlantasTraserasBuenas" BOOLEAN not null,
+    "T073llantaRespuestoBuena" boolean NOT NULL,
+    "T073espejosLateralesBuenos" BOOLEAN not null,
+    "T073espejoRetrovisorBueno" boolean NOT NULL,
+    "T073cinturonesDelanterosBuenos" BOOLEAN not null,
+    "T073cinturonesTraserosBuenos" boolean NOT NULL,
+    "T073lucesAltasBuenas" BOOLEAN not null,
+    "T073lucesMediasBuenas" boolean NOT NULL,
+    "T073lucesBajasBuenas" BOOLEAN not null,
+    "T073lucesParadaBuenas" boolean NOT NULL,
+    "T073lucesParqueoBuenas" BOOLEAN not null,
+    "T073lucesReversaBuenas" boolean NOT NULL,
+    "T073kitHerramientasAlDia" BOOLEAN not null,
+    "T073botiquinCompleto" boolean NOT NULL,
+    "T073pitoBueno" BOOLEAN not null,
+    "T073observaciones" character varying(255),
+    "T073requiereVerificacionSuperior" BOOLEAN not null,
+    "T073verificacionSuperiorRealizada" boolean NOT NULL,
+    "T073Id_PersonaQueVerifica" INTEGER 
+);
+
+ALTER TABLE public."T073InspeccionesVehiculoDia" OWNER TO postgres;
+
+CREATE TABLE public."T074VehiculosAgendados_DiaDisponible" (
+    "T074IdVehAgendaDia" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T074Id_HojaDeVidaVehiculo" INTEGER NOT NULL,
+    "T074diaDisponibilidad" DATE  NOT NULL,
+    "T074consecutivoDia" SMALLINT NOT NULL,
+    "T074Id_ViajeAgendado" integer NULL,
+    "T074viajeEjecutado" BOOLEAN NOT NULL,
+    "T074Id_PersonaQueRegistra" integer NOT NULL
+);
+
+ALTER TABLE public."T074VehiculosAgendados_DiaDisponible" OWNER TO postgres;
+
+
+CREATE TABLE public."T075SolicitudesViaje" (
+    "T075IdSolicitudViaje" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T075Id_PersonaSolicita" integer NOT NULL,
+    "T075Id_UnidadOrgSolicitante" integer NOT NULL,
+    "T075fechaSolicitud" timestamp with time zone NOT NULL,
+    "T075expedienteAsociado" CHARACTER VARYING(90) NOT NULL,
+    "T075motivoViajeSolicitado" CHARACTER VARYING(255) NOT NULL,
+    "T075direccion" CHARACTER VARYING(255) NOT NULL,
+    "T075Cod_MunicipioDestino" CHARACTER (5) NOT NULL,
+    "T075indicacionesDestino" CHARACTER VARYING(255) NOT NULL,
+    "T075nroPasajeros" SMALLINT NOT NULL,
+    "T075requiereCarga" BOOLEAN NOT NULL,
+    "T075fechaPartida" date NOT NULL,
+    "T075horaPartida"  time NULL,
+    "T075fechaRetorno" date not null,
+    "T075horaRetorno" time null,
+    "T075reqCompagniaMilitar" BOOLEAN NOT NULL,
+    "T075consideracionesAdicionales" CHARACTER VARYING(255) NULL,
+    "T075Id_FuncionarioResponsable" INTEGER NOT NULL,
+    "T075Id_UnidadOrgResponsable" INTEGER NOT NULL,
+    "T075estadoAprobacionResponsable" public."eEstadoAprobacion" NOT NULL,
+    "T075justificacionAprobacionResponsable" CHARACTER varying(255),
+    "T075fechaAprobacionResponsable" TIMESTAMP with time zone,
+    "T075solicitudRechazadaAreaTrans" BOOLEAN not null,
+    "T075Id_PersonaRechazaSolicitud" INTEGER ,
+    "T075justificacionRechazoSolicitud" CHARACTER VARYING(255),
+    "T075fechaRechazoSolicitud" TIMESTAMP with time zone,
+    "T075solicitudAnuladaSolicitante" BOOLEAN NOT NULL,
+    "T075justificacionAnulacionSolicitante" CHARACTER varying(255),
+    "T075fechaAnulacionSolicitante" TIMESTAMP with time zone,    
+    "T075Id_PersonaCierraViaje" INTEGER,
+    "T075codTipoCierreViaje" public."eTipoCierreViaje" NOT NULL,--[Vencimiento, Incumplimiento, NoDisponible]
+    "T075justificacionCierreViaje" character varying(255),
+    "T075fechaCierreViaje" TIMESTAMP with TIME ZONE ,
+    "T075estadoSolicitud" public."eEstadoSolicitudViaje" NOT NULL,
+    "T075solicitudAbierta" BOOLEAN NOT NULL
+);
+
+
+ALTER TABLE public."T075SolicitudesViaje" OWNER TO postgres;
+
+CREATE TABLE public."T076Asignaciones_ViajeAgendado" (
+    "T076IdAsignacion_ViajeAgendado" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T076Id_ViajeAgendado" INTEGER NOT NULL,
+    "T076Id_SolicitudViaje" INTEGER NOT NULL,
+    "T076fechaAsignacion" TIMESTAMP with time zone NOT NULL,
+    "T076esAsignacionAutomatica" BOOLEAN not NULL,
+    "T076Id_PersonaAsigna" INTEGER,
+    "T076observacioensAsignacion" character varying(255),
+    "T076rechazadoSolicitante" BOOLEAN NOT NULL,
+    "T076Id_PersonaRechaza" integer,
+    "T076justificacionRechazo" character varying(255),
+    "T076fechaRechazo" TIMESTAMP WITH TIME ZONE ,
+    "T076asignacionAnulada" BOOLEAN NOT NULL,
+    "T076Id_PersonaAnula" INTEGER,
+    "T076justificacionAnulacion" character varying(255),
+    "T076fechaAnulacion" TIMESTAMP WITH TIME ZONE ,
+    "T076solicitudReprogramada" BOOLEAN NOT NULL,
+    "T076asignacionAbierta" BOOLEAN not null
+);
+
+
+ALTER TABLE public."T076Asignaciones_ViajeAgendado" OWNER TO postgres;
+
+
+CREATE TABLE public."T077ViajesAgendados" (
+    "T077IdViajeAgendado" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T077Id_HojaDeVidaVehiculo" INTEGER NOT NULL,
+    "T077direccion" CHARACTER VARYING not null,
+    "T077Cod_MunicipioDestino" CHARACTER (5) not null,
+    "T077indicacionesDestino" CHARACTER varying(255),
+    "T077nroTotalPasajerosReq" SMALLINT,
+    "T077requiereCapacidadCarga" BOOLEAN not null,
+    "T077fechaPartidaAsignada" date NOT NULL,
+    "T077horaPartida" TIME NULL,
+    "T077fechaRetornoAsignada" date not null,
+    "T077horaRetorno" time NULL,
+    "T077requiereCompagniaMilitar" BOOLEAN not null,
+    "T077observacionUnion" character varying(255),
+    "T077viajeAutorizado" BOOLEAN,
+    "T077Id_PersonaAutoriza" INTEGER ,
+    "T077observacionAutorizacion" character varying(255),
+    "T077fechaAutorizacion" TIMESTAMP with time zone,
+    "T077yaInicio" boolean NOT NULL,
+    "T077yaLlego" boolean NOT NULL,
+    "T077multiplesAsignaciones" BOOLEAN not null,
+    "T077viajeAgendadoAbierto" boolean NOT NULL
+);
+
+ALTER TABLE public."T077ViajesAgendados" OWNER TO postgres;
+
+CREATE TABLE public."T078Compatibilidades_ViajesAgendados" (
+    "T078IdCompatibilidad" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T078Id_ViajeAgendado" INTEGER NOT NULL,
+    "T078Id_SolicitudViajeSugerido" INTEGER NOT NULL,
+    "T078requiereAjuste" BOOLEAN not null,
+    "T078fechaEmparejamiento" TIMESTAMP WITH time ZONE not null
+);
+
+ALTER TABLE public."T078Compatibilidades_ViajesAgendados" OWNER TO postgres;
+
+CREATE TABLE public."T079BitacoraViaje" (
+    "T079IdBitacoraViaje" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T079Id_ViajeAgendado" INTEGER NOT NULL,
+    "T079Id_ConductorQueParte" INTEGER NULL,
+    "T079nombreConductorFueraSistema" CHARACTER VARYING(90) null,
+    "T079documentoConductorFS" CHARACTER VARYING(90) null,
+    "T079telefonoConductorFS" CHARACTER varying(15) NULL,
+    "T079fechaInicioRecorrido" TIMESTAMP WITH TIME ZONE not null,
+    "T079fechaRegistroDelInicio" TIMESTAMP WITH TIME ZONE not null,
+    "T079novedadSalida" character varying(255) NOT NULL,
+    "T079fechaLlegadaRecorrido" TIMESTAMP WITH TIME ZONE not null,
+    "T079novedadLlegada" character varying(255)
+);
+
+ALTER TABLE public."T079BitacoraViaje" OWNER TO postgres;
+
+
+
 
 --****************************************************************
 -- PRIMARY KEYS
@@ -934,8 +1141,35 @@ ALTER TABLE ONLY public."T071VehiculosArrendados"
     ADD CONSTRAINT "PK_T071VehiculosArrendados" PRIMARY KEY ("T071IdVehiculoArrendado");
 
 
-ALTER TABLE ONLY public."T072Conductores_VehiculosAgendables"
-    ADD CONSTRAINT "PK_T072IdConductorVehiculo" PRIMARY KEY ("T072IdConductorVehiculo");
+ALTER TABLE ONLY public."T072VehiculosAgendables_Conductor"
+    ADD CONSTRAINT "PK_T072IdVehiculoConductor" PRIMARY KEY ("T072IdVehiculoConductor");
+
+
+ALTER TABLE ONLY public."T073InspeccionesVehiculoDia"
+    ADD CONSTRAINT "PK_T073IdInspeccionVehiculoDia" PRIMARY KEY ("T073IdInspeccionVehiculoDia");
+
+ALTER TABLE ONLY public."T074VehiculosAgendados_DiaDisponible"
+    ADD CONSTRAINT "PK_T074IdVehAgendaDia" PRIMARY KEY ("T074IdVehAgendaDia");
+
+ALTER TABLE ONLY public."T075SolicitudesViaje"
+    ADD CONSTRAINT "PK_T075IdSolicitudViaje" PRIMARY KEY ("T075IdSolicitudViaje");
+
+
+ALTER TABLE ONLY public."T076Asignaciones_ViajeAgendado"
+    ADD CONSTRAINT "PK_T076IdAsignacion_ViajeAgendado" PRIMARY KEY ("T076IdAsignacion_ViajeAgendado");
+
+
+ALTER TABLE ONLY public."T077ViajesAgendados"
+    ADD CONSTRAINT "PK_T077IdViajeAgendado" PRIMARY KEY ("T077IdViajeAgendado");
+
+
+ALTER TABLE ONLY public."T078Compatibilidades_ViajesAgendados"
+    ADD CONSTRAINT "PK_T078IdCompatibilidad" PRIMARY KEY ("T078IdCompatibilidad");
+
+
+ALTER TABLE ONLY public."T079BitacoraViaje"
+    ADD CONSTRAINT "PK_T079IdBitacoraViaje" PRIMARY KEY ("T079IdBitacoraViaje");
+
 
 --****************************************************************
 -- FOREIGN KEYS
@@ -945,23 +1179,117 @@ ALTER TABLE ONLY public."T071VehiculosArrendados"
     ADD CONSTRAINT "FK_T071VehiculosArrendados_T071Id_Marca" FOREIGN KEY ("T071Id_Marca") REFERENCES public."T052Marcas"("T052IdMarca") NOT VALID;
 
 
+-- Vehículos Agendables por Conductor
 
-ALTER TABLE ONLY public."T072Conductores_VehiculosAgendables"
+ALTER TABLE ONLY public."T072VehiculosAgendables_Conductor"
     ADD CONSTRAINT "FK_T072Conductores_VehiculosAgen_T072Id_PersonaActualizacionF" FOREIGN KEY ("T072Id_PersonaActualizacionFinal") REFERENCES public."T010Personas"("T010IdPersona") NOT VALID;
 
 
 
-ALTER TABLE ONLY public."T072Conductores_VehiculosAgendables"
+ALTER TABLE ONLY public."T072VehiculosAgendables_Conductor"
     ADD CONSTRAINT "FK_T072Conductores_VehiculosAgendable_T072Id_PersonaConductor" FOREIGN KEY ("T072Id_PersonaConductor") REFERENCES public."T010Personas"("T010IdPersona") NOT VALID;
 
 
 
-ALTER TABLE ONLY public."T072Conductores_VehiculosAgendables"
+ALTER TABLE ONLY public."T072VehiculosAgendables_Conductor"
     ADD CONSTRAINT "FK_T072Conductores_VehiculosAgendable_T072Id_PersonaQueAsigna" FOREIGN KEY ("T072Id_PersonaQueAsigna") REFERENCES public."T010Personas"("T010IdPersona") NOT VALID;
 
 
-ALTER TABLE ONLY public."T072Conductores_VehiculosAgendables"
+ALTER TABLE ONLY public."T072VehiculosAgendables_Conductor"
     ADD CONSTRAINT "FK_T072Conductores_VehiculosAgendable_T072Id_HojaDeVidaVehiculo" FOREIGN KEY ("T072Id_HojaDeVidaVehiculo") REFERENCES public."T066HojaDeVidaVehiculo"("T066IdHojaDeVida") NOT VALID;
+
+--INSPECCIÓN VEHÍCULOS DIARIAMENTE
+
+ALTER TABLE ONLY public."T073InspeccionesVehiculoDia"
+    ADD CONSTRAINT "FK_T073Id_HojaDeVidaVehiculo" FOREIGN KEY ("T073Id_HojaDeVidaVehiculo") REFERENCES public."T066HojaDeVidaVehiculos"("T066IdHojaDeVida") NOT VALID;
+
+
+ALTER TABLE ONLY public."T073InspeccionesVehiculoDia"
+    ADD CONSTRAINT "FK_T073Id_PersonaQueInspecciona" FOREIGN KEY ("T073Id_PersonaQueInspecciona") REFERENCES public."T010Personas"("T010IdPersona")  NOT VALID;
+
+ALTER TABLE ONLY public."T073InspeccionesVehiculoDia"
+    ADD CONSTRAINT "FK_T073Id_PersonaQueVerifica" FOREIGN KEY ("T073Id_PersonaQueVerifica") REFERENCES public."T010Personas"("T010IdPersona")  NOT VALID;
+
+--VEHÍCULOS AGENDA DISPONIBILIDAD
+
+ALTER TABLE ONLY public."T074VehiculosAgendados_DiaDisponible"
+    ADD CONSTRAINT "FK_T074Id_HojaDeVidaVehiculo" FOREIGN KEY ("T074Id_HojaDeVidaVehiculo") REFERENCES public."T066HojaDeVidaVehiculos"("T066IdHojaDeVida") NOT VALID;
+
+
+ALTER TABLE ONLY public."T074VehiculosAgendados_DiaDisponible"
+    ADD CONSTRAINT "FK_T074Id_PersonaQueRegistra" FOREIGN KEY ("T074Id_PersonaQueRegistra") REFERENCES public."T010Personas"("T010IdPersona")  NOT VALID;
+
+ALTER TABLE ONLY public."T074VehiculosAgendados_DiaDisponible"
+    ADD CONSTRAINT "FK_T074Id_ViajeAgendado" FOREIGN KEY ("T074Id_ViajeAgendado") REFERENCES public."TXX"("TTT")  NOT VALID;
+
+--Solicitudes de viaje 
+
+ALTER TABLE ONLY public."T075SolicitudesViaje"
+    ADD CONSTRAINT "FK_T075Id_PersonaSolicita" FOREIGN KEY ("T075Id_PersonaSolicita") REFERENCES public."T010Personas"("T010IdPersona")  NOT VALID;
+
+ALTER TABLE ONLY public."T075SolicitudesViaje"
+    ADD CONSTRAINT "FK_T075Id_PersonaRechazaSolicitud" FOREIGN KEY ("T075Id_PersonaRechazaSolicitud") REFERENCES public."T010Personas"("T010IdPersona")  NOT VALID;
+
+ALTER TABLE ONLY public."T075SolicitudesViaje"
+    ADD CONSTRAINT "FK_T075Id_FuncionarioResponsable" FOREIGN KEY ("T075Id_FuncionarioResponsable") REFERENCES public."T010Personas"("T010IdPersona")  NOT VALID;
+
+ALTER TABLE ONLY public."T075SolicitudesViaje"
+    ADD CONSTRAINT "FK_T075Id_UnidadOrgSolicitante" FOREIGN KEY ("T075Id_UnidadOrgSolicitante") REFERENCES public."T019UnidadesOrganizacionales"("T019IdUnidadOrganizacional")  NOT VALID;
+
+ALTER TABLE ONLY public."T075SolicitudesViaje"
+    ADD CONSTRAINT "FK_T075Id_UnidadOrgResponsable" FOREIGN KEY ("T075Id_UnidadOrgResponsable") REFERENCES public."T019UnidadesOrganizacionales"("T019IdUnidadOrganizacional")  NOT VALID;
+
+ALTER TABLE ONLY public."T075SolicitudesViaje"
+    ADD CONSTRAINT "FK_T075Id_PersonaCierraViaje" FOREIGN KEY ("T075Id_PersonaCierraViaje") REFERENCES public."T010Personas"("T010IdPersona")  NOT VALID;
+
+--Asignaciones sobre viajes agendados 
+
+ALTER TABLE ONLY public."T076Asignaciones_ViajeAgendado"
+    ADD CONSTRAINT "FK_T076Id_ViajeAgendado" FOREIGN KEY ("T076Id_ViajeAgendado") REFERENCES public."TXX"("TZZZ")  NOT VALID;
+
+ALTER TABLE ONLY public."T076Asignaciones_ViajeAgendado"
+    ADD CONSTRAINT "FK_T076Id_SolicitudViaje" FOREIGN KEY ("T076Id_SolicitudViaje") REFERENCES public."TXX"("TZZZ")  NOT VALID;
+
+ALTER TABLE ONLY public."T076Asignaciones_ViajeAgendado"
+    ADD CONSTRAINT "FK_T076Id_PersonaAsigna" FOREIGN KEY ("T076Id_PersonaAsigna") REFERENCES public."T010Personas"("T010IdPersona")  NOT VALID;
+
+ALTER TABLE ONLY public."T076Asignaciones_ViajeAgendado"
+    ADD CONSTRAINT "FK_T076Id_PersonaRechaza" FOREIGN KEY ("T076Id_PersonaRechaza") REFERENCES public."T010Personas"("T010IdPersona")  NOT VALID;
+
+ALTER TABLE ONLY public."T076Asignaciones_ViajeAgendado"
+    ADD CONSTRAINT "FK_T076Id_PersonaAnula" FOREIGN KEY ("T076Id_PersonaAnula") REFERENCES public."T010Personas"("T010IdPersona")  NOT VALID;
+
+
+--VIAJES agendados 
+
+ALTER TABLE ONLY public."T077ViajesAgendados"
+    ADD CONSTRAINT "FK_T077Id_HojaDeVidaVehiculo" FOREIGN KEY ("T077Id_HojaDeVidaVehiculo") REFERENCES public."T066HojaDeVidaVehiculos"("T066IdHojaDeVida") NOT VALID;
+
+ALTER TABLE ONLY public."T077ViajesAgendados"
+    ADD CONSTRAINT "FK_T077Cod_MunicipioDestino" FOREIGN KEY ("T077Cod_MunicipioDestino") REFERENCES public."TXX"("TZZZ")  NOT VALID;
+
+ALTER TABLE ONLY public."T077ViajesAgendados"
+    ADD CONSTRAINT "FK_T077Id_PersonaAutoriza" FOREIGN KEY ("T077Id_PersonaAutoriza") REFERENCES public."T010Personas"("T010IdPersona")  NOT VALID;
+
+
+-- Compatibilidad de viajes 
+
+ALTER TABLE ONLY public."T078Compatibilidades_ViajesAgendados"
+    ADD CONSTRAINT "FK_T078Id_ViajeAgendado" FOREIGN KEY ("T078Id_ViajeAgendado") REFERENCES public."TXX"("Tzzz")  NOT VALID;
+
+ALTER TABLE ONLY public."T078Compatibilidades_ViajesAgendados"
+    ADD CONSTRAINT "FK_T078Id_SolicitudViajeSugerido" FOREIGN KEY ("T078Id_SolicitudViajeSugerido") REFERENCES public."TXX"("TYY")  NOT VALID;
+
+
+-- Bitacora de Viaje
+
+ALTER TABLE ONLY public."T079BitacoraViaje"
+    ADD CONSTRAINT "FK_T079Id_ViajeAgendado" FOREIGN KEY ("T079Id_ViajeAgendado") REFERENCES public."TXX"("Tzzz")  NOT VALID;
+
+ALTER TABLE ONLY public."T079BitacoraViaje"
+    ADD CONSTRAINT "FK_T079Id_ConductorQueParte" FOREIGN KEY ("T079Id_ConductorQueParte") REFERENCES public."TXX"("Tzzz")  NOT VALID;
+
+
 /************************************************************************************
-FIN    SECCIÓN Miguel Guevara - VEHICULOS_ARRENDADOS / ASIGNACIÓN_VEHICULOCONDUCTOR / 
+FIN    SECCIÓN Miguel Guevara - VEHICULOS TRANSPORTE
 /************************************************************************************
