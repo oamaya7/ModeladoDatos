@@ -103,6 +103,38 @@ ALTER TABLE public."T152HistorialCuarentenaViveros" OWNER TO postgres;
 ALTER TABLE ONLY public."T152HistorialCuarentenaViveros"
     ADD CONSTRAINT "PK_T152HistorialCuarentenaViveros" PRIMARY KEY ("T152IdHistorialCuarentenaVivero");
 
+
+CREATE TABLE public."T153DespachoEntrante" (
+    "T153IdDespachoEntrante" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T153Id_DespachoConsumoAlm" integer NOT NULL,
+    "T153fechaIngreso" timestamp with time zone NOT NULL,
+    "T153distribucionConfirmada" boolean NOT NULL,
+    "T153fechaConfirmacionDistribucion" timestamp with time zone,
+    "T153observacionDistribucion" character varying(255),
+    "T153Id_PersonaDistribuye" integer
+);
+
+ALTER TABLE public."T153DespachoEntrante" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T153DespachoEntrante"
+    ADD CONSTRAINT "PK_T153DespachoEntrante" PRIMARY KEY ("T153IdDespachoEntrante");
+
+
+CREATE TABLE public."T154Items_DespachoEntrante" (
+    "T154IdItem_DespachoEntrante" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T154Id_DespachoEntrante" integer NOT NULL,
+    "T154Id_Bien" integer NOT NULL,
+    "T154Id_EntradaAlmDelBien" integer NOT NULL,
+    "T154cantidadEntrante" integer,
+    "T154cantidadDistribuida" integer,
+    "T154observacion" character varying(50)
+);
+
+ALTER TABLE public."T154Items_DespachoEntrante" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T154Items_DespachoEntrante"
+    ADD CONSTRAINT "PK_T154Items_DespachoEntrante" PRIMARY KEY ("T154IdItem_DespachoEntrante");
+
 --****************************************************************
 -- LAS FOREIGN KEYS
 --****************************************************************
@@ -148,6 +180,25 @@ ALTER TABLE ONLY public."T152HistorialCuarentenaViveros"
 
 ALTER TABLE ONLY public."T152HistorialCuarentenaViveros"
     ADD CONSTRAINT "FK_T152HistorialCuarentenaViveros_T152Id_PersFinCua" FOREIGN KEY ("T152Id_PersonaFinalizaCuarentena") REFERENCES public."T010Personas"("T010IdPersona");
+
+-- T153DespachoEntrante
+
+ALTER TABLE ONLY public."T153DespachoEntrante"
+    ADD CONSTRAINT "FK_T153DespachoEntrante_T153Id_DespConsAlm" FOREIGN KEY ("T153Id_DespachoConsumoAlm") REFERENCES public."T083DespachosConsumibles"("T083IdDespachoConsumible");
+
+ALTER TABLE ONLY public."T153DespachoEntrante"
+    ADD CONSTRAINT "FK_T153DespachoEntrante_T153Id_PersEntr" FOREIGN KEY ("T153Id_PersonaDistribuye") REFERENCES public."T010Personas"("T010IdPersona");
+
+-- T154Items_DespachoEntrante
+
+ALTER TABLE ONLY public."T154Items_DespachoEntrante"
+    ADD CONSTRAINT "FK_T154Items_DespachoEntrante_T154Id_DespEnt" FOREIGN KEY ("T154Id_DespachoEntrante") REFERENCES public."T153DespachoEntrante"("T153IdDespachoEntrante");
+
+ALTER TABLE ONLY public."T154Items_DespachoEntrante"
+    ADD CONSTRAINT "FK_T154Items_DespachoEntrante_T154Id_Bien" FOREIGN KEY ("T154Id_Bien") REFERENCES public."T057CatalogoBienes"("T057IdBien");
+
+ALTER TABLE ONLY public."T154Items_DespachoEntrante"
+    ADD CONSTRAINT "FK_T154Items_DespachoEntrante_T154Id_EntAlmBien" FOREIGN KEY ("T154Id_EntradaAlmDelBien") REFERENCES public."T063EntradasAlmacen"("T063IdEntradaAlmacen");
 
 /****************************************************************
  INSERCIÓN DE DATOS INICIALES.
