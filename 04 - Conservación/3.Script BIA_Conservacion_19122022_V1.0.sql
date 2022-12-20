@@ -70,12 +70,84 @@ ALTER TABLE ONLY public."T150Viveros"
         INCLUDE("T150nombre");
 
 
+CREATE TABLE public."T151HistorialAperturaViveros" (
+    "T151IdHistorialAperturaVivero" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T151Id_Vivero" smallint NOT NULL,
+    "T151fechaAperturaAnterior" timestamp with time zone NOT NULL,
+    "T151fechaCierreCorrespondiente" timestamp with time zone NOT NULL,
+    "T151Id_PersonaAperturaAnterior" integer NOT NULL,
+    "T151Id_PersonaCierreAnterior" integer NOT NULL,
+    "T151justificacionAperturaAnterior" character varying(255) NOT NULL,
+    "T151justificacionCierreCorrespondiente" character varying(255) NOT NULL
+);
+
+ALTER TABLE public."T151HistorialAperturaViveros" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T151HistorialAperturaViveros"
+    ADD CONSTRAINT "PK_T151HistorialAperturaViveros" PRIMARY KEY ("T151IdHistorialAperturaVivero");
+
+
+CREATE TABLE public."T152HistorialCuarentenaViveros" (
+    "T152IdHistorialCuarentenaVivero" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T152Id_Vivero" smallint NOT NULL,
+    "T152fechaInicioCuarentena" timestamp with time zone NOT NULL,
+    "T152Id_PersonaIniciaCuarentena" integer NOT NULL,
+    "T152justificacionInicioCuarentena" character varying(255) NOT NULL,
+    "T152fechaFinCuarentena" timestamp with time zone NOT NULL,
+    "T152Id_PersonaFinalizaCuarentena" integer NOT NULL,
+    "T152justificacionFinCuarentena" character varying(255)
+);
+
+ALTER TABLE public."T152HistorialCuarentenaViveros" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T152HistorialCuarentenaViveros"
+    ADD CONSTRAINT "PK_T152HistorialCuarentenaViveros" PRIMARY KEY ("T152IdHistorialCuarentenaVivero");
 
 --****************************************************************
 -- LAS FOREIGN KEYS
 --****************************************************************
 
+-- T150Viveros
 
+ALTER TABLE ONLY public."T150Viveros"
+    ADD CONSTRAINT "FK_T150Viveros_T150Cod_Municipio" FOREIGN KEY ("T150Cod_Municipio") REFERENCES public."T001MunicipiosDepartamento"("T001CodMunicipio");
+
+ALTER TABLE ONLY public."T150Viveros"
+    ADD CONSTRAINT "FK_T150Viveros_T150Id_VivActual" FOREIGN KEY ("T150Id_ViveristaActual") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T150Viveros"
+    ADD CONSTRAINT "FK_T150Viveros_T150Id_PersCrea" FOREIGN KEY ("T150Id_PersonaCrea") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T150Viveros"
+    ADD CONSTRAINT "FK_T150Viveros_T150Id_PersAbre" FOREIGN KEY ("T150Id_PersonaAbre") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T150Viveros"
+    ADD CONSTRAINT "FK_T150Viveros_T150Id_PersCierra" FOREIGN KEY ("T150Id_PersonaCierra") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T150Viveros"
+    ADD CONSTRAINT "FK_T150Viveros_T150Id_PersCuarntna" FOREIGN KEY ("T150Id_PersonaCuarentena") REFERENCES public."T010Personas"("T010IdPersona");
+
+-- T151HistorialAperturaViveros
+
+ALTER TABLE ONLY public."T151HistorialAperturaViveros"
+    ADD CONSTRAINT "FK_T151HistorialAperturaViveros_T151Id_Viv" FOREIGN KEY ("T151Id_Vivero") REFERENCES public."T150Viveros"("T150IdVivero");
+
+ALTER TABLE ONLY public."T151HistorialAperturaViveros"
+    ADD CONSTRAINT "FK_T151HistorialAperturaViveros_T151Id_PersApAnt" FOREIGN KEY ("T151Id_PersonaAperturaAnterior") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T151HistorialAperturaViveros"
+    ADD CONSTRAINT "FK_T151HistorialAperturaViveros_T151Id_CierrCorrs" FOREIGN KEY ("T151Id_PersonaCierreCorrespondiente") REFERENCES public."T010Personas"("T010IdPersona");
+
+-- T152HistorialCuarentenaViveros
+
+ALTER TABLE ONLY public."T152HistorialCuarentenaViveros"
+    ADD CONSTRAINT "FK_T152HistorialCuarentenaViveros_T152Id_Viv" FOREIGN KEY ("T152Id_Vivero") REFERENCES public."T150Viveros"("T150IdVivero");
+
+ALTER TABLE ONLY public."T152HistorialCuarentenaViveros"
+    ADD CONSTRAINT "FK_T152HistorialCuarentenaViveros_T152Id_PersIniCua" FOREIGN KEY ("T152Id_PersonaIniciaCuarentena") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T152HistorialCuarentenaViveros"
+    ADD CONSTRAINT "FK_T152HistorialCuarentenaViveros_T152Id_PersFinCua" FOREIGN KEY ("T152Id_PersonaFinalizaCuarentena") REFERENCES public."T010Personas"("T010IdPersona");
 
 /****************************************************************
  INSERCIÓN DE DATOS INICIALES.
