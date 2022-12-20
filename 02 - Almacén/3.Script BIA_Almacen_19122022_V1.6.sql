@@ -614,6 +614,54 @@ ALTER TABLE ONLY public."T082Items_SolicitudConsumible"
         INCLUDE("T082Id_SolicitudConsumible", "T082Id_Bien");
 
 
+CREATE TABLE public."T083DespachosConsumibles" (
+    "T083IdDespachoConsumible" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T083nroDespachoConsumo" integer NOT NULL,
+    "T083Id_SolicitudConsumo" integer,
+    "T083fechaSolicitud" timestamp with time zone,
+    "T083fechaDespacho" timestamp with time zone NOT NULL,
+    "T083fechaRegistro" timestamp with time zone NOT NULL,
+    "T083Id_PersonaDespacha" integer NOT NULL,
+    "T083motivo" character varying(255),
+    "T083Id_PersonaSolicita" integer,
+    "T083Id_UnidadParaLaQueSolicita" smallint,
+    "T083Id_FuncionarioResponsableUnidad" integer,
+    "T083esDespachoDeConservacion" boolean NOT NULL,
+    "T083Id_EntradaAlmacenCV" integer,
+    "T083despachoAnulado" boolean,
+    "T083justificacionAnulacion" character varying(255),
+    "T083fechaAnulacion" timestamp with time zone,
+    "T083Id_PersonaAnula" integer,
+    "T083rutaArchivoDocConRecibido" character varying(255)
+);
+
+ALTER TABLE public."T083DespachosConsumibles" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T083DespachosConsumibles"
+    ADD CONSTRAINT "PK_T083DespachosConsumibles" PRIMARY KEY ("T083IdDespachoConsumible");
+
+ALTER TABLE ONLY public."T083DespachosConsumibles"
+    ADD CONSTRAINT "T083DespachosConsumibles_nroDespCons_UNQ" UNIQUE ("T083nroDespachoConsumo")
+        INCLUDE("T083nroDespachoConsumo");
+
+
+CREATE TABLE public."T084Items_DespachoConsumible" (
+    "T084IdItem_DespachoConsumible" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T084Id_DespachoConsumo" integer NOT NULL,
+    "T084Id_BienDespachado" integer,
+    "T084Id_BienSolicitado" integer,
+    "T084Id_EntradaAlmacenDelBien" integer,
+    "T084cantidadSolicitada" integer,
+    "T084Id_UnidadMedidaSolicitada" smallint,
+    "T084cantidadDespachada" integer NOT NULL,
+    "T084nroPosicionEnDespacho" smallint NOT NULL,
+    "T084observacion" character varying(50)
+);
+
+ALTER TABLE public."T084Items_DespachoConsumible" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T084Items_DespachoConsumible"
+    ADD CONSTRAINT "PK_T084Items_DespachoConsumible" PRIMARY KEY ("T084IdItem_DespachoConsumible");
 
 --****************************************************************
 -- LAS FOREIGN KEYS
@@ -795,6 +843,44 @@ ALTER TABLE ONLY public."T082Items_SolicitudConsumible"
 
 ALTER TABLE ONLY public."T082Items_SolicitudConsumible"
     ADD CONSTRAINT "FK_T082Items_SolicitudConsumible_Id_UndMedVidaUtil" FOREIGN KEY ("T082Id_UnidadMedida") REFERENCES public."T055UnidadesMedida"("T055IdUnidadMedida");
+
+-- TABLA T083DespachosConsumibles
+ALTER TABLE ONLY public."T083DespachosConsumibles"
+    ADD CONSTRAINT "FK_T083DespachosConsumibles_T083Id_SolCons" FOREIGN KEY ("T083Id_SolicitudConsumo") REFERENCES public."T081SolicitudesConsumibles"("T081IdSolicitudConsumibles");
+
+ALTER TABLE ONLY public."T083DespachosConsumibles"
+    ADD CONSTRAINT "FK_T083DespachosConsumibles_T083Id_PersDesp" FOREIGN KEY ("T083Id_PersonaDespacha") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T083DespachosConsumibles"
+    ADD CONSTRAINT "FK_T083DespachosConsumibles_T083Id_PersSol" FOREIGN KEY ("T083Id_PersonaSolicita") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T083DespachosConsumibles"
+    ADD CONSTRAINT "FK_T083DespachosConsumibles_T083Id_UndSol" FOREIGN KEY ("T083Id_UnidadParaLaQueSolicita") REFERENCES public."T019UnidadesOrganizacionales"("T019IdUnidadOrganizacional");
+
+ALTER TABLE ONLY public."T083DespachosConsumibles"
+    ADD CONSTRAINT "FK_T083DespachosConsumibles_T083Id_FuncRespUnd" FOREIGN KEY ("T083Id_FuncionarioResponsableUnidad") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T083DespachosConsumibles"
+    ADD CONSTRAINT "FK_T083DespachosConsumibles_T083Id_EntrAlmCV" FOREIGN KEY ("T083Id_EntradaAlmacenCV") REFERENCES public."T063EntradasAlmacen"("T063IdEntradaAlmacen");
+
+ALTER TABLE ONLY public."T083DespachosConsumibles"
+    ADD CONSTRAINT "FK_T083DespachosConsumibles_T083Id_PersAnl" FOREIGN KEY ("T083Id_PersonaAnula") REFERENCES public."T010Personas"("T010IdPersona");
+
+-- TABLA T084Items_DespachoConsumible
+ALTER TABLE ONLY public."T084Items_DespachoConsumible"
+    ADD CONSTRAINT "FK_T084Items_DespachoConsumible_T084Id_DespCons" FOREIGN KEY ("T084Id_DespachoConsumo") REFERENCES public."T083DespachosConsumibles"("T083IdDespachoConsumible");
+
+ALTER TABLE ONLY public."T084Items_DespachoConsumible"
+    ADD CONSTRAINT "FK_T084Items_DespachoConsumible_T084Id_BienDsp" FOREIGN KEY ("T084Id_BienDespachado") REFERENCES public."T057CatalogoBienes"("T057IdBien");
+
+ALTER TABLE ONLY public."T084Items_DespachoConsumible"
+    ADD CONSTRAINT "FK_T084Items_DespachoConsumible_T084Id_BienSol" FOREIGN KEY ("T084Id_BienSolicitado") REFERENCES public."T057CatalogoBienes"("T057IdBien");
+
+ALTER TABLE ONLY public."T084Items_DespachoConsumible"
+    ADD CONSTRAINT "FK_T084Items_DespachoConsumible_T084Id_BienSol" FOREIGN KEY ("T084Id_EntradaAlmacenDelBien") REFERENCES public."T063EntradasAlmacen"("T063IdEntradaAlmacen");
+
+ALTER TABLE ONLY public."T084Items_DespachoConsumible"
+    ADD CONSTRAINT "FK_T084Items_DespachoConsumible_T084Id_UndMedSol" FOREIGN KEY ("T084Id_UnidadMedidaSolicitada") REFERENCES public."T055UnidadesMedida"("T055IdUnidadMedida");
 
 
 /****************************************************************
