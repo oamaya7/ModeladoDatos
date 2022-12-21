@@ -22,13 +22,13 @@ CREATE TYPE public."eCodOrigenRecursosVivero" AS ENUM (
 
 ALTER TYPE public."eCodOrigenRecursosVivero" OWNER TO postgres;
 
-CREATE TYPE public."eCodEtapaMaterialVegetal" AS ENUM (
-    'CG', -- "Camas de Germinación"
-    'PR', -- "Producción"
-    'DS' -- "Distribución"
+CREATE TYPE public."eCodEtapaLote" AS ENUM (
+    'G', -- "Camas de Germinación"
+    'P', -- "Producción"
+    'D' -- "Distribución"
 );
 
-ALTER TYPE public."eCodEtapaMaterialVegetal" OWNER TO postgres;
+ALTER TYPE public."eCodEtapaLote" OWNER TO postgres;
 
 
 /****************************************************************
@@ -154,7 +154,7 @@ CREATE TABLE public."T155Distribucion_ItemsDespachoEntrante" (
     "T155IdItem_DespachoEntrante" integer NOT NULL,
     "T155Id_Vivero" smallint NOT NULL,
     "T155cantidadAsignada" integer NOT NULL,
-    "T155etapaAIngresar" public."eCodEtapaMaterialVegetal",
+    "T155etapaAIngresar" public."eCodEtapaLote",
     "T155fechaDistribucion" timestamp with time zone
 
 );
@@ -167,6 +167,40 @@ ALTER TABLE ONLY public."T155Distribucion_ItemsDespachoEntrante"
 ALTER TABLE ONLY public."T155Distribucion_ItemsDespachoEntrante"
     ADD CONSTRAINT "T155Distribucion_ItemsDespachoEntrante_Key_UNQ" UNIQUE ("T155IdItem_DespachoEntrante", "T155Id_Vivero")
         INCLUDE("T155IdItem_DespachoEntrante", "T155Id_Vivero");
+
+
+CREATE TABLE public."T156InventarioViveros" (
+    "T156IdInventarioViveros" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T156Id_Vivero" smallint NOT NULL,
+    "T156Id_Bien" integer NOT NULL,
+    "T156agnoLote" smallint,
+    "T156nroLote" integer,
+    "T156codEtapaLote" public."eCodEtapaLote",
+    "T156esProduccionPropiaLote" boolean,
+    "T156cod_TipoEntradaLote" smallint,
+    "T156nroEntradaAlmLote" integer,
+    "T156fechaIngresoAlLote" timestamp with time zone,
+    "T156ultAlturaLote" smallint,
+    "T156fechaUltAlturaLote" timestamp with time zone,
+    "T156porcCuarentenaLoteGerminacion" smallint,
+    "T156Id_SiembraLoteGerminacion" integer,
+    "T156siembraLoteCerrada" boolean,
+    "T156cantidadEntrante" integer,
+    "T156cantidadBodegas" integer,
+    "T156consumosInternos" smallint,
+    "T156trasladosLoteProduccionADistribucion" integer,
+    "T156salidas" integer,
+    "T156cantidadLoteEnCuarentena"
+);
+
+ALTER TABLE public."T156InventarioViveros" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T156InventarioViveros"
+    ADD CONSTRAINT "PK_T156InventarioViveros_ItemsDespachoEntrante" PRIMARY KEY ("T156IdInventarioViveros");
+
+ALTER TABLE ONLY public."T156InventarioViveros"
+    ADD CONSTRAINT "T156InventarioViveros_ItemsDespachoEntrante_Key_UNQ" UNIQUE ("T156Id_Vivero", "T156Id_Bien", "T156agnoLote", "T156nroLote", "T156codEtapaLote")
+        INCLUDE("T156Id_Vivero", "T156Id_Bien", "T156agnoLote", "T156nroLote", "T156codEtapaLote");
 
 --****************************************************************
 -- LAS FOREIGN KEYS
@@ -217,7 +251,7 @@ ALTER TABLE ONLY public."T152HistorialCuarentenaViveros"
 -- T153DespachoEntrante
 
 ALTER TABLE ONLY public."T153DespachoEntrante"
-    ADD CONSTRAINT "FK_T153DespachoEntrante_T153Id_DespConsAlm" FOREIGN KEY ("T153Id_DespachoConsumoAlm") REFERENCES public."T083DespachosConsumibles"("T083IdDespachoConsumible");
+    ADD CONSTRAINT "FK_T153DespachoEntrante_T153Id_DespConsAlm" FOREIGN KEY ("T153Id_DespachoConsumoAlm") REFERENCES public."T083DespachosConsumo"("T083IdDespachoConsumo");
 
 ALTER TABLE ONLY public."T153DespachoEntrante"
     ADD CONSTRAINT "FK_T153DespachoEntrante_T153Id_PersEntr" FOREIGN KEY ("T153Id_PersonaDistribuye") REFERENCES public."T010Personas"("T010IdPersona");
@@ -240,6 +274,16 @@ ALTER TABLE ONLY public."T155Distribucion_ItemsDespachoEntrante"
 
 ALTER TABLE ONLY public."T155Distribucion_ItemsDespachoEntrante"
     ADD CONSTRAINT "FK2_T155Distribucion_ItemsDespachoEntrante" FOREIGN KEY ("T155Id_Vivero") REFERENCES public."T150Viveros"("T150IdVivero");
+
+-- T156InventarioViveros
+ALTER TABLE ONLY public."T156InventarioViveros"
+    ADD CONSTRAINT "FK1_T156InventarioViveros" FOREIGN KEY ("T156Id_Bien") REFERENCES public."T057CatalogoBienes"("T057IdBien");
+
+ALTER TABLE ONLY public."T156InventarioViveros"
+    ADD CONSTRAINT "FK2_T156InventarioViveros" FOREIGN KEY ("T156cod_TipoEntradaLote") REFERENCES public."T061TiposEntrada"("T061CodTipoEntrada");
+
+-- ALTER TABLE ONLY public."T156InventarioViveros"
+--     ADD CONSTRAINT "FK3_T156InventarioViveros" FOREIGN KEY ("T156Id_SiembraLoteGerminacion") REFERENCES public."TXXXLotesSiembraMaterialVegetal"("TXXXIdLotesSiembraMaterialVegetal");
 
 /****************************************************************
  INSERCIÓN DE DATOS INICIALES.
