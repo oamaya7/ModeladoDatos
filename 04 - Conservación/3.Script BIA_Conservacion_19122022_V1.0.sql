@@ -135,6 +135,10 @@ ALTER TABLE public."T154Items_DespachoEntrante" OWNER TO postgres;
 ALTER TABLE ONLY public."T154Items_DespachoEntrante"
     ADD CONSTRAINT "PK_T154Items_DespachoEntrante" PRIMARY KEY ("T154IdItem_DespachoEntrante");
 
+ALTER TABLE ONLY public."T154Items_DespachoEntrante"
+    ADD CONSTRAINT "T154Items_DespachoEntrante_Key_UNQ" UNIQUE ("T154Id_DespachoEntrante", "T154Id_Bien", "T154Id_EntradaAlmDelBien")
+        INCLUDE("T154Id_DespachoEntrante", "T154Id_Bien", "T154Id_EntradaAlmDelBien");
+
 --****************************************************************
 -- LAS FOREIGN KEYS
 --****************************************************************
