@@ -153,7 +153,8 @@ CREATE TABLE public."T155Distribucion_ItemsDespachoEntrante" (
     "T155IdItem_DespachoEntrante" integer NOT NULL,
     "T155Id_Vivero" smallint NOT NULL,
     "T155cantidadAsignada" integer NOT NULL,
-    "T155etapaAIngresar" public."eCodEtapaMaterialVegetal"
+    "T155etapaAIngresar" public."eCodEtapaMaterialVegetal",
+    "T155fechaDistribucion" timestamp with time zone
 
 );
 
