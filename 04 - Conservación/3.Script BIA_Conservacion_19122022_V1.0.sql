@@ -133,6 +133,7 @@ CREATE TABLE public."T154Items_DespachoEntrante" (
     "T154Id_DespachoEntrante" integer NOT NULL,
     "T154Id_Bien" integer NOT NULL,
     "T154Id_EntradaAlmDelBien" integer NOT NULL,
+    "T154fechaIngreso" timestamp with time zone,
     "T154cantidadEntrante" integer,
     "T154cantidadDistribuida" integer,
     "T154observacion" character varying(50)
