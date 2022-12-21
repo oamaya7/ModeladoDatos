@@ -17,10 +17,18 @@ ALTER TYPE public."eCodTipoVivero" OWNER TO postgres;
 CREATE TYPE public."eCodOrigenRecursosVivero" AS ENUM (
     'RP', -- "Recursos Propios"
     'CP', -- "Compensación"
-    'DN' -- Donación
+    'DN' -- "Donación"
 );
 
 ALTER TYPE public."eCodOrigenRecursosVivero" OWNER TO postgres;
+
+CREATE TYPE public."eCodEtapaMaterialVegetal" AS ENUM (
+    'CG', -- "Camas de Germinación"
+    'PR', -- "Producción"
+    'DS' -- "Distribución"
+);
+
+ALTER TYPE public."eCodEtapaMaterialVegetal" OWNER TO postgres;
 
 
 /****************************************************************
@@ -139,6 +147,25 @@ ALTER TABLE ONLY public."T154Items_DespachoEntrante"
     ADD CONSTRAINT "T154Items_DespachoEntrante_Key_UNQ" UNIQUE ("T154Id_DespachoEntrante", "T154Id_Bien", "T154Id_EntradaAlmDelBien")
         INCLUDE("T154Id_DespachoEntrante", "T154Id_Bien", "T154Id_EntradaAlmDelBien");
 
+
+CREATE TABLE public."T155Distribucion_ItemsDespachoEntrante" (
+    "T155IdDistribucion_ItemsDespachoEntrante" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T155IdItem_DespachoEntrante" integer NOT NULL,
+    "T155Id_Vivero" smallint NOT NULL,
+    "T155cantidadAsignada" integer NOT NULL,
+    "T155etapaAIngresar" public."eCodEtapaMaterialVegetal"
+
+);
+
+ALTER TABLE public."T155Distribucion_ItemsDespachoEntrante" OWNER TO postgres;
+
+ALTER TABLE ONLY public."T155Distribucion_ItemsDespachoEntrante"
+    ADD CONSTRAINT "PK_T155Distribucion_ItemsDespachoEntrante" PRIMARY KEY ("T155IdDistribucion_ItemsDespachoEntrante");
+
+ALTER TABLE ONLY public."T155Distribucion_ItemsDespachoEntrante"
+    ADD CONSTRAINT "T155Distribucion_ItemsDespachoEntrante_Key_UNQ" UNIQUE ("T155IdItem_DespachoEntrante", "T155Id_Vivero")
+        INCLUDE("T155IdItem_DespachoEntrante", "T155Id_Vivero");
+
 --****************************************************************
 -- LAS FOREIGN KEYS
 --****************************************************************
@@ -203,6 +230,14 @@ ALTER TABLE ONLY public."T154Items_DespachoEntrante"
 
 ALTER TABLE ONLY public."T154Items_DespachoEntrante"
     ADD CONSTRAINT "FK_T154Items_DespachoEntrante_T154Id_EntAlmBien" FOREIGN KEY ("T154Id_EntradaAlmDelBien") REFERENCES public."T063EntradasAlmacen"("T063IdEntradaAlmacen");
+
+-- T155Distribucion_ItemsDespachoEntrante
+
+ALTER TABLE ONLY public."T155Distribucion_ItemsDespachoEntrante"
+    ADD CONSTRAINT "FK1_T155Distribucion_ItemsDespachoEntrante" FOREIGN KEY ("T155IdItem_DespachoEntrante") REFERENCES public."T153DespachoEntrante"("T153IdDespachoEntrante");
+
+ALTER TABLE ONLY public."T155Distribucion_ItemsDespachoEntrante"
+    ADD CONSTRAINT "FK2_T155Distribucion_ItemsDespachoEntrante" FOREIGN KEY ("T155Id_Vivero") REFERENCES public."T150Viveros"("T150IdVivero");
 
 /****************************************************************
  INSERCIÓN DE DATOS INICIALES.
