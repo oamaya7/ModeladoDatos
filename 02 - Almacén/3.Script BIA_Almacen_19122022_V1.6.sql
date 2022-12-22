@@ -664,8 +664,8 @@ CREATE TABLE public."T084Items_DespachoConsumo" (
     "T084cantidadSolicitada" integer,
     "T084Id_UnidadMedidaSolicitada" smallint,
     "T084cantidadDespachada" integer NOT NULL,
-    "T084nroPosicionEnDespacho" smallint NOT NULL,
-    "T084observacion" character varying(50)
+    "T084observacion" character varying(50),
+    "T084nroPosicionEnDespacho" smallint NOT NULL
 );
 
 ALTER TABLE public."T084Items_DespachoConsumo" OWNER TO postgres;
