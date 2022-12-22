@@ -85,6 +85,14 @@ CREATE TYPE public."eEstadoAprobacionSolicitud" AS ENUM (
 
 ALTER TYPE public."eEstadoAprobacionSolicitud" OWNER TO postgres;
 
+CREATE TYPE public."eCodTipoElementoVivero" AS ENUM (
+    'MV',        --"Material Vegetal"
+    'IN'         --"Insumos"
+    'HE'         --"Herramientas"
+);
+
+ALTER TYPE public."eCodTipoElementoVivero" OWNER TO postgres;
+
 
 /****************************************************************
  CREACIÓN DE TABLAS.
@@ -222,6 +230,8 @@ CREATE TABLE public."T057CatalogoBienes" (
 	"T057stockMinimo" smallint,
 	"T057stockMaximo" integer,
 	"T057solicitablePorVivero" boolean NOT NULL,
+    "T057esSemillaMVVivero" boolean,
+    "T057codTipoElementoVivero" public."eCodTipoElementoVivero",
     "T057tieneHojaDeVida" boolean,
     "T057Id_BienPadre" integer,
     "T057manejaHojaDeVida" boolean NOT NULL,
