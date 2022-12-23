@@ -629,6 +629,7 @@ CREATE TABLE public."T083DespachosConsumo" (
     "T083nroDespachoConsumo" integer NOT NULL,
     "T083Id_SolicitudConsumo" integer,
     "T083fechaSolicitud" timestamp with time zone,
+    "T083nroSolicitudPorTipo" integer,
     "T083fechaDespacho" timestamp with time zone NOT NULL,
     "T083fechaRegistro" timestamp with time zone NOT NULL,
     "T083Id_PersonaDespacha" integer NOT NULL,
