@@ -270,7 +270,7 @@ ALTER TABLE ONLY public."T154Items_DespachoEntrante"
 -- T155Distribucion_Items_DespachoEntrante
 
 ALTER TABLE ONLY public."T155Distribucion_Items_DespachoEntrante"
-    ADD CONSTRAINT "FK1_T155Distribucion_Items_DespachoEntrante" FOREIGN KEY ("T155IdItem_DespachoEntrante") REFERENCES public."T153DespachoEntrante"("T153IdDespachoEntrante");
+    ADD CONSTRAINT "FK1_T155Distribucion_Items_DespachoEntrante" FOREIGN KEY ("T155IdItem_DespachoEntrante") REFERENCES public."T154Items_DespachoEntrante"("T154IdItem_DespachoEntrante");
 
 ALTER TABLE ONLY public."T155Distribucion_Items_DespachoEntrante"
     ADD CONSTRAINT "FK2_T155Distribucion_Items_DespachoEntrante" FOREIGN KEY ("T155Id_Vivero") REFERENCES public."T150Viveros"("T150IdVivero");
