@@ -2347,12 +2347,39 @@ VALUES (41, 'Administración de Viveros', 'Permite administrar los Viveros de la
 -- Módulo "Ingresar/Retirar de Cuarentena un Vivero": módulo que permite ingresar o sacar de cuarentena un vivero de la entidad.
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
-VALUES (42, 'Ingresar/Retirar de Cuarentena un Vivero', 'módulo que permite ingresar o sacar de cuarentena un vivero de la entidad','CONS');
+VALUES (42, 'Ingresar/Retirar de Cuarentena un Vivero', 'Módulo que permite ingresar o sacar de cuarentena un vivero de la entidad','CONS');
 
 -- Módulo "Aperturar/Cerrar un Vivero": módulo que permite aperturar o cerrar un vivero de la entidad.
 INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
 OVERRIDING SYSTEM VALUE
-VALUES (43, 'Aperturar/Cerrar un Vivero', 'módulo que permite aperturar o cerrar un vivero existente de la entidad','CONS');
+VALUES (43, 'Aperturar/Cerrar un Vivero', 'Módulo que permite aperturar o cerrar un vivero existente de la entidad','CONS');
+
+
+-- Módulo "Tipificación de Bienes de Consumo de Viveros": Módulo que permite tipificar los bienes de consumo utilizables en viveros para la producción.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (44, 'Tipificación de Bienes de Consumo de Viveros', 'Permite tipificar los bienes de consumo utilizables en viveros para la producción','CONS');
+
+-- Módulo "Despacho de Bienes de Consumo": Módulo que permite a Almacén despachar los bienes de consumo de la entidad basados en una solicitud.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (45, 'Despacho de Bienes de Consumo', 'Permite a Almacén despachar los bienes de consumo de la entidad basados en una solicitud','ALMA');
+
+-- Módulo "Entrega de Donaciones, Resarcimientos y Compensaciones a Viveros": Módulo que permite a Almacén entregar los bienes de consumo de Viveros que ingresaron a la entidad mediante una Donación, Resarcimiento o Compensación.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (46, 'Entrega de Donaciones, Resarcimientos y Compensaciones a Viveros', 'permite a Almacén entregar los bienes de consumo de Viveros que ingresaron a la entidad mediante una Donación, Resarcimiento o Compensación','ALMA');
+
+-- Módulo "Cierre de Solicitudes de Bienes por No Disponibilidad": Módulo que permite cerrar por parte de Almacén una solicitud de bienes por no tener disponibilidad de ninguno de los items solicitados.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (47, 'Cierre de Solicitudes de Bienes por No Disponibilidad', 'permite cerrar por parte de Almacén una solicitud de bienes por no tener disponibilidad de ninguno de los items solicitados','ALMA');
+
+-- Módulo "Recepción y Distribución de Despachos Entrantes a Vivero": Módulo que permite Distribuir las entradas de bienes de consumo de Viveros en los diferentes viveros de la entidad.
+INSERT INTO public."TzModulos" ("TzIdModulo", "Tznombre", "Tzdescripcion", "Tzsubsistema")
+OVERRIDING SYSTEM VALUE
+VALUES (48, 'Recepción y Distribución de Despachos Entrantes a Vivero', 'Permite Distribuir las entradas de bienes de consumo de Viveros en los diferentes viveros de la entidad','CONS');
+
 
 
 
@@ -2549,6 +2576,35 @@ INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "T
 
 -- Módulo APERTURAR/CERRAR UN VIVERO.
 INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (132, 43, 'CR');
+
+
+-- Módulo TIPIFICACIÓN DE BIENES DE CONSUMO DE VIVEROS.
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (133, 44, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (134, 44, 'AC');
+
+-- Módulo DESPACHO DE BIENES DE CONSUMO.
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (135, 45, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (136, 45, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (137, 45, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (138, 45, 'AN');
+
+-- Módulo ENTREGA DE DONACIONES, RESARCIMIENTOS Y COMPENSACIONES A VIVEROS.
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (139, 46, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (140, 46, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (141, 46, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (142, 46, 'AN');
+
+-- Módulo CIERRE DE SOLICITUDES DE BIENES POR NO DISPONIBILIDAD.
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (143, 47, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (144, 47, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (145, 47, 'AC');
+
+-- Módulo RECEPCIÓN Y DISTRIBUCIÓN DE DESPACHOS ENTRANTES A VIVERO.
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (146, 48, 'CR');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (147, 48, 'CO');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (148, 48, 'AC');
+INSERT INTO public."TzPermisos_Modulo" ("TzIdPermisos_Modulo", "TzId_Modulo", "TzCod_Permiso") OVERRIDING SYSTEM VALUE VALUES (149, 48, 'BO');
+
 
 
 
