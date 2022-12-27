@@ -586,9 +586,13 @@ CREATE TABLE public."T081SolicitudesConsumibles" (
     "T081fechaAprobacionResponsable" timestamp with time zone,
     "T081gestionadaAlmacen" boolean NOT NULL,
     "T081Id_DespachoConsumo" integer,
+    "T081ObservCierreNoDispoAlm" character varying(255),
+    "T081fechaCierreNoDispoAlm" timestamp with time zone,
+    "T081Id_PersonaCierreNoDispoAlm" integer,
     "T081rechazadaAlmacen" boolean,
     "T081fechaRechazoAlmacen" timestamp with time zone,
     "T081justificacionRechazoAlmacen" character varying(255),
+    "T081Id_PersonaAlmacenRechaza" integer,
     "T081solicitudAnuladaSolicitante" boolean,
     "T081justificacionAnulacionSolicitante" character varying(255),
     "T081fechaAnulacionSolicitante" timestamp with time zone
@@ -841,9 +845,14 @@ ALTER TABLE ONLY public."T081SolicitudesConsumibles"
 ALTER TABLE ONLY public."T081SolicitudesConsumibles"
     ADD CONSTRAINT "FK_T081SolicitudesConsumibles_Id_UndOrgResp" FOREIGN KEY ("T081Id_UnidadOrgDelResponsable") REFERENCES public."T010Personas"("T010IdUnidadOrgActual");
 
--- @@LS: Aún no Existe la tabla de despachos, tan pronto esté, habilitar este FK.
--- ALTER TABLE ONLY public."T081SolicitudesConsumibles"
---     ADD CONSTRAINT "FK_T081SolicitudesConsumibles_Id_DespCons" FOREIGN KEY ("T081Id_DespachoConsumo") REFERENCES public."TXXXDespachosConsumo"("TXXXIdDespachoConsumo");
+ALTER TABLE ONLY public."T081SolicitudesConsumibles"
+    ADD CONSTRAINT "FK_T081SolicitudesConsumibles_Id_DespCons" FOREIGN KEY ("T081Id_DespachoConsumo") REFERENCES public."T083IdDespachoConsumo"("T083DespachosConsumo");
+
+ALTER TABLE ONLY public."T081SolicitudesConsumibles"
+    ADD CONSTRAINT "FK_T081SolicitudesConsumibles_Id_PerCieNoDisp" FOREIGN KEY ("T081Id_PersonaCierreNoDispoAlm") REFERENCES public."T010Personas"("T010IdPersona");
+
+ALTER TABLE ONLY public."T081SolicitudesConsumibles"
+    ADD CONSTRAINT "FK_T081SolicitudesConsumibles_Id_PersAlmRech" FOREIGN KEY ("T081Id_PersonaAlmacenRechaza") REFERENCES public."T010Personas"("T010IdPersona");
 
 -- TABLA T082Items_SolicitudConsumible
 ALTER TABLE ONLY public."T082Items_SolicitudConsumible"

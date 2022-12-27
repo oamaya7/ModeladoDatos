@@ -112,7 +112,7 @@ ALTER TABLE ONLY public."T152HistorialCuarentenaViveros"
     ADD CONSTRAINT "PK_T152HistorialCuarentenaViveros" PRIMARY KEY ("T152IdHistorialCuarentenaVivero");
 
 
-CREATE TABLE public."T153DespachoEntrante" (
+CREATE TABLE public."T153DespachosEntrantes" (
     "T153IdDespachoEntrante" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T153Id_DespachoConsumoAlm" integer NOT NULL,
     "T153fechaIngreso" timestamp with time zone NOT NULL,
@@ -122,10 +122,10 @@ CREATE TABLE public."T153DespachoEntrante" (
     "T153Id_PersonaDistribuye" integer
 );
 
-ALTER TABLE public."T153DespachoEntrante" OWNER TO postgres;
+ALTER TABLE public."T153DespachosEntrantes" OWNER TO postgres;
 
-ALTER TABLE ONLY public."T153DespachoEntrante"
-    ADD CONSTRAINT "PK_T153DespachoEntrante" PRIMARY KEY ("T153IdDespachoEntrante");
+ALTER TABLE ONLY public."T153DespachosEntrantes"
+    ADD CONSTRAINT "PK_T153DespachosEntrantes" PRIMARY KEY ("T153IdDespachoEntrante");
 
 
 CREATE TABLE public."T154Items_DespachoEntrante" (
@@ -149,7 +149,7 @@ ALTER TABLE ONLY public."T154Items_DespachoEntrante"
         INCLUDE("T154Id_DespachoEntrante", "T154Id_Bien", "T154Id_EntradaAlmDelBien");
 
 
-CREATE TABLE public."T155Distribucion_Items_DespachoEntrante" (
+CREATE TABLE public."T155Distribuciones_Item_DespachoEntrante" (
     "T155IdDistribucion_ItemsDespachoEntrante" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T155IdItem_DespachoEntrante" integer NOT NULL,
     "T155Id_Vivero" smallint NOT NULL,
@@ -159,13 +159,13 @@ CREATE TABLE public."T155Distribucion_Items_DespachoEntrante" (
 
 );
 
-ALTER TABLE public."T155Distribucion_Items_DespachoEntrante" OWNER TO postgres;
+ALTER TABLE public."T155Distribuciones_Item_DespachoEntrante" OWNER TO postgres;
 
-ALTER TABLE ONLY public."T155Distribucion_Items_DespachoEntrante"
-    ADD CONSTRAINT "PK_T155Distribucion_Items_DespachoEntrante" PRIMARY KEY ("T155IdDistribucion_ItemsDespachoEntrante");
+ALTER TABLE ONLY public."T155Distribuciones_Item_DespachoEntrante"
+    ADD CONSTRAINT "PK_T155Distribuciones_Item_DespachoEntrante" PRIMARY KEY ("T155IdDistribucion_ItemsDespachoEntrante");
 
-ALTER TABLE ONLY public."T155Distribucion_Items_DespachoEntrante"
-    ADD CONSTRAINT "T155Distribucion_Items_DespachoEntrante_Key_UNQ" UNIQUE ("T155IdItem_DespachoEntrante", "T155Id_Vivero")
+ALTER TABLE ONLY public."T155Distribuciones_Item_DespachoEntrante"
+    ADD CONSTRAINT "T155Distribuciones_Item_DespachoEntrante_Key_UNQ" UNIQUE ("T155IdItem_DespachoEntrante", "T155Id_Vivero")
         INCLUDE("T155IdItem_DespachoEntrante", "T155Id_Vivero");
 
 
@@ -248,18 +248,18 @@ ALTER TABLE ONLY public."T152HistorialCuarentenaViveros"
 ALTER TABLE ONLY public."T152HistorialCuarentenaViveros"
     ADD CONSTRAINT "FK_T152HistorialCuarentenaViveros_T152Id_PersFinCua" FOREIGN KEY ("T152Id_PersonaFinalizaCuarentena") REFERENCES public."T010Personas"("T010IdPersona");
 
--- T153DespachoEntrante
+-- T153DespachosEntrantes
 
-ALTER TABLE ONLY public."T153DespachoEntrante"
-    ADD CONSTRAINT "FK_T153DespachoEntrante_T153Id_DespConsAlm" FOREIGN KEY ("T153Id_DespachoConsumoAlm") REFERENCES public."T083DespachosConsumo"("T083IdDespachoConsumo");
+ALTER TABLE ONLY public."T153DespachosEntrantes"
+    ADD CONSTRAINT "FK_T153DespachosEntrantes_T153Id_DespConsAlm" FOREIGN KEY ("T153Id_DespachoConsumoAlm") REFERENCES public."T083DespachosConsumo"("T083IdDespachoConsumo");
 
-ALTER TABLE ONLY public."T153DespachoEntrante"
-    ADD CONSTRAINT "FK_T153DespachoEntrante_T153Id_PersEntr" FOREIGN KEY ("T153Id_PersonaDistribuye") REFERENCES public."T010Personas"("T010IdPersona");
+ALTER TABLE ONLY public."T153DespachosEntrantes"
+    ADD CONSTRAINT "FK_T153DespachosEntrantes_T153Id_PersEntr" FOREIGN KEY ("T153Id_PersonaDistribuye") REFERENCES public."T010Personas"("T010IdPersona");
 
 -- T154Items_DespachoEntrante
 
 ALTER TABLE ONLY public."T154Items_DespachoEntrante"
-    ADD CONSTRAINT "FK_T154Items_DespachoEntrante_T154Id_DespEnt" FOREIGN KEY ("T154Id_DespachoEntrante") REFERENCES public."T153DespachoEntrante"("T153IdDespachoEntrante");
+    ADD CONSTRAINT "FK_T154Items_DespachoEntrante_T154Id_DespEnt" FOREIGN KEY ("T154Id_DespachoEntrante") REFERENCES public."T153DespachosEntrantes"("T153IdDespachoEntrante");
 
 ALTER TABLE ONLY public."T154Items_DespachoEntrante"
     ADD CONSTRAINT "FK_T154Items_DespachoEntrante_T154Id_Bien" FOREIGN KEY ("T154Id_Bien") REFERENCES public."T057CatalogoBienes"("T057IdBien");
@@ -267,13 +267,13 @@ ALTER TABLE ONLY public."T154Items_DespachoEntrante"
 ALTER TABLE ONLY public."T154Items_DespachoEntrante"
     ADD CONSTRAINT "FK_T154Items_DespachoEntrante_T154Id_EntAlmBien" FOREIGN KEY ("T154Id_EntradaAlmDelBien") REFERENCES public."T063EntradasAlmacen"("T063IdEntradaAlmacen");
 
--- T155Distribucion_Items_DespachoEntrante
+-- T155Distribuciones_Item_DespachoEntrante
 
-ALTER TABLE ONLY public."T155Distribucion_Items_DespachoEntrante"
-    ADD CONSTRAINT "FK1_T155Distribucion_Items_DespachoEntrante" FOREIGN KEY ("T155IdItem_DespachoEntrante") REFERENCES public."T154Items_DespachoEntrante"("T154IdItem_DespachoEntrante");
+ALTER TABLE ONLY public."T155Distribuciones_Item_DespachoEntrante"
+    ADD CONSTRAINT "FK1_T155Distribuciones_Item_DespachoEntrante" FOREIGN KEY ("T155IdItem_DespachoEntrante") REFERENCES public."T154Items_DespachoEntrante"("T154IdItem_DespachoEntrante");
 
-ALTER TABLE ONLY public."T155Distribucion_Items_DespachoEntrante"
-    ADD CONSTRAINT "FK2_T155Distribucion_Items_DespachoEntrante" FOREIGN KEY ("T155Id_Vivero") REFERENCES public."T150Viveros"("T150IdVivero");
+ALTER TABLE ONLY public."T155Distribuciones_Item_DespachoEntrante"
+    ADD CONSTRAINT "FK2_T155Distribuciones_Item_DespachoEntrante" FOREIGN KEY ("T155Id_Vivero") REFERENCES public."T150Viveros"("T150IdVivero");
 
 -- T156InventarioViveros
 ALTER TABLE ONLY public."T156InventarioViveros"
