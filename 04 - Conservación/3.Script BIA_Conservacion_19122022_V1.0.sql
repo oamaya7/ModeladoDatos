@@ -150,7 +150,7 @@ ALTER TABLE ONLY public."T154Items_DespachoEntrante"
 
 
 CREATE TABLE public."T155Distribuciones_Item_DespachoEntrante" (
-    "T155IdDistribucion_ItemsDespachoEntrante" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "T155IdDistribucion_ItemDespachoEntrante" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
     "T155IdItem_DespachoEntrante" integer NOT NULL,
     "T155Id_Vivero" smallint NOT NULL,
     "T155cantidadAsignada" integer NOT NULL,
@@ -162,7 +162,7 @@ CREATE TABLE public."T155Distribuciones_Item_DespachoEntrante" (
 ALTER TABLE public."T155Distribuciones_Item_DespachoEntrante" OWNER TO postgres;
 
 ALTER TABLE ONLY public."T155Distribuciones_Item_DespachoEntrante"
-    ADD CONSTRAINT "PK_T155Distribuciones_Item_DespachoEntrante" PRIMARY KEY ("T155IdDistribucion_ItemsDespachoEntrante");
+    ADD CONSTRAINT "PK_T155Distribuciones_Item_DespachoEntrante" PRIMARY KEY ("T155IdDistribucion_ItemDespachoEntrante");
 
 ALTER TABLE ONLY public."T155Distribuciones_Item_DespachoEntrante"
     ADD CONSTRAINT "T155Distribuciones_Item_DespachoEntrante_Key_UNQ" UNIQUE ("T155IdItem_DespachoEntrante", "T155Id_Vivero")
