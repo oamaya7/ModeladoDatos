@@ -1,5 +1,5 @@
 /****************************************************************
- Script de Creación de Base de Datos - Subsistema Gestión Documental - Última Actualizacion XX/12/2022 - V1.0.
+ Script de Creación de Base de Datos - Subsistema Gestión Documental - Última Actualizacion 27/12/2022 - V1.0.
 ****************************************************************/
 
 
