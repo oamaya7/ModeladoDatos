@@ -186,10 +186,10 @@ CREATE TABLE public."T156InventarioViveros" (
     "T156Id_SiembraLoteGerminacion" integer,
     "T156siembraLoteCerrada" boolean,
     "T156cantidadEntrante" integer,
-    "T156cantidadBodegas" integer,
-    "T156consumosInternos" smallint,
-    "T156trasladosLoteProduccionADistribucion" integer,
-    "T156salidas" integer,
+    "T156cantidadBajas" integer,
+    "T156cantidadConsumosInternos" smallint,
+    "T156cantidadTrasladosLoteProdADistri" integer,
+    "T156cantidadSalidas" integer,
     "T156cantidadLoteEnCuarentena"
 );
 
